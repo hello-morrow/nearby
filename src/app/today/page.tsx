@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { DiaryEntry, Place } from '@/types'
 import { getPlaceByCoords } from '@/lib/places'
-import SeedIcon from '@/components/SeedIcon'
 
 function TodayContent() {
   const searchParams = useSearchParams()
@@ -15,6 +14,7 @@ function TodayContent() {
   const [place, setPlace] = useState<Place | null>(null)
   const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
+  const [weaveReady, setWeaveReady] = useState(false)
 
   useEffect(() => {
     const entries: DiaryEntry[] = JSON.parse(
@@ -35,7 +35,10 @@ function TodayContent() {
     }
 
     setLoading(false)
-    requestAnimationFrame(() => setVisible(true))
+    requestAnimationFrame(() => {
+      setVisible(true)
+      setTimeout(() => setWeaveReady(true), 500)
+    })
   }, [id])
 
   const formatDate = (iso: string) => {
@@ -46,6 +49,12 @@ function TodayContent() {
   const formatShort = (iso: string) => {
     const d = new Date(iso)
     return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+  }
+
+  const getLocationLabel = (): string => {
+    if (!entry || entry.latitude === null) return ''
+    // 优先显示地点名称，暂无反向地理编码则显示「这里」
+    return '📍 这里'
   }
 
   if (loading) {
@@ -101,7 +110,7 @@ function TodayContent() {
             }}
           >
             {/* Date */}
-            <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', marginBottom: '32px' }}>
               {formatDate(entry.date)}
             </h2>
 
@@ -109,29 +118,69 @@ function TodayContent() {
             <div style={{
               width: '56px', height: '56px', borderRadius: '50%',
               backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '28px', marginBottom: '20px',
+              fontSize: '28px', marginBottom: '32px',
             }}>
               {entry.mood}
             </div>
 
             {/* Content */}
             {entry.content && (
-              <p style={{ fontSize: '16px', lineHeight: 1.8, color: '#1E1E1E', whiteSpace: 'pre-wrap', marginBottom: '20px' }}>
+              <p style={{ fontSize: '16px', lineHeight: 1.8, color: '#1E1E1E', whiteSpace: 'pre-wrap', marginBottom: '32px' }}>
                 {entry.content}
               </p>
             )}
 
             {/* Image */}
             {entry.image && (
-              <img src={entry.image} alt="" style={{ width: '100%', borderRadius: '16px', marginBottom: '20px' }} />
+              <img src={entry.image} alt="" style={{ width: '100%', borderRadius: '16px', marginBottom: '32px' }} />
             )}
 
             {/* Location */}
             {entry.latitude !== null && entry.longitude !== null && (
-              <p style={{ fontSize: '14px', color: '#8C8C8C', marginBottom: '24px' }}>
-                📍 {entry.latitude.toFixed(4)}, {entry.longitude.toFixed(4)}
-              </p>
+              <div style={{ marginBottom: '32px' }}>
+                <p style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500, margin: '0 0 4px 0' }}>
+                  {getLocationLabel()}
+                </p>
+                <p style={{ fontSize: '13px', color: '#8C8C8C', margin: 0 }}>
+                  {entry.latitude.toFixed(4)}, {entry.longitude.toFixed(4)}
+                </p>
+              </div>
             )}
+
+            {/* ══ Memory Weave Card ══ */}
+            <div style={{ marginBottom: '32px' }}>
+              <p style={{ fontSize: '13px', fontWeight: 500, color: '#1E1E1E', margin: '0 0 12px 0' }}>
+                Memory Weave
+              </p>
+
+              {/* Horizontal line + dot */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                <div style={{
+                  width: '8px', height: '8px', borderRadius: '50%',
+                  backgroundColor: '#1E1E1E', flexShrink: 0,
+                  opacity: visible ? 1 : 0,
+                  transition: 'opacity 300ms ease-out 800ms',
+                }} />
+                <div style={{
+                  flex: 1, height: '2px', backgroundColor: '#E8E5E0',
+                  position: 'relative', overflow: 'hidden',
+                }}>
+                  <div style={{
+                    position: 'absolute', left: 0, top: 0, height: '100%',
+                    backgroundColor: '#1E1E1E',
+                    width: weaveReady ? '100%' : '0%',
+                    transition: 'width 600ms ease-out',
+                  }} />
+                </div>
+              </div>
+
+              <p style={{ fontSize: '14px', color: '#1E1E1E', lineHeight: 1.6, margin: '0 0 4px 0' }}>
+                今天，你为人生织下了新的一针。
+              </p>
+              <p style={{ fontSize: '13px', color: '#999', margin: 0 }}>
+                Every memory becomes another thread.
+              </p>
+            </div>
 
             {/* ══ Place Memory ══ */}
             {hasPlace && (
@@ -140,7 +189,7 @@ function TodayContent() {
                   backgroundColor: '#FCFBF8',
                   borderRadius: '20px',
                   padding: '24px',
-                  marginBottom: '24px',
+                  marginBottom: '32px',
                   boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
                   opacity: visible ? 1 : 0,
                   transition: 'opacity 300ms ease-out 300ms',
@@ -158,41 +207,10 @@ function TodayContent() {
                 </p>
               </div>
             )}
-
-            {/* ══ Memory Seed ══ */}
-            <div
-              style={{
-                display: 'flex', alignItems: 'center', gap: '12px',
-                padding: '16px 0',
-                opacity: visible ? 1 : 0,
-                transition: 'opacity 200ms ease-out 200ms',
-              }}
-            >
-              <SeedIcon size={28} />
-              <div>
-                <p style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500, margin: '0 0 2px 0' }}>
-                  Today's Seed
-                </p>
-                <p style={{ fontSize: '13px', color: '#8C8C8C', margin: 0 }}>
-                  今天埋下了一颗新的记忆种子。
-                </p>
-              </div>
-            </div>
-
-            {/* ══ Growth Hint ══ */}
-            <p
-              style={{
-                fontSize: '13px', color: '#AAA', marginTop: '8px', marginBottom: '8px',
-                opacity: visible ? 1 : 0,
-                transition: 'opacity 400ms ease-out 500ms',
-              }}
-            >
-              Every memory begins as a thread.
-            </p>
           </div>
 
           {/* Back button */}
-          <div style={{ marginTop: '32px', marginBottom: '40px' }}>
+          <div style={{ marginBottom: '40px' }}>
             <Link href="/" style={btnStyle}>返回首页</Link>
           </div>
         </div>

@@ -112,7 +112,7 @@ export default function CreatePage() {
           {/* Textarea — 嫩绿色渐变 placeholder */}
           <style>{`
             .textarea-gradient::placeholder {
-              background: linear-gradient(180deg, #A5D6A7 0%, #81C784 50%, #66BB6A 100%);
+              background: linear-gradient(180deg, #4CAF50 0%, #388E3C 50%, #2E7D32 100%);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
               background-clip: text;
