@@ -1,10 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { DiaryEntry } from '@/types'
 
-export default function TodayPage() {
+function TodayContent() {
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+
   const [entry, setEntry] = useState<DiaryEntry | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -12,11 +16,16 @@ export default function TodayPage() {
     const entries: DiaryEntry[] = JSON.parse(
       localStorage.getItem('nearby_entries') || '[]',
     )
-    if (entries.length > 0) {
+
+    if (id) {
+      const found = entries.find((e) => e.id === id) ?? null
+      setEntry(found)
+    } else if (entries.length > 0) {
       setEntry(entries[0])
     }
+
     setLoading(false)
-  }, [])
+  }, [id])
 
   const formatDate = (iso: string) => {
     const d = new Date(iso)
@@ -191,5 +200,27 @@ export default function TodayPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function TodayPage() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            minHeight: '100vh',
+            backgroundColor: '#F7F6F3',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <p style={{ color: '#8C8C8C' }}>加载中……</p>
+        </div>
+      }
+    >
+      <TodayContent />
+    </Suspense>
   )
 }
