@@ -2,27 +2,29 @@
 
 import Calendar from './Calendar'
 import Timeline from './Timeline'
+import Quote from './Quote'
 
-export default function Sidebar() {
-  // 后续连接真实数据后，从 LocalStorage 读取已记录日期
+interface SidebarProps {
+  draft?: { content: string; mood: string; image: string | null } | null
+}
+
+export default function Sidebar({ draft }: SidebarProps) {
   const recordedDates: string[] = []
 
   return (
     <div
       style={{
         position: 'sticky',
-        top: '24px',
+        top: '40px',
+        width: '360px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '40px',
-        padding: '32px 24px',
-        backgroundColor: '#FFFFFF',
-        borderRadius: '16px',
-        border: '1px solid #F0F0F0',
+        gap: '48px',
       }}
     >
       <Calendar recordedDates={recordedDates} />
-      <Timeline />
+      <Timeline draft={draft} />
+      <Quote />
     </div>
   )
 }
