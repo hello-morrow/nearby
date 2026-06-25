@@ -3,28 +3,39 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import type { DiaryEntry } from '@/types'
+import type { DiaryEntry, Place } from '@/types'
+import { getPlaceByCoords } from '@/lib/places'
+import SeedIcon from '@/components/SeedIcon'
 
 function TodayContent() {
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
   const [entry, setEntry] = useState<DiaryEntry | null>(null)
+  const [place, setPlace] = useState<Place | null>(null)
   const [loading, setLoading] = useState(true)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const entries: DiaryEntry[] = JSON.parse(
       localStorage.getItem('nearby_entries') || '[]',
     )
 
+    let found: DiaryEntry | null = null
     if (id) {
-      const found = entries.find((e) => e.id === id) ?? null
-      setEntry(found)
+      found = entries.find((e) => e.id === id) ?? null
     } else if (entries.length > 0) {
-      setEntry(entries[0])
+      found = entries[0]
+    }
+
+    setEntry(found)
+
+    if (found && found.latitude !== null && found.longitude !== null) {
+      setPlace(getPlaceByCoords(found.latitude, found.longitude))
     }
 
     setLoading(false)
+    requestAnimationFrame(() => setVisible(true))
   }, [id])
 
   const formatDate = (iso: string) => {
@@ -32,194 +43,184 @@ function TodayContent() {
     return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`
   }
 
+  const formatShort = (iso: string) => {
+    const d = new Date(iso)
+    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`
+  }
+
   if (loading) {
-    return (
-      <div
-        style={{
-          minHeight: '100vh',
-          backgroundColor: '#F7F6F3',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <p style={{ color: '#8C8C8C' }}>加载中……</p>
-      </div>
-    )
+    return <Centered><p style={{ color: '#8C8C8C' }}>加载中……</p></Centered>
   }
 
   if (!entry) {
     return (
-      <div
-        style={{
-          minHeight: '100vh',
-          backgroundColor: '#F7F6F3',
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '24px',
-        }}
-      >
-        <p style={{ fontSize: '18px', color: '#1E1E1E' }}>
-          还没有保存过今天
-        </p>
-        <Link
-          href="/create"
-          style={{
-            height: '48px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
-            borderRadius: '18px',
-            backgroundColor: '#1E1E1E',
-            color: '#FFFFFF',
-            fontSize: '16px',
-            fontWeight: 500,
-            border: 'none',
-            cursor: 'pointer',
-            lineHeight: '48px',
-            textDecoration: 'none',
-            display: 'inline-block',
-          }}
-        >
-          去记录今天
-        </Link>
-      </div>
+      <Centered>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
+          <p style={{ fontSize: '18px', color: '#1E1E1E' }}>还没有保存过今天</p>
+          <Link href="/create" style={btnStyle}>去记录今天</Link>
+        </div>
+      </Centered>
     )
   }
 
+  const hasPlace = place && place.visitCount > 1
+
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        backgroundColor: '#F7F6F3',
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '640px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '32px',
-        }}
-      >
-        {/* 日期 */}
-        <h2
-          style={{
-            fontSize: '24px',
-            fontWeight: 500,
-            color: '#1E1E1E',
-            marginTop: '80px',
-          }}
-        >
-          {formatDate(entry.date)}
-        </h2>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', maxWidth: '640px', marginTop: '80px' }}>
 
-        {/* 心情 */}
-        <div
-          style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '50%',
-            backgroundColor: '#FFFFFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '28px',
-          }}
-        >
-          {entry.mood}
-        </div>
-
-        {/* 内容 */}
-        <p
-          style={{
-            fontSize: '16px',
-            lineHeight: 1.8,
-            color: '#1E1E1E',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          {entry.content}
-        </p>
-
-        {/* 图片 */}
-        {entry.image && (
-          <img
-            src={entry.image}
-            alt="今天的照片"
+        {/* ══ Memory Thread ══ */}
+        <div style={{ position: 'relative', paddingLeft: '32px' }}>
+          {/* Vertical line */}
+          <div
             style={{
-              width: '100%',
-              borderRadius: '16px',
+              position: 'absolute', left: '4px', top: '0', bottom: '0',
+              width: '2px', backgroundColor: '#E8E5E0',
+              opacity: visible ? 1 : 0,
+              transition: 'opacity 600ms ease-out 400ms',
             }}
           />
-        )}
-
-        {/* 位置 */}
-        {entry.latitude !== null && entry.longitude !== null && (
-          <p
+          {/* Top circle */}
+          <div
             style={{
-              fontSize: '14px',
-              color: '#8C8C8C',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <span>📍</span>
-            {entry.latitude.toFixed(4)}, {entry.longitude.toFixed(4)}
-          </p>
-        )}
-
-        {/* 返回按钮 */}
-        <div style={{ marginTop: '24px', marginBottom: '40px' }}>
-          <Link
-            href="/"
-            style={{
-              display: 'inline-block',
-              height: '48px',
-              paddingLeft: '24px',
-              paddingRight: '24px',
-              borderRadius: '18px',
+              position: 'absolute', left: '0', top: '0',
+              width: '10px', height: '10px', borderRadius: '50%',
               backgroundColor: '#1E1E1E',
-              color: '#FFFFFF',
-              fontSize: '16px',
-              fontWeight: 500,
-              textDecoration: 'none',
-              lineHeight: '48px',
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'scale(1)' : 'scale(0)',
+              transition: 'opacity 400ms ease-out 600ms, transform 400ms ease-out 600ms',
+            }}
+          />
+
+          {/* ══ Memory Card ══ */}
+          <div
+            style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? 'translateY(0)' : 'translateY(12px)',
+              transition: 'opacity 300ms ease-out, transform 300ms ease-out',
             }}
           >
-            返回首页
-          </Link>
+            {/* Date */}
+            <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', marginBottom: '20px' }}>
+              {formatDate(entry.date)}
+            </h2>
+
+            {/* Mood */}
+            <div style={{
+              width: '56px', height: '56px', borderRadius: '50%',
+              backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '28px', marginBottom: '20px',
+            }}>
+              {entry.mood}
+            </div>
+
+            {/* Content */}
+            {entry.content && (
+              <p style={{ fontSize: '16px', lineHeight: 1.8, color: '#1E1E1E', whiteSpace: 'pre-wrap', marginBottom: '20px' }}>
+                {entry.content}
+              </p>
+            )}
+
+            {/* Image */}
+            {entry.image && (
+              <img src={entry.image} alt="" style={{ width: '100%', borderRadius: '16px', marginBottom: '20px' }} />
+            )}
+
+            {/* Location */}
+            {entry.latitude !== null && entry.longitude !== null && (
+              <p style={{ fontSize: '14px', color: '#8C8C8C', marginBottom: '24px' }}>
+                📍 {entry.latitude.toFixed(4)}, {entry.longitude.toFixed(4)}
+              </p>
+            )}
+
+            {/* ══ Place Memory ══ */}
+            {hasPlace && (
+              <div
+                style={{
+                  backgroundColor: '#FCFBF8',
+                  borderRadius: '20px',
+                  padding: '24px',
+                  marginBottom: '24px',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
+                  opacity: visible ? 1 : 0,
+                  transition: 'opacity 300ms ease-out 300ms',
+                }}
+              >
+                <p style={{ fontSize: '13px', color: '#8C8C8C', marginBottom: '8px' }}>This Place Remembers.</p>
+                <p style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500, marginBottom: '12px' }}>这里记得你。</p>
+                <div style={{ fontSize: '14px', color: '#1E1E1E', lineHeight: 1.8 }}>
+                  你已经来到这里：{place!.visitCount} 次<br />
+                  第一次：{formatShort(place!.firstVisit)}<br />
+                  最近一次：今天
+                </div>
+                <p style={{ fontSize: '13px', color: '#8C8C8C', marginTop: '12px', lineHeight: 1.6 }}>
+                  有些地方，会慢慢记住我们的样子。
+                </p>
+              </div>
+            )}
+
+            {/* ══ Memory Seed ══ */}
+            <div
+              style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '16px 0',
+                opacity: visible ? 1 : 0,
+                transition: 'opacity 200ms ease-out 200ms',
+              }}
+            >
+              <SeedIcon size={28} />
+              <div>
+                <p style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500, margin: '0 0 2px 0' }}>
+                  Today's Seed
+                </p>
+                <p style={{ fontSize: '13px', color: '#8C8C8C', margin: 0 }}>
+                  今天埋下了一颗新的记忆种子。
+                </p>
+              </div>
+            </div>
+
+            {/* ══ Growth Hint ══ */}
+            <p
+              style={{
+                fontSize: '13px', color: '#AAA', marginTop: '8px', marginBottom: '8px',
+                opacity: visible ? 1 : 0,
+                transition: 'opacity 400ms ease-out 500ms',
+              }}
+            >
+              Every memory begins as a thread.
+            </p>
+          </div>
+
+          {/* Back button */}
+          <div style={{ marginTop: '32px', marginBottom: '40px' }}>
+            <Link href="/" style={btnStyle}>返回首页</Link>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
+function Centered({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px',
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+    }}>
+      {children}
+    </div>
+  )
+}
+
+const btnStyle: React.CSSProperties = {
+  display: 'inline-block', height: '48px', paddingLeft: '24px', paddingRight: '24px',
+  borderRadius: '18px', backgroundColor: '#1E1E1E', color: '#FFFFFF',
+  fontSize: '16px', fontWeight: 500, textDecoration: 'none', lineHeight: '48px',
+}
+
 export default function TodayPage() {
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            minHeight: '100vh',
-            backgroundColor: '#F7F6F3',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <p style={{ color: '#8C8C8C' }}>加载中……</p>
-        </div>
-      }
-    >
+    <Suspense fallback={<Centered><p style={{ color: '#8C8C8C' }}>加载中……</p></Centered>}>
       <TodayContent />
     </Suspense>
   )

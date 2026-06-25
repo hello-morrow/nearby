@@ -109,9 +109,18 @@ export default function CreatePage() {
             </div>
           )}
 
-          {/* Textarea */}
+          {/* Textarea — 嫩绿色渐变 placeholder */}
+          <style>{`
+            .textarea-gradient::placeholder {
+              background: linear-gradient(180deg, #A5D6A7 0%, #81C784 50%, #66BB6A 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+          `}</style>
           <div style={{ position: 'relative', marginBottom: '48px' }}>
             <textarea
+              className="textarea-gradient"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={'今天，\n发生了什么？\n慢慢写，不用着急。'}

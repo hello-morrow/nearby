@@ -76,7 +76,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
                 <div
                   style={{
                     width: '40px', height: '40px', borderRadius: '999px',
-                    backgroundColor: '#8DB580', color: '#FFFFFF',
+                    backgroundColor: '#A8D5A2', color: '#FFFFFF',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '15px', fontWeight: 500,
                     transition: 'opacity 180ms ease', cursor: 'default',
@@ -98,7 +98,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
                 >
                   <span style={{ fontSize: '15px', color: '#1E1E1E' }}>{day}</span>
                   {hasRecord(day) && (
-                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#1E1E1E', opacity: 0.2 }} />
+                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#A8D5A2', opacity: 0.4 }} />
                   )}
                 </div>
               )
