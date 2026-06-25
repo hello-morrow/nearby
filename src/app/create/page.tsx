@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
+import MemoryWeave from '@/components/MemoryWeave'
 import type { DiaryEntry } from '@/types'
 
 const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
@@ -19,6 +20,12 @@ export default function CreatePage() {
   const [locationError, setLocationError] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
+
+  // Read entry count for Memory Weave
+  const entries: DiaryEntry[] = typeof window !== 'undefined'
+    ? JSON.parse(localStorage.getItem('nearby_entries') || '[]')
+    : []
+  const entryCount = entries.length
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -68,6 +75,18 @@ export default function CreatePage() {
               今天发生了什么？
             </h2>
             <p style={{ fontSize: '18px', color: '#8D8D8D', lineHeight: 1.6 }}>把今天留给未来的自己。</p>
+            <p
+              style={{
+                fontSize: '14px',
+                color: '#8C8C8C',
+                lineHeight: 1.6,
+                marginTop: '6px',
+              }}
+            >
+              你留下的每一段记忆，
+              <br />
+              都会被我们轻轻编织在一起。
+            </p>
           </div>
 
           {/* Textarea */}
@@ -136,7 +155,7 @@ export default function CreatePage() {
                   <circle cx="17" cy="20" r="4" />
                   <path d="M4 34l12-12 8 8 6-6 14 10" />
                 </svg>
-                <span style={{ fontSize: '15px', color: '#1E1E1E' }}>点击上传照片</span>
+                <span style={{ fontSize: '15px', color: '#1E1E1E' }}>留下一张照片</span>
                 <span style={{ fontSize: '12px', color: '#B0B0B0' }}>支持 JPG / PNG &nbsp; 最大 10MB</span>
               </div>
             )}
@@ -156,11 +175,16 @@ export default function CreatePage() {
               }}
             >
               <span style={{ fontSize: '15px', color: hasLocation ? '#22C55E' : '#1E1E1E', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {locationLoading ? '📍 获取中……' : hasLocation ? '✓ 已获取当前位置' : '📍 获取当前位置'}
+                {locationLoading ? '📍 定位中……' : hasLocation ? '✓ 已记住此刻的位置' : '📍 记住此刻的位置'}
               </span>
               {!hasLocation && <span style={{ fontSize: '12px', color: '#B0B0B0' }}>自动记录此刻的位置</span>}
             </button>
             {locationError && <p style={{ fontSize: '12px', color: '#EF4444', marginTop: '6px' }}>{locationError}</p>}
+          </div>
+
+          {/* Memory Weave Progress */}
+          <div style={{ marginBottom: '48px' }}>
+            <MemoryWeave entryCount={entryCount} />
           </div>
 
           {/* Save */}
