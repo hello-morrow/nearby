@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Spark } from './Doodle'
 
 const QUOTES = [
   'Every place remembers\na different version of you.',
@@ -52,16 +53,8 @@ export default function Quote() {
         position: 'relative',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          top: '16px',
-          left: '20px',
-          fontSize: '14px',
-          color: '#D0D0D0',
-        }}
-      >
-        ✦
+      <div style={{ position:'absolute',top:'16px',left:'20px' }}>
+        <Spark size={16} />
       </div>
 
       {quote ? (
