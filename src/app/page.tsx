@@ -64,7 +64,7 @@ export default function Home() {
         </p>
 
         {/* Primary Button */}
-        <form action="/upload" method="GET" style={{ width: '100%' }}>
+        <form action="/create" method="GET" style={{ width: '100%' }}>
           <button
             type="submit"
             className="btn-primary"
