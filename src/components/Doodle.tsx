@@ -143,3 +143,17 @@ export function Stitch({ size = 24 }: DoodleProps) {
     </Doodle>
   )
 }
+
+// ═══════════════════════════════════════
+// Tree  — 手绘大树
+// ═══════════════════════════════════════
+export function Tree({ size = 24 }: DoodleProps) {
+  return (
+    <Doodle size={size}>
+      <path d="M12 21 L12 10" />
+      <path d="M6 14 Q8 6 12 4 Q16 6 18 14" />
+      <path d="M7 12 Q9 7 12 5 Q15 7 17 12" />
+      <path d="M8 10 Q10 8 12 7 Q14 8 16 10" />
+    </Doodle>
+  )
+}

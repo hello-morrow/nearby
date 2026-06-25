@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Tree } from './Doodle'
 
 interface MemoryWeaveProps {
   entryCount: number
@@ -17,9 +18,10 @@ export default function MemoryWeave({ entryCount }: MemoryWeaveProps) {
 
   return (
     <div style={{ width: '100%' }}>
-      <h3 style={{ fontSize: '13px', fontWeight: 500, color: '#1E1E1E', marginBottom: '12px' }}>
-        Memory Weave
-      </h3>
+      <div style={{ display:'flex',alignItems:'center',gap:'6px',marginBottom:'12px' }}>
+        <Tree size={16} />
+        <h3 style={{ fontSize:'13px',fontWeight:500,color:'#1E1E1E',margin:0 }}>Memory Weave</h3>
+      </div>
 
       {/* 细线 + 节点 */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
