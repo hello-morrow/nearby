@@ -55,45 +55,43 @@ export default function CreatePage() {
 
   const draft = { content, mood, image }
 
-  const charCount = content.length
-
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', display: 'flex', justifyContent: 'center', padding: '40px 24px' }}>
       <div style={{ width: '100%', maxWidth: '1100px', display: 'flex', gap: '48px', alignItems: 'flex-start' }}>
 
         {/* ── 左侧 68% ── */}
-        <div style={{ flex: '1 1 68%', display: 'flex', flexDirection: 'column', gap: '48px' }}>
+        <div style={{ flex: '1 1 68%', display: 'flex', flexDirection: 'column', gap: '0' }}>
 
           {/* 标题 */}
-          <div>
+          <div style={{ marginBottom: '48px' }}>
             <h2 style={{ fontSize: '36px', fontWeight: 500, lineHeight: 1.2, letterSpacing: '-0.03em', color: '#1E1E1E', marginBottom: '12px' }}>
               今天发生了什么？
             </h2>
             <p style={{ fontSize: '16px', color: '#8C8C8C', lineHeight: 1.6 }}>把今天留给未来的自己。</p>
           </div>
 
-          {/* Textarea — 48px 间距来自 gap */}
-          <div style={{ position: 'relative' }}>
+          {/* Textarea */}
+          <div style={{ position: 'relative', marginBottom: '48px' }}>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="今天想记录什么……"
+              placeholder={'今天，\n发生了什么？\n慢慢写，不用着急。'}
               maxLength={MAX_CHARS}
               style={{
-                width: '100%', height: '320px', padding: '28px',
+                width: '100%', height: '360px', padding: '32px',
                 borderRadius: '24px', border: '1px solid #E5E5E5',
-                backgroundColor: '#FFFFFF', fontSize: '20px', lineHeight: 1.6,
+                backgroundColor: '#FFFFFF', fontSize: '20px', lineHeight: 1.7,
                 color: '#1E1E1E', resize: 'none', fontFamily: 'inherit', outline: 'none',
                 boxSizing: 'border-box',
               }}
             />
-            <span style={{ position: 'absolute', bottom: '16px', right: '24px', fontSize: '12px', color: '#B0B0B0' }}>
-              {charCount} / {MAX_CHARS}
+            <span style={{ position: 'absolute', bottom: '16px', right: '24px', fontSize: '12px', color: '#AAA' }}>
+              {content.length} / {MAX_CHARS}
             </span>
           </div>
 
-          {/* Emoji — 48px */}
-          <div>
+          {/* Emoji */}
+          <div style={{ marginBottom: '56px' }}>
             <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
               {MOODS.map((m) => (
                 <button
@@ -115,8 +113,8 @@ export default function CreatePage() {
             </div>
           </div>
 
-          {/* Image — 48px */}
-          <div>
+          {/* Image */}
+          <div style={{ marginBottom: '40px' }}>
             {image ? (
               <div style={{ position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
                 <img src={image} alt="" style={{ width: '100%', display: 'block', borderRadius: '16px' }} />
@@ -145,10 +143,9 @@ export default function CreatePage() {
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImage} style={{ display: 'none' }} />
           </div>
 
-          {/* Location — 40px */}
-          <div>
+          {/* Location */}
+          <div style={{ marginBottom: '48px' }}>
             <button type="button" onClick={handleLocation} disabled={locationLoading}
-              className="btn-primary"
               style={{
                 width: '100%', minHeight: '56px', borderRadius: '16px',
                 border: hasLocation ? '1px solid #22C55E' : '1px solid #E5E5E5',
@@ -166,9 +163,8 @@ export default function CreatePage() {
             {locationError && <p style={{ fontSize: '12px', color: '#EF4444', marginTop: '6px' }}>{locationError}</p>}
           </div>
 
-          {/* Save — 40px */}
+          {/* Save */}
           <button type="button" onClick={handleSave} disabled={!content.trim() || saving}
-            className="btn-primary"
             style={{
               width: '100%', height: '60px', borderRadius: '18px', fontSize: '16px', fontWeight: 500, border: 'none',
               backgroundColor: content.trim() ? '#1E1E1E' : '#D9D9D9', color: '#FFFFFF',
@@ -180,14 +176,14 @@ export default function CreatePage() {
             onMouseDown={(e) => { if (content.trim()) e.currentTarget.style.transform = 'scale(0.98)' }}
             onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
           >
-            {saving ? '保存中……' : '保存今天'}
+            {saving ? '保存中……' : '留住今天'}
           </button>
 
-          {/* 底部留白 64px */}
+          {/* 底部留白 */}
           <div style={{ height: '64px' }} />
         </div>
 
-        {/* ── 右侧 32% Sidebar ── */}
+        {/* ── 右侧 Sidebar ── */}
         <div style={{ flex: '0 0 360px' }}>
           <Sidebar draft={draft} />
         </div>

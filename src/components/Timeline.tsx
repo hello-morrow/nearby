@@ -34,7 +34,6 @@ export default function Timeline({ draft }: TimelineProps) {
 
   const items: { id: string; label: string; mood: string; text: string; hasPhoto: boolean; isToday: boolean; isDraft: boolean }[] = []
 
-  // 今天 draft 始终第一
   if (hasDraft) {
     items.push({ id: 'draft', label: '今天', mood: draft!.mood, text: truncate(draft!.content), hasPhoto: !!draft!.image, isToday: true, isDraft: true })
   }
@@ -58,45 +57,46 @@ export default function Timeline({ draft }: TimelineProps) {
             style={{
               position: 'relative', paddingLeft: '28px',
               paddingBottom: idx < items.length - 1 ? '24px' : '0',
-              cursor: item.isDraft ? 'default' : 'pointer', minHeight: '64px',
+              cursor: item.isDraft ? 'default' : 'pointer', minHeight: '60px',
             }}
           >
-            {/* 竖线 */}
+            {/* 竖线 — 2px */}
             {idx < items.length - 1 && (
-              <div style={{ position: 'absolute', left: '4px', top: '14px', bottom: '0', width: '2px', backgroundColor: '#E5E5E5' }} />
+              <div style={{ position: 'absolute', left: '4px', top: '14px', bottom: '0', width: '2px', backgroundColor: '#E8E8E8' }} />
             )}
 
-            {/* 节点 */}
+            {/* 节点 — 今天黑色，历史浅灰 */}
             <div style={{
               position: 'absolute', left: '0', top: '6px',
               width: '10px', height: '10px', borderRadius: '50%',
-              backgroundColor: item.isToday ? '#1E1E1E' : '#D1D1D1',
-              border: item.isDraft ? '2px solid #1E1E1E' : 'none',
+              backgroundColor: item.isToday ? '#222' : '#D1D1D1',
+              border: item.isDraft ? '2px solid #222' : 'none',
               boxSizing: 'border-box',
             }} />
 
             {/* 内容 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <span style={{ fontSize: '12px', color: item.isToday ? '#1E1E1E' : '#8C8C8C', fontWeight: item.isToday ? 500 : 400 }}>
+              <span style={{ fontSize: '12px', color: item.isToday ? '#1E1E1E' : '#9C9C9C', fontWeight: item.isToday ? 500 : 400 }}>
                 {item.label}{item.isDraft ? ' · 正在记录' : ''}
               </span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '16px' }}>{item.mood}</span>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                <span style={{ fontSize: '16px', lineHeight: 1.4 }}>{item.mood}</span>
                 <span style={{ fontSize: '13px', color: '#1E1E1E', lineHeight: 1.5 }}>
                   {item.text}
                 </span>
-                {item.hasPhoto && <span style={{ fontSize: '12px' }}>📷</span>}
+                {item.hasPhoto && <span style={{ fontSize: '12px', lineHeight: 1.4 }}>📷</span>}
               </div>
             </div>
           </div>
         ))}
 
+        {/* 今天还没有记录 — 柔和空状态 */}
         {items.length === 0 && (
           <div style={{ position: 'relative', paddingLeft: '28px' }}>
-            <div style={{ position: 'absolute', left: '0', top: '6px', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#1E1E1E' }} />
+            <div style={{ position: 'absolute', left: '0', top: '6px', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#222' }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               <span style={{ fontSize: '12px', color: '#1E1E1E', fontWeight: 500 }}>今天</span>
-              <span style={{ fontSize: '13px', color: '#8C8C8C' }}>还没有记录</span>
+              <span style={{ fontSize: '13px', color: '#8C8C8C' }}>还没有写下今天。</span>
             </div>
           </div>
         )}

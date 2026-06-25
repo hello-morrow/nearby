@@ -21,7 +21,6 @@ export default function Calendar({ recordedDates }: CalendarProps) {
     if (viewMonth === 0) { setViewYear(viewYear - 1); setViewMonth(11) }
     else { setViewMonth(viewMonth - 1) }
   }
-
   const nextMonth = () => {
     if (viewMonth === 11) { setViewYear(viewYear + 1); setViewMonth(0) }
     else { setViewMonth(viewMonth + 1) }
@@ -45,57 +44,61 @@ export default function Calendar({ recordedDates }: CalendarProps) {
   for (let i = 0; i < firstDay; i++) cells.push(null)
   for (let d = 1; d <= daysInMonth; d++) cells.push(d)
 
-  const totalRows = Math.ceil(cells.length / 7)
-  while (cells.length < totalRows * 7) cells.push(null)
-
   return (
     <div>
-      {/* 月份标题 */}
-      <h3 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', marginBottom: '32px' }}>
-        {viewYear}年{MONTHS[viewMonth]}
-      </h3>
-
-      {/* 切换箭头 */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+      {/* 月份标题 — 年份和月份分两行 */}
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '24px' }}>
         <button onClick={prevMonth} style={arrowStyle}>‹</button>
+        <div>
+          <div style={{ fontSize: '13px', fontWeight: 400, color: '#8C8C8C', lineHeight: 1.4, letterSpacing: '0.02em' }}>
+            {viewYear}
+          </div>
+          <div style={{ fontSize: '22px', fontWeight: 500, color: '#1E1E1E', lineHeight: 1.3 }}>
+            {MONTHS[viewMonth]}
+          </div>
+        </div>
         <button onClick={nextMonth} style={arrowStyle}>›</button>
       </div>
 
       {/* 星期 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: '8px' }}>
         {WEEKDAYS.map((d) => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '12px', color: '#B0B0B0', paddingBottom: '8px' }}>{d}</div>
+          <div key={d} style={{ textAlign: 'center', fontSize: '11px', color: '#B0B0B0', paddingBottom: '6px' }}>{d}</div>
         ))}
       </div>
 
-      {/* 日期网格 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', rowGap: '8px' }}>
+      {/* 日期 */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', rowGap: '6px' }}>
         {cells.map((day, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px' }}>
             {day !== null ? (
               isToday(day) ? (
-                <div style={{
-                  width: '40px', height: '40px', borderRadius: '999px',
-                  backgroundColor: '#1E1E1E', color: '#FFFFFF',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '14px', fontWeight: 500,
-                }}>{day}</div>
+                <div
+                  style={{
+                    width: '40px', height: '40px', borderRadius: '999px',
+                    backgroundColor: '#222', color: '#FFFFFF',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '14px', fontWeight: 500,
+                    transition: 'opacity 180ms ease', cursor: 'default',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
+                  onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+                >
+                  {day}
+                </div>
               ) : (
-                <div style={{
-                  width: '40px', height: '40px', borderRadius: '999px',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'default', transition: 'background 200ms ease',
-                  position: 'relative',
-                }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = '#F7F5F2' }}
+                <div
+                  style={{
+                    width: '40px', height: '40px', borderRadius: '999px',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'default', transition: 'background 180ms ease',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = '#F8F6F3' }}
                   onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent' }}
                 >
                   <span style={{ fontSize: '14px', color: '#1E1E1E' }}>{day}</span>
                   {hasRecord(day) && (
-                    <div style={{
-                      width: '4px', height: '4px', borderRadius: '50%',
-                      backgroundColor: '#1E1E1E', opacity: 0.2,
-                    }} />
+                    <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#1E1E1E', opacity: 0.2 }} />
                   )}
                 </div>
               )
@@ -109,6 +112,6 @@ export default function Calendar({ recordedDates }: CalendarProps) {
 
 const arrowStyle: React.CSSProperties = {
   background: 'none', border: 'none', cursor: 'pointer',
-  fontSize: '18px', color: '#8C8C8C', padding: '4px 8px',
-  borderRadius: '6px', transition: 'color 200ms ease',
+  fontSize: '16px', color: '#B0B0B0', padding: '0',
+  transition: 'color 180ms ease', lineHeight: 1,
 }

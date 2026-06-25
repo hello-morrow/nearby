@@ -1,3 +1,7 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+
 const QUOTES = [
   '愿未来的你，\n还能想起今天。',
   '每一天都值得被记住。\n即使平凡。',
@@ -32,42 +36,62 @@ const QUOTES = [
 ]
 
 export default function Quote() {
-  const idx = Math.floor(Math.random() * QUOTES.length)
-  const quote = QUOTES[idx]
+  const [quote, setQuote] = useState('')
+
+  useEffect(() => {
+    const idx = Math.floor(Math.random() * QUOTES.length)
+    setQuote(QUOTES[idx])
+  }, [])
 
   return (
     <div
       style={{
-        height: '120px',
         backgroundColor: '#FAF8F6',
-        borderRadius: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderRadius: '24px',
         padding: '24px',
-        textAlign: 'center',
+        position: 'relative',
       }}
     >
-      <p
+      {/* 装饰符号 */}
+      <div
         style={{
-          fontSize: '13px',
-          lineHeight: 1.8,
-          color: '#8C8C8C',
-          whiteSpace: 'pre-line',
+          position: 'absolute',
+          top: '16px',
+          left: '20px',
+          fontSize: '14px',
+          color: '#D0D0D0',
         }}
       >
-        {quote}
-      </p>
-      <p
-        style={{
-          fontSize: '11px',
-          color: '#B0B0B0',
-          marginTop: '8px',
-        }}
-      >
-        — Nearby
-      </p>
+        ✦
+      </div>
+
+      {quote ? (
+        <>
+          <p
+            style={{
+              fontSize: '15px',
+              lineHeight: 1.8,
+              color: '#666',
+              whiteSpace: 'pre-line',
+              marginTop: '8px',
+            }}
+          >
+            {quote}
+          </p>
+          <p
+            style={{
+              fontSize: '11px',
+              color: '#B0B0B0',
+              marginTop: '12px',
+            }}
+          >
+            — Nearby
+          </p>
+        </>
+      ) : (
+        // SSR 初始状态 — 与客户端首次渲染一致
+        <div style={{ height: '72px' }} />
+      )}
     </div>
   )
 }
