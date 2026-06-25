@@ -157,7 +157,7 @@ function TodayContent() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
                 <div style={{
                   width: '8px', height: '8px', borderRadius: '50%',
-                  backgroundColor: '#1E1E1E', flexShrink: 0,
+                  backgroundColor: '#A8D5A2', flexShrink: 0,
                   opacity: visible ? 1 : 0,
                   transition: 'opacity 300ms ease-out 800ms',
                 }} />
@@ -167,7 +167,7 @@ function TodayContent() {
                 }}>
                   <div style={{
                     position: 'absolute', left: 0, top: 0, height: '100%',
-                    backgroundColor: '#1E1E1E',
+                    background: 'linear-gradient(90deg, #A8D5A2, #388E3C)',
                     width: weaveReady ? '100%' : '0%',
                     transition: 'width 600ms ease-out',
                   }} />

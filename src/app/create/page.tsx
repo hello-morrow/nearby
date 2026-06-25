@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
@@ -23,11 +23,12 @@ export default function CreatePage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
-  // Read entry count for Memory Weave
-  const entries: DiaryEntry[] = typeof window !== 'undefined'
-    ? JSON.parse(localStorage.getItem('nearby_entries') || '[]')
-    : []
-  const entryCount = entries.length
+  const [entryCount, setEntryCount] = useState(0)
+
+  useEffect(() => {
+    const entries: DiaryEntry[] = JSON.parse(localStorage.getItem('nearby_entries') || '[]')
+    setEntryCount(entries.length)
+  }, [])
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
