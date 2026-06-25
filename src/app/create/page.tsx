@@ -77,7 +77,7 @@ export default function CreatePage() {
             <h2 style={{ fontSize: '48px', fontWeight: 700, lineHeight: 1.15, color: '#1E1E1E', marginBottom: '12px' }}>
               今天发生了什么？
             </h2>
-            <p style={{ fontSize: '18px', color: '#8D8D8D', lineHeight: 1.6 }}>把今天留给未来的自己。</p>
+            <p style={{ fontSize: '18px', color: '#8D8D8D', lineHeight: 1.6 }}>把今天留在这里。</p>
             <p
               style={{
                 fontSize: '14px',

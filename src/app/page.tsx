@@ -84,7 +84,7 @@ export default function Home() {
               marginBottom: '32px',
             }}
           >
-            把今天留给未来的自己。
+            把今天留在这里。
           </p>
 
           {/* Brand Card */}
