@@ -23,9 +23,10 @@ export default function Home() {
         {/* Logo */}
         <h1
           style={{
-            fontSize: '18px',
+            fontSize: '12px',
             fontWeight: 500,
-            color: '#1E1E1E',
+            letterSpacing: '0.08em',
+            color: '#444',
             textAlign: 'center',
             marginBottom: '64px',
           }}
@@ -36,9 +37,9 @@ export default function Home() {
         {/* 标题 */}
         <h2
           style={{
-            fontSize: '36px',
-            fontWeight: 500,
-            lineHeight: 1.2,
+            fontSize: '56px',
+            fontWeight: 700,
+            lineHeight: 1.08,
             letterSpacing: '-0.03em',
             color: '#1E1E1E',
             textAlign: 'center',
@@ -53,8 +54,8 @@ export default function Home() {
         {/* 副标题 */}
         <p
           style={{
-            fontSize: '16px',
-            lineHeight: 1.6,
+            fontSize: '18px',
+            lineHeight: 1.7,
             color: '#8C8C8C',
             textAlign: 'center',
             marginBottom: '72px',
@@ -75,7 +76,7 @@ export default function Home() {
               color: '#ffffff',
               textAlign: 'center',
               borderRadius: '18px',
-              fontSize: '16px',
+              fontSize: '18px',
               fontWeight: 500,
               border: 'none',
               lineHeight: '56px',

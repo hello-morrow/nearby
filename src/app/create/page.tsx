@@ -64,10 +64,10 @@ export default function CreatePage() {
 
           {/* 标题 */}
           <div style={{ marginBottom: '48px' }}>
-            <h2 style={{ fontSize: '36px', fontWeight: 500, lineHeight: 1.2, letterSpacing: '-0.03em', color: '#1E1E1E', marginBottom: '12px' }}>
+            <h2 style={{ fontSize: '48px', fontWeight: 700, lineHeight: 1.15, color: '#1E1E1E', marginBottom: '12px' }}>
               今天发生了什么？
             </h2>
-            <p style={{ fontSize: '16px', color: '#8C8C8C', lineHeight: 1.6 }}>把今天留给未来的自己。</p>
+            <p style={{ fontSize: '18px', color: '#8D8D8D', lineHeight: 1.6 }}>把今天留给未来的自己。</p>
           </div>
 
           {/* Textarea */}
@@ -80,7 +80,7 @@ export default function CreatePage() {
               style={{
                 width: '100%', height: '360px', padding: '32px',
                 borderRadius: '24px', border: '1px solid #E5E5E5',
-                backgroundColor: '#FFFFFF', fontSize: '20px', lineHeight: 1.7,
+                backgroundColor: '#FFFFFF', fontSize: '20px', lineHeight: 1.9,
                 color: '#1E1E1E', resize: 'none', fontFamily: 'inherit', outline: 'none',
                 boxSizing: 'border-box',
               }}

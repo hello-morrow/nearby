@@ -36,7 +36,6 @@ export default function Timeline({ draft }: TimelineProps) {
 
   const hasDraft = draft && draft.content.trim()
 
-  // 构建时间轴条目 — 今天永远置顶
   const items: { id: string; label: string; mood: string; text: string; hasPhoto: boolean; isToday: boolean; isDraft: boolean }[] = []
 
   if (hasDraft) {
@@ -45,7 +44,6 @@ export default function Timeline({ draft }: TimelineProps) {
 
   entries.forEach((entry) => {
     const label = formatLabel(entry.date)
-    // 如果已经有「今天」（来自 draft 或已有记录），跳过旧的今天条目
     const alreadyToday = items.some((i) => i.label === '今天')
     if (label === '今天' && alreadyToday) return
     items.push({ id: entry.id, label, mood: entry.mood, text: truncate(entry.content), hasPhoto: !!entry.image, isToday: label === '今天' && !alreadyToday, isDraft: false })
@@ -65,57 +63,42 @@ export default function Timeline({ draft }: TimelineProps) {
             style={{
               position: 'relative',
               paddingLeft: '28px',
-              paddingBottom: idx < items.length - 1 ? '0' : '0',
               cursor: item.isDraft ? 'default' : 'pointer',
               minHeight: '80px',
               display: 'flex',
               alignItems: 'flex-start',
             }}
           >
-            {/* 竖线 — 2px 灰色，连接所有节点 */}
+            {/* 竖线 */}
             {idx < items.length - 1 && (
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '4px',
-                  top: '14px',
-                  bottom: '-80px',
-                  width: '2px',
-                  backgroundColor: LINE_COLOR,
-                }}
-              />
+              <div style={{
+                position: 'absolute', left: '4px', top: '14px', bottom: '-80px',
+                width: '2px', backgroundColor: LINE_COLOR,
+              }} />
             )}
 
-            {/* 节点：今天=黑色实心 ●，过去=空心 ○ */}
-            <div
-              style={{
-                position: 'absolute',
-                left: '0',
-                top: '6px',
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: item.isToday ? NODE_TODAY : 'transparent',
-                border: item.isToday ? 'none' : `2px solid ${NODE_PAST}`,
-                boxSizing: 'border-box',
-              }}
-            />
+            {/* 节点 */}
+            <div style={{
+              position: 'absolute', left: '0', top: '6px',
+              width: '10px', height: '10px', borderRadius: '50%',
+              backgroundColor: item.isToday ? NODE_TODAY : 'transparent',
+              border: item.isToday ? 'none' : `2px solid ${NODE_PAST}`,
+              boxSizing: 'border-box',
+            }} />
 
             {/* 内容 */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', paddingTop: '0' }}>
-              <span
-                style={{
-                  fontSize: '12px',
-                  color: item.isToday ? '#1E1E1E' : '#9C9C9C',
-                  fontWeight: item.isToday ? 500 : 400,
-                }}
-              >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{
+                fontSize: '15px',
+                color: item.isToday ? '#1E1E1E' : '#999',
+                fontWeight: item.isToday ? 500 : 400,
+              }}>
                 {item.label}
                 {item.isDraft && ' · 正在记录'}
               </span>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
                 <span style={{ fontSize: '16px', lineHeight: 1.4 }}>{item.mood}</span>
-                <span style={{ fontSize: '13px', color: '#1E1E1E', lineHeight: 1.5 }}>
+                <span style={{ fontSize: '16px', color: '#222', lineHeight: 1.5 }}>
                   {item.text}
                 </span>
                 {item.hasPhoto && (
@@ -126,23 +109,17 @@ export default function Timeline({ draft }: TimelineProps) {
           </div>
         ))}
 
-        {/* 空状态 — 今天还没有记录 */}
+        {/* 空状态 */}
         {items.length === 0 && (
           <div style={{ position: 'relative', paddingLeft: '28px', minHeight: '80px', display: 'flex', alignItems: 'flex-start' }}>
-            <div
-              style={{
-                position: 'absolute',
-                left: '0',
-                top: '6px',
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: NODE_TODAY,
-              }}
-            />
+            <div style={{
+              position: 'absolute', left: '0', top: '6px',
+              width: '10px', height: '10px', borderRadius: '50%',
+              backgroundColor: NODE_TODAY,
+            }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <span style={{ fontSize: '12px', color: '#1E1E1E', fontWeight: 500 }}>今天</span>
-              <span style={{ fontSize: '13px', color: '#8C8C8C' }}>还没有写下今天。</span>
+              <span style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500 }}>今天</span>
+              <span style={{ fontSize: '16px', color: '#8C8C8C' }}>还没有写下今天。</span>
             </div>
           </div>
         )}

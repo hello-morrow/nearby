@@ -70,9 +70,10 @@ export default function Quote() {
           <p
             style={{
               fontSize: '15px',
-              lineHeight: 1.8,
-              color: '#666',
+              lineHeight: 2,
+              color: '#7A7A7A',
               whiteSpace: 'pre-line',
+              textAlign: 'left',
               marginTop: '8px',
             }}
           >
