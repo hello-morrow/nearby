@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { DiaryEntry, Place } from '@/types'
 import { getPlaceByCoords } from '@/lib/places'
+import { Circle } from '@/components/Doodle'
 
 function TodayContent() {
   const searchParams = useSearchParams()
@@ -65,7 +66,7 @@ function TodayContent() {
     return (
       <Centered>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
-          <p style={{ fontSize: '18px', color: '#1E1E1E' }}>还没有保存过今天</p>
+          <p style={{ fontSize: '18px', color: '#1E1E1E' }}>今天，还没有留下新的故事。</p>
           <Link href="/create" style={btnStyle}>去记录今天</Link>
         </div>
       </Centered>
@@ -109,10 +110,13 @@ function TodayContent() {
               transition: 'opacity 300ms ease-out, transform 300ms ease-out',
             }}
           >
-            {/* Date */}
-            <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', marginBottom: '32px' }}>
-              {formatDate(entry.date)}
-            </h2>
+            {/* Date with hand-drawn Circle */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px' }}>
+              <Circle size={32} />
+              <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', margin: 0 }}>
+                {formatDate(entry.date)}
+              </h2>
+            </div>
 
             {/* Mood */}
             <div style={{
@@ -210,9 +214,14 @@ function TodayContent() {
           </div>
 
           {/* Back button */}
-          <div style={{ marginBottom: '40px' }}>
+          <div style={{ marginBottom: '24px' }}>
             <Link href="/" style={btnStyle}>返回首页</Link>
           </div>
+
+          {/* Footer */}
+          <p style={{ fontSize: '12px', color: '#BDBDBD', textAlign: 'center', marginBottom: '40px' }}>
+            Every memory becomes another thread.
+          </p>
         </div>
       </div>
     </div>

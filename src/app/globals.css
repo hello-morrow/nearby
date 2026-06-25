@@ -1,1 +1,33 @@
 @import '../styles/tokens.css';
+
+/* ── Image fade-in ── */
+img {
+  animation: imageFadeIn 250ms ease-out both;
+}
+
+@keyframes imageFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Paper photo style ── */
+.img-paper {
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+/* ── Quote fade ── */
+.quote-fade {
+  animation: quoteFadeIn 200ms ease-out both;
+}
+
+@keyframes quoteFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
