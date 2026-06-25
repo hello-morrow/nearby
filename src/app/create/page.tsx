@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
 import type { DiaryEntry } from '@/types'
+import { getPreviousVisits } from '@/lib/places'
 
 const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
 
@@ -18,6 +19,7 @@ export default function CreatePage() {
   const [saving, setSaving] = useState(false)
   const [locationLoading, setLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState('')
+  const [previousVisits, setPreviousVisits] = useState(0)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
@@ -40,7 +42,7 @@ export default function CreatePage() {
     setLocationLoading(true)
     setLocationError('')
     navigator.geolocation.getCurrentPosition(
-      (pos) => { setLatitude(pos.coords.latitude); setLongitude(pos.coords.longitude); setLocationLoading(false) },
+      (pos) => { setLatitude(pos.coords.latitude); setLongitude(pos.coords.longitude); setPreviousVisits(getPreviousVisits(pos.coords.latitude, pos.coords.longitude).length); setLocationLoading(false) },
       () => { setLocationError('无法获取位置，请检查权限'); setLocationLoading(false) },
     )
   }
@@ -83,11 +85,29 @@ export default function CreatePage() {
                 marginTop: '6px',
               }}
             >
-              你留下的每一段记忆，
+              你留下的每一片今天，
               <br />
-              都会被我们轻轻编织在一起。
+              都会被编织在这里。
             </p>
           </div>
+
+          {/* Welcome back */}
+          {hasLocation && previousVisits > 0 && (
+            <div style={{ marginBottom: '48px' }}>
+              <p
+                style={{
+                  fontSize: '15px',
+                  color: '#8DB580',
+                  lineHeight: 1.6,
+                  fontWeight: 500,
+                }}
+              >
+                欢迎回来。
+                <br />
+                这是你第 {previousVisits} 次来到这里。
+              </p>
+            </div>
+          )}
 
           {/* Textarea */}
           <div style={{ position: 'relative', marginBottom: '48px' }}>
@@ -180,6 +200,21 @@ export default function CreatePage() {
               {!hasLocation && <span style={{ fontSize: '12px', color: '#B0B0B0' }}>自动记录此刻的位置</span>}
             </button>
             {locationError && <p style={{ fontSize: '12px', color: '#EF4444', marginTop: '6px' }}>{locationError}</p>}
+            {hasLocation && previousVisits > 0 && (
+              <a
+                href={`/place?lat=${latitude}&lng=${longitude}`}
+                style={{
+                  display: 'inline-block',
+                  marginTop: '10px',
+                  fontSize: '13px',
+                  color: '#8DB580',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                }}
+              >
+                这里的故事 →
+              </a>
+            )}
           </div>
 
           {/* Memory Weave Progress */}

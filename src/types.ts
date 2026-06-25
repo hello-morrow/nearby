@@ -7,3 +7,17 @@ export interface DiaryEntry {
   latitude: number | null
   longitude: number | null
 }
+
+export interface Place {
+  id: string
+  latitude: number
+  longitude: number
+  firstVisit: string
+  lastVisit: string
+  visitCount: number
+  photoCount: number
+  recordCount: number
+  topMood: string
+  topMoodCount: number
+  coverImage: string | null
+}

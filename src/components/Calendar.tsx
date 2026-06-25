@@ -76,7 +76,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
                 <div
                   style={{
                     width: '40px', height: '40px', borderRadius: '999px',
-                    backgroundColor: '#222', color: '#FFFFFF',
+                    backgroundColor: '#8DB580', color: '#FFFFFF',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '15px', fontWeight: 500,
                     transition: 'opacity 180ms ease', cursor: 'default',

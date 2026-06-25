@@ -69,7 +69,7 @@ export default function Home() {
               marginBottom: '16px',
             }}
           >
-            今天，
+            在今天，
             <br />
             留住今天。
           </h2>
