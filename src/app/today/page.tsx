@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { DiaryEntry, Place } from '@/types'
 import { getPlaceByCoords } from '@/lib/places'
-import { Circle, Tree } from '@/components/Doodle'
+import { Circle } from '@/components/Doodle'
 
 function TodayContent() {
   const searchParams = useSearchParams()
@@ -154,7 +154,7 @@ function TodayContent() {
             {/* ══ Memory Weave Card ══ */}
             <div style={{ marginBottom: '32px' }}>
               <div style={{ display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px' }}>
-              <Tree size={20} />
+              <span style={{ fontSize:'16px' }}>🌳</span>
               <p style={{ fontSize: '13px', fontWeight: 500, color: '#1E1E1E', margin: 0 }}>Memory Weave</p>
             </div>
 
