@@ -38,7 +38,13 @@ export default function Timeline({ draft }: TimelineProps) {
   })
 
   return (
-    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'20px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)' }}>
+    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'20px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)',position:'relative' }}>
+      {/* Spark — top right */}
+      <div style={{ position:'absolute',top:'14px',right:'14px' }}>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M6 1.5 L6.5 4.5 L9.5 5.5 L6.5 6.5 L6 9.5 L5.5 6.5 L2.5 5.5 L5.5 4.5Z" fill="#D4A373" opacity="0.5" />
+        </svg>
+      </div>
       <h3 style={{ fontSize:'14px',fontWeight:500,color:'#1E1E1E',marginBottom:'20px' }}>最近的日子</h3>
 
       <div style={{ position:'relative' }}>

@@ -26,7 +26,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
   for(let d=1;d<=dim;d++) cells.push(d)
 
   return (
-    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)',position:'relative' }}>
+    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'24px 24px 20px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)',position:'relative' }}>
       {/* Leaf — top right of Calendar */}
       <div style={{ position:'absolute',top:'20px',right:'20px' }}>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

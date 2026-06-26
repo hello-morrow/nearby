@@ -3,7 +3,7 @@
 import Calendar from './Calendar'
 import Timeline from './Timeline'
 import Quote from './Quote'
-import { InteractiveSpark, InteractiveThread } from './DoodleInteractive'
+import { InteractiveSpark, InteractiveThread, InteractiveSeed } from './DoodleInteractive'
 
 interface SidebarProps {
   draft?: { content: string; mood: string; image: string | null } | null
@@ -23,24 +23,31 @@ export default function Sidebar({ draft }: SidebarProps) {
         gap: '48px',
       }}
     >
-      {/* Calendar + doodles */}
+      {/* ══ Calendar — 最大的卡片 ══ */}
       <div style={{ position:'relative' }}>
-        <Calendar recordedDates={recordedDates} />
-        <div style={{ position:'absolute', top: -8, right: -8, display:'flex', gap:4 }}>
-          <InteractiveThread size={14} />
-          <InteractiveSpark size={12} />
+        {/* 右上角：Thread 标志 */}
+        <div style={{ position:'absolute', top: -8, right: -8, zIndex:2 }}>
+          <InteractiveThread size={16} />
         </div>
+        <Calendar recordedDates={recordedDates} />
       </div>
 
-      <Timeline draft={draft} />
-
-      {/* Quote + doodles */}
-      <div style={{ position:'relative' }}>
-        <Quote />
-        <div style={{ position:'absolute', bottom: -6, left: -6, display:'flex', gap:4 }}>
+      {/* ══ Timeline — 中间高度，稍微错开 ══ */}
+      <div style={{ position:'relative', marginLeft: '12px' }}>
+        {/* 右上角：Spark 标志 */}
+        <div style={{ position:'absolute', top: -6, right: -4, zIndex:2 }}>
           <InteractiveSpark size={14} />
-          <InteractiveThread size={14} />
         </div>
+        <Timeline draft={draft} />
+      </div>
+
+      {/* ══ Quote — 最小的卡片，位置偏右 ══ */}
+      <div style={{ position:'relative', marginRight: '8px' }}>
+        {/* 右上角：Seed 标志 */}
+        <div style={{ position:'absolute', top: -4, right: -6, zIndex:2 }}>
+          <InteractiveSeed size={16} />
+        </div>
+        <Quote />
       </div>
     </div>
   )

@@ -33,10 +33,16 @@ export default function Quote() {
           <path d="M11 9 Q9 6 11 3 Q13 6 11 9Z" fill="#88A97A" opacity="0.3" />
         </svg>
       </div>
-      {/* Spark */}
+      {/* Spark — top left */}
       <div style={{ position:'absolute',top:'14px',left:'16px' }}>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M6 1 L6.8 4.8 L10.6 6 L6.8 7.2 L6 11 L5.2 7.2 L1.4 6 L5.2 4.8Z" fill="#D4A373" stroke="none" />
+        </svg>
+      </div>
+      {/* Seed — top right */}
+      <div style={{ position:'absolute',top:'14px',right:'14px' }}>
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+          <ellipse cx="6" cy="10" rx="2.5" ry="3" fill="#88A97A" opacity="0.4" />
         </svg>
       </div>
       {quote ? (
