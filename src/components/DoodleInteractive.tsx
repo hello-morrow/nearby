@@ -6,6 +6,18 @@ import { AnnotationSpark, AnnotationLeaf, AnnotationThread, AnnotationSeed, Anno
 const GOLD = '#D4A373'
 const GREEN = '#88A97A'
 
+// ═══════════════════════════════════════════
+// Chapter 5 — Memory Objects
+// Each object is a character of Nearby's world:
+//
+//   Seed    → Every memory starts here.
+//   Leaf    → Time passing. Growth visible.
+//   Spark   → A moment worth remembering.
+//   Thread  → The weave between memories.
+//   Tape    → Holding fragments together.
+//   Circle  → Marking what matters. Today.
+// ═══════════════════════════════════════════
+
 // ═══════════════════════════
 // Hydration-safe hook: randomize only on client
 // ═══════════════════════════

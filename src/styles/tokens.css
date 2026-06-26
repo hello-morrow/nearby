@@ -1,86 +1,55 @@
 /* ═══════════════════════════════════════════
-   Nearby Design System v1.0 — Design Tokens
+   Nearby Design System — Visual Language (Ch 1)
    ═══════════════════════════════════════════ */
 
 :root {
-  /* ── Colors ── */
-  --background:       #F7F5F2;   /* 全站背景 */
-  --surface:          #FCFBF8;   /* Card 背景 */
-  --surface-hover:    #F3F1ED;   /* Hover 状态 */
-  --text-primary:     #1D1D1F;   /* 主文字 */
-  --text-secondary:   #8D8D8D;   /* 副标题 */
-  --text-light:       #B8B8B8;   /* Placeholder */
-  --border:           #E8E5E0;   /* 边框 */
-  --accent:           #232323;   /* 强调 */
-  --success:          #5E9B68;   /* 定位成功 */
+  /* ── Colors (6 色系统) ── */
+  --paper:            #F9F8F6;   /* 全站背景 — 奶油白 */
+  --surface:          #FFFDFB;   /* Card 背景 */
+  --ink:              #1D1D1F;   /* 主文字 */
+  --gray:             #8C8C8C;   /* 副标题/辅助文字 */
+  --gold:             #D4A373;   /* 强调色 — Memory Gold */
+  --green:            #88A97A;   /* 品牌色 — Memory Green */
+
+  /* ── Shadow (全站唯一) ── */
+  --shadow:           0 10px 30px rgba(0, 0, 0, 0.05);
 
   /* ── Radius ── */
-  --radius-button:    18px;
   --radius-card:      24px;
-  --radius-textarea:  24px;
-  --radius-image:     20px;
-  --radius-avatar:    999px;
-
-  /* ── Shadow — 全站唯一阴影 ── */
-  --shadow:           0 8px 30px rgba(0, 0, 0, 0.04);
+  --radius-button:    18px;
+  --radius-input:     24px;
 
   /* ── Typography ── */
   --font-sans:        'Inter', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono:        'JetBrains Mono', 'Consolas', 'Monaco', monospace;
 
-  --text-h1:          48px;
-  --text-h2:          30px;
+  --text-h1:          64px;
+  --text-h2:          40px;
   --text-body:        18px;
-  --text-small:       15px;
-  --text-caption:     13px;
+  --text-caption:     14px;
 
   --weight-bold:      700;
   --weight-semibold:  600;
   --weight-regular:   400;
 
-  --leading-h1:       1.2;
-  --leading-body:     1.6;
-  --leading-small:    1.5;
-  --leading-caption:  1.4;
+  --leading-h1:       1.1;
+  --leading-body:     1.7;
+  --leading-caption:  1.5;
 
-  /* ── Spacing (8pt grid) ── */
-  --space-8:          8px;
-  --space-12:         12px;
-  --space-16:         16px;
+  /* ── Spacing ── */
   --space-24:         24px;
   --space-32:         32px;
   --space-40:         40px;
   --space-48:         48px;
   --space-64:         64px;
-  --space-96:         96px;
+  --space-80:         80px;
 
-  /* ── Transition ── */
-  --transition:       180ms ease;
-
-  /* ── Button ── */
-  --button-height:    60px;
-  --button-radius:    var(--radius-button);
-  --button-hover:     opacity 95%;
-  --button-active:    scale(0.98);
-
-  /* ── Input ── */
-  --input-padding:    32px;
-  --input-height:     360px;
-  --input-border:     1px solid var(--border);
-  --input-focus:      1px solid var(--accent);
-
-  /* ── Card ── */
-  --card-padding:     24px;
-  --card-radius:      var(--radius-card);
-  --card-shadow:      var(--shadow);
+  /* ── Motion ── */
+  --motion:           220ms ease;
 }
 
-/* ── Global Reset ── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+/* ── Reset ── */
+*,*::before,*::after { box-sizing: border-box; }
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -91,9 +60,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans);
-  background-color: var(--background);
-  color: var(--text-primary);
+  background-color: var(--paper);
+  color: var(--ink);
   line-height: var(--leading-body);
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
+}
+
+/* ── Utility classes ── */
+.card {
+  background-color: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.btn {
+  border-radius: var(--radius-button);
+  transition: transform var(--motion), opacity var(--motion);
 }
