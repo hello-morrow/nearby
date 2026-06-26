@@ -1,14 +1,9 @@
 name = "nearby"
-compatibility_date = "2025-06-25"
+compatibility_date = "2025-06-26"
 pages_build_output_dir = "out"
 
 [build]
 command = "npm run build"
-output_directory = "out"
 
 [build.environment]
-NODE_VERSION = "20"
-
-[context.production]
-[context.production.env]
 NODE_VERSION = "20"
