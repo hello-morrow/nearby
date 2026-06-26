@@ -1,17 +1,13 @@
 name = "nearby"
 compatibility_date = "2025-06-25"
+pages_build_output_dir = "out"
 
 [build]
 command = "npm run build"
-output_directory = ".next"
+output_directory = "out"
 
 [build.environment]
 NODE_VERSION = "20"
-
-[[redirects]]
-from = "/*"
-to = "/404.html"
-status = 404
 
 [context.production]
 [context.production.env]
