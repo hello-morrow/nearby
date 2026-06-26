@@ -8,6 +8,7 @@ import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
 const GREEN = '#88A97A'
+const GOLD = '#D4A373'
 const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
 
 export default function CreatePage() {
@@ -60,15 +61,19 @@ export default function CreatePage() {
 
         <div style={{ flex:'1 1 68%',display:'flex',flexDirection:'column' }}>
 
-          {/* Title */}
-          <div style={{ marginBottom:'48px',position:'relative' }}>
-            <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:'0 0 8px 0' }}>今天发生了什么？</h2>
-            {/* Hand-drawn star */}
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ position:'absolute',top:'8px',right:'-12px' }}>
-              <path d="M11 2 L12.2 7.8 L18 9 L12.2 10.2 L11 16 L9.8 10.2 L4 9 L9.8 7.8Z" stroke="#D4A373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            </svg>
-            <p style={{ fontSize:'16px',color:'#7B787B',lineHeight:1.6,margin:'0 0 6px 0' }}>把今天留在这里。</p>
-            <p style={{ fontSize:'15px',color:'#989878',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
+          {/* ══ Title with hand-drawn star ══ */}
+          <div style={{ marginBottom:'40px',position:'relative' }}>
+            <div style={{ display:'flex',alignItems:'flex-start',gap:'8px' }}>
+              <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:0 }}>
+                今天发生了什么？
+              </h2>
+              {/* Hand-drawn star — 22px #D4A373 */}
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ flexShrink:0,marginTop:'12px' }}>
+                <path d="M11 3 L12.2 8.8 L18 10 L12.2 11.2 L11 17 L9.8 11.2 L4 10 L9.8 8.8Z" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
+            </div>
+            <p style={{ fontSize:'16px',color:'#7B7B7B',lineHeight:1.6,margin:'8px 0 6px 0' }}>把今天留在这里。</p>
+            <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
           </div>
 
           {/* Welcome back */}
@@ -78,25 +83,25 @@ export default function CreatePage() {
             </div>
           )}
 
-          {/* Textarea — Input Card */}
-          <div style={{ position:'relative',marginBottom:'48px',backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'32px',boxShadow:'0 12px 40px rgba(0,0,0,0.04)',overflow:'visible' }}>
-            {/* Paper tape */}
-            <div style={{ position:'absolute',top:'-12px',left:'-12px',width:'60px',height:'16px',backgroundColor:'#F6DFC2',borderRadius:'2px',transform:'rotate(-8deg)',opacity:0.76 }} />
+          {/* ══ Input Card ══ */}
+          <div style={{ position:'relative',marginBottom:'40px',backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'32px',boxShadow:'0 12px 40px rgba(0,0,0,0.04)',overflow:'visible' }}>
+            {/* Paper tape — half outside */}
+            <div style={{ position:'absolute',top:'-12px',left:'-12px',width:'60px',height:'16px',backgroundColor:'#F6DFC2',borderRadius:'2px',transform:'rotate(-8deg)',opacity:0.75 }} />
 
-            <style>{`.create-placeholder::placeholder { color: #5D8A54; opacity: 1; }`}</style>
+            <style>{`.ph-green::placeholder { color: #5D8A54; opacity:1; }`}</style>
             <textarea
-              className="create-placeholder"
+              className="ph-green"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={'今天，\n发生了什么？\n慢慢写，不用着急。'}
               maxLength={MAX_CHARS}
-              style={{ width:'100%',height:'360px',padding:'0',border:'none',backgroundColor:'transparent',fontSize:'24px',lineHeight:1.9,color:'#20202D',resize:'none',fontFamily:'Inter, Noto Sans SC, sans-serif',outline:'none',boxSizing:'border-box' }}
+              style={{ width:'100%',height:'360px',padding:'0',border:'none',backgroundColor:'transparent',fontSize:'20px',lineHeight:1.9,color:'#2D2D2D',resize:'none',fontFamily:'Inter, Noto Sans SC, sans-serif',outline:'none',boxSizing:'border-box' }}
             />
             <span style={{ position:'absolute',bottom:'16px',right:'24px',fontSize:'12px',color:'#B0B0B0' }}>{content.length} / {MAX_CHARS}</span>
           </div>
 
           {/* Mood */}
-          <div style={{ marginBottom:'48px',display:'flex',gap:'12px',flexWrap:'wrap' }}>
+          <div style={{ marginBottom:'40px',display:'flex',gap:'12px',flexWrap:'wrap' }}>
             {MOODS.map((m) => (
               <button key={m} type="button" onClick={() => setMood(m)}
                 style={{
@@ -110,7 +115,7 @@ export default function CreatePage() {
             ))}
           </div>
 
-          {/* Image Upload */}
+          {/* Image Upload — hand-drawn camera */}
           <div style={{ marginBottom:'40px' }}>
             {image ? (
               <div style={{ position:'relative',borderRadius:'16px',overflow:'hidden' }}>
@@ -120,11 +125,9 @@ export default function CreatePage() {
               </div>
             ) : (
               <div onClick={() => fileInputRef.current?.click()}
-                style={{ width:'100%',aspectRatio:'4/3',borderRadius:'16px',border:'1px dashed #D9D5CF',backgroundColor:'#FFFEFC',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',cursor:'pointer',gap:'8px' }}>
+                style={{ width:'100%',aspectRatio:'4/3',borderRadius:'16px',border:'1px dashed #DED8CF',backgroundColor:'#FFFEFC',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',cursor:'pointer',gap:'8px' }}>
                 <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#8D8D8D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="5" y="9" width="38" height="30" rx="4" />
-                  <circle cx="17" cy="21" r="4" />
-                  <path d="M5 33 L18 22 L27 29 L34 22 L43 29" />
+                  <rect x="5" y="9" width="38" height="30" rx="4" /><circle cx="17" cy="21" r="4" /><path d="M5 33 L18 22 L27 29 L34 22 L43 29" />
                 </svg>
                 <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
@@ -134,7 +137,7 @@ export default function CreatePage() {
           </div>
 
           {/* Location */}
-          <div style={{ marginBottom:'48px' }}>
+          <div style={{ marginBottom:'40px' }}>
             <button type="button" onClick={handleLocation} disabled={locationLoading}
               style={{ width:'100%',minHeight:'56px',borderRadius:'16px',border:hasLocation?`1px solid ${GREEN}`:'1px solid #E8E5E0',backgroundColor:hasLocation?'#F6FAF3':'#FFFFFF',cursor:locationLoading?'not-allowed':'pointer',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'12px 20px',gap:'4px' }}>
               <span style={{ fontSize:'15px',color:hasLocation?GREEN:'#1E1E1E' }}>
@@ -146,7 +149,7 @@ export default function CreatePage() {
           </div>
 
           {/* Memory Weave */}
-          <div style={{ marginBottom:'48px' }}><MemoryWeave entryCount={entryCount} /></div>
+          <div style={{ marginBottom:'40px' }}><MemoryWeave entryCount={entryCount} /></div>
 
           {/* Save */}
           <button type="button" onClick={handleSave} disabled={!content.trim()||saving}
@@ -155,8 +158,8 @@ export default function CreatePage() {
             onMouseLeave={(e) => { e.currentTarget.style.opacity='1' }}
           >{saving?'保存中……':'留住今天'}</button>
 
-          <p style={{ fontSize:'13px',color:'#B5B5B5',textAlign:'center',marginTop:'48px',marginBottom:'40px' }}>
-            Nearby · Memory Weave 🌿
+          <p style={{ fontSize:'12px',color:'#A4A4A4',textAlign:'center',marginTop:'40px',marginBottom:'40px' }}>
+            Nearby · Memory Weave
           </p>
         </div>
 

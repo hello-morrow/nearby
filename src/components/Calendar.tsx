@@ -25,7 +25,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
   for(let d=1;d<=dim;d++) cells.push(d)
 
   return (
-    <div>
+    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)' }}>
       <div style={{ display:'flex',alignItems:'baseline',gap:'10px',marginBottom:'24px' }}>
         <button onClick={prev} style={arr}>‹</button>
         <div>
@@ -35,8 +35,8 @@ export default function Calendar({ recordedDates }: CalendarProps) {
         <button onClick={next} style={arr}>›</button>
       </div>
 
-      <div style={{ display:'grid',gridTemplateColumns:'repeat(7,1fr)',marginBottom:'8px' }}>
-        {W.map(d => <div key={d} style={{ textAlign:'center',fontSize:'12px',color:'#B0B0B0',paddingBottom:'6px' }}>{d}</div>)}
+      <div style={{ display:'grid',gridTemplateColumns:'repeat(7,1fr)',marginBottom:'12px' }}>
+        {W.map(d => <div key={d} style={{ textAlign:'center',fontSize:'12px',color:'#B0B0B0' }}>{d}</div>)}
       </div>
 
       <div style={{ display:'grid',gridTemplateColumns:'repeat(7,1fr)',rowGap:'6px' }}>
@@ -44,10 +44,10 @@ export default function Calendar({ recordedDates }: CalendarProps) {
           <div key={i} style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'40px' }}>
             {day!==null ? (
               isT(day) ? (
-                <div style={{ width:'40px',height:'40px',borderRadius:'999px',backgroundColor:'#88A97A',color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'15px',fontWeight:500 }}>{day}</div>
+                <div style={{ width:'40px',height:'40px',borderRadius:'999px',backgroundColor:'#88A97A',color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'16px',fontWeight:400 }}>{day}</div>
               ) : (
                 <div style={{ width:'40px',height:'40px',borderRadius:'999px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center' }}>
-                  <span style={{ fontSize:'15px',color:'#1E1E1E' }}>{day}</span>
+                  <span style={{ fontSize:'16px',fontWeight:400,color:'#1E1E1E' }}>{day}</span>
                   {hasR(day) && <div style={{ width:'4px',height:'4px',borderRadius:'50%',backgroundColor:'#88A97A',opacity:0.5 }} />}
                 </div>
               )

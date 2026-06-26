@@ -38,7 +38,7 @@ export default function Timeline({ draft }: TimelineProps) {
   })
 
   return (
-    <div>
+    <div style={{ backgroundColor:'#FFFDFB',borderRadius:'20px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)' }}>
       <h3 style={{ fontSize:'14px',fontWeight:500,color:'#1E1E1E',marginBottom:'20px' }}>最近的日子</h3>
 
       <div style={{ position:'relative' }}>
@@ -46,9 +46,9 @@ export default function Timeline({ draft }: TimelineProps) {
           <div key={item.id} onClick={()=>{if(!item.isDraft)router.push(`/today?id=${item.id}`)}}
             style={{ position:'relative',paddingLeft:'24px',cursor:item.isDraft?'default':'pointer',minHeight:'64px',display:'flex',alignItems:'flex-start',paddingBottom:idx<items.length-1?'20px':'0' }}>
             {idx<items.length-1 && (
-              <div style={{ position:'absolute',left:'4px',top:'14px',bottom:'-64px',width:'2px',backgroundColor:'#E8E5E0' }} />
+              <div style={{ position:'absolute',left:'4px',top:'14px',bottom:'-64px',width:'2px',backgroundColor:'#DDD2C4' }} />
             )}
-            <div style={{ position:'absolute',left:'0',top:'6px',width:'10px',height:'10px',borderRadius:'50%',backgroundColor:item.isToday?'#1E1E1E':'#DDD4C8' }} />
+            <div style={{ position:'absolute',left:'0',top:'6px',width:'10px',height:'10px',borderRadius:'50%',backgroundColor:item.isToday?'#1E1E1E':'#DDD2C4' }} />
             <div style={{ display:'flex',flexDirection:'column',gap:'4px' }}>
               <span style={{ fontSize:'14px',color:item.isToday?'#1E1E1E':'#8C8C8C',fontWeight:item.isToday?500:400 }}>{item.label}{item.isDraft&&' · 正在记录'}</span>
               <div style={{ display:'flex',alignItems:'flex-start',gap:'6px' }}>
@@ -67,6 +67,11 @@ export default function Timeline({ draft }: TimelineProps) {
           </div>
         )}
       </div>
+
+      {/* View all */}
+      {items.length>0 && (
+        <a href="/mobile/timeline" style={{ display:'inline-block',marginTop:'16px',fontSize:'13px',color:'#88A97A',textDecoration:'none',fontWeight:500 }}>查看全部记录 →</a>
+      )}
     </div>
   )
 }
