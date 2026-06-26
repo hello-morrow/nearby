@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
+import BackThread from '@/components/BackThread'
 import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveThread, InteractiveTape, doodleStyles } from '@/components/DoodleInteractive'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
@@ -61,8 +62,10 @@ export default function CreatePage() {
   const draft = { content, mood, image }
 
   return (
-    <div style={{ minHeight:'100vh',backgroundColor:'#F9F8F6',display:'flex',justifyContent:'center',padding:'40px 24px' }}>
-      <div style={{ width:'100%',maxWidth:'1100px',display:'flex',gap:'48px',alignItems:'flex-start' }}>
+    <div style={{ minHeight:'100vh',backgroundColor:'#F9F8F6',display:'flex',justifyContent:'center',padding:'40px 24px',position:'relative' }}>
+      {/* Back Thread */}
+      <BackThread label="回到首页" href="/" />
+      <div style={{ width:'100%',maxWidth:'1100px',display:'flex',gap:'48px',alignItems:'flex-start',marginTop:'20px' }}>
         <div style={{ flex:'1 1 68%',display:'flex',flexDirection:'column' }}>
 
           {/* ══ Title ══ */}

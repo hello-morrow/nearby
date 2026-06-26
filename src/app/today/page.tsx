@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { DiaryEntry, Place } from '@/types'
 import { getPlaceByCoords } from '@/lib/places'
 import { Circle } from '@/components/Doodle'
+import BackThread from '@/components/BackThread'
 
 function TodayContent() {
   const searchParams = useSearchParams()
@@ -76,7 +77,9 @@ function TodayContent() {
   const hasPlace = place && place.visitCount > 1
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px', display: 'flex', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px', display: 'flex', justifyContent: 'center', position:'relative' }}>
+      {/* Back Thread */}
+      <BackThread label="回到今天" />
       <div style={{ width: '100%', maxWidth: '640px', marginTop: '80px' }}>
 
         {/* ══ Memory Thread ══ */}
@@ -212,11 +215,6 @@ function TodayContent() {
                 </p>
               </div>
             )}
-          </div>
-
-          {/* Back button */}
-          <div style={{ marginBottom: '24px' }}>
-            <Link href="/" style={btnStyle}>返回首页</Link>
           </div>
 
           {/* Footer */}
