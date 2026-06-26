@@ -55,16 +55,20 @@ export default function CreatePage() {
   const draft = { content, mood, image }
 
   return (
-    <div style={{ minHeight:'100vh',backgroundColor:'#F8F7F4',display:'flex',justifyContent:'center',padding:'40px 24px' }}>
+    <div style={{ minHeight:'100vh',backgroundColor:'#F9F8F6',display:'flex',justifyContent:'center',padding:'40px 24px' }}>
       <div style={{ width:'100%',maxWidth:'1100px',display:'flex',gap:'48px',alignItems:'flex-start' }}>
 
         <div style={{ flex:'1 1 68%',display:'flex',flexDirection:'column' }}>
 
           {/* Title */}
-          <div style={{ marginBottom:'48px' }}>
-            <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1E1E1E',margin:'0 0 12px 0' }}>今天发生了什么？</h2>
-            <p style={{ fontSize:'18px',color:'#7B7B7B',lineHeight:1.6,margin:'0 0 4px 0' }}>把今天留在这里。</p>
-            <p style={{ fontSize:'15px',color:'#9B9B9B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
+          <div style={{ marginBottom:'48px',position:'relative' }}>
+            <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:'0 0 8px 0' }}>今天发生了什么？</h2>
+            {/* Hand-drawn star */}
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ position:'absolute',top:'8px',right:'-12px' }}>
+              <path d="M11 2 L12.2 7.8 L18 9 L12.2 10.2 L11 16 L9.8 10.2 L4 9 L9.8 7.8Z" stroke="#D4A373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </svg>
+            <p style={{ fontSize:'16px',color:'#7B787B',lineHeight:1.6,margin:'0 0 6px 0' }}>把今天留在这里。</p>
+            <p style={{ fontSize:'15px',color:'#989878',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
           </div>
 
           {/* Welcome back */}
@@ -74,16 +78,19 @@ export default function CreatePage() {
             </div>
           )}
 
-          {/* Textarea */}
-          <div style={{ position:'relative',marginBottom:'48px',backgroundColor:'#FFFDFB',borderRadius:'20px',padding:'32px',boxShadow:'0 4px 20px rgba(0,0,0,0.04)' }}>
-            <style>{`.create-placeholder::placeholder { color: #9B9B9B; }`}</style>
+          {/* Textarea — Input Card */}
+          <div style={{ position:'relative',marginBottom:'48px',backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'32px',boxShadow:'0 12px 40px rgba(0,0,0,0.04)',overflow:'visible' }}>
+            {/* Paper tape */}
+            <div style={{ position:'absolute',top:'-12px',left:'-12px',width:'60px',height:'16px',backgroundColor:'#F6DFC2',borderRadius:'2px',transform:'rotate(-8deg)',opacity:0.76 }} />
+
+            <style>{`.create-placeholder::placeholder { color: #5D8A54; opacity: 1; }`}</style>
             <textarea
               className="create-placeholder"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder={'今天，\n发生了什么？\n慢慢写，不用着急。'}
               maxLength={MAX_CHARS}
-              style={{ width:'100%',height:'360px',padding:'0',border:'none',backgroundColor:'transparent',fontSize:'20px',lineHeight:1.9,color:'#2D2D2D',resize:'none',fontFamily:'inherit',outline:'none',boxSizing:'border-box' }}
+              style={{ width:'100%',height:'360px',padding:'0',border:'none',backgroundColor:'transparent',fontSize:'24px',lineHeight:1.9,color:'#20202D',resize:'none',fontFamily:'Inter, Noto Sans SC, sans-serif',outline:'none',boxSizing:'border-box' }}
             />
             <span style={{ position:'absolute',bottom:'16px',right:'24px',fontSize:'12px',color:'#B0B0B0' }}>{content.length} / {MAX_CHARS}</span>
           </div>
