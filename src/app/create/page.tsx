@@ -76,6 +76,14 @@ export default function CreatePage() {
             <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
           </div>
 
+          {/* Leaf — right side of title area */}
+          <div style={{ position:'absolute',top:'80px',right:'0' }}>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M9 2 Q5 7 9 16 Q13 7 9 2Z" fill={GREEN} stroke="none" opacity="0.6" />
+              <line x1="9" y1="4" x2="9" y2="14" stroke={GREEN} strokeWidth="0.8" opacity="0.4" />
+            </svg>
+          </div>
+
           {/* Welcome back */}
           {hasLocation && previousVisits > 0 && (
             <div style={{ marginBottom:'40px' }}>
@@ -125,12 +133,18 @@ export default function CreatePage() {
               </div>
             ) : (
               <div onClick={() => fileInputRef.current?.click()}
-                style={{ width:'100%',aspectRatio:'4/3',borderRadius:'16px',border:'1px dashed #DED8CF',backgroundColor:'#FFFEFC',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',cursor:'pointer',gap:'8px' }}>
+                style={{ width:'100%',aspectRatio:'4/3',borderRadius:'16px',border:'1px dashed #DED8CF',backgroundColor:'#FFFEFC',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',cursor:'pointer',gap:'8px',position:'relative' }}>
                 <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#8D8D8D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="5" y="9" width="38" height="30" rx="4" /><circle cx="17" cy="21" r="4" /><path d="M5 33 L18 22 L27 29 L34 22 L43 29" />
                 </svg>
                 <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
+              {/* Leaf — bottom right of upload area */}
+              <div style={{ position:'absolute',bottom:'12px',right:'12px' }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 3 Q5 7 8 13 Q11 7 8 3Z" fill="#88A97A" stroke="none" opacity="0.35" />
+                </svg>
+              </div>
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImage} style={{ display:'none' }} />

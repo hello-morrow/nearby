@@ -26,6 +26,12 @@ export default function Quote() {
     <div style={{ backgroundColor:'#FFFDFB',borderRadius:'20px',padding:'24px',boxShadow:'0 8px 24px rgba(0,0,0,0.04)',position:'relative',overflow:'hidden' }}>
       {/* Watercolor corner */}
       <div style={{ position:'absolute',bottom:0,right:0,width:'60px',height:'50px',background:'radial-gradient(ellipse at bottom right, rgba(136,169,122,0.08) 0%, transparent 70%)',pointerEvents:'none' }} />
+      {/* Leaf — in the corner of Quote */}
+      <div style={{ position:'absolute',bottom:'16px',right:'16px' }}>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2 Q4 6 7 12 Q10 6 7 2Z" fill="#88A97A" stroke="none" opacity="0.35" />
+        </svg>
+      </div>
       {/* Spark */}
       <div style={{ position:'absolute',top:'14px',left:'16px' }}>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
