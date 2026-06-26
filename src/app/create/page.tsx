@@ -23,6 +23,11 @@ export default function CreatePage() {
   const [locationError, setLocationError] = useState('')
   const [previousVisits, setPreviousVisits] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
+  const [starBurst, setStarBurst] = useState(false)          // star fireworks
+  const [leafStage, setLeafStage] = useState(0)               // leaf growth 0-4
+  const [tapeTorn, setTapeTorn] = useState(false)             // tape torn off
+  const [tapeDblTimer, setTapeDblTimer] = useState<ReturnType<typeof setTimeout> | null>(null)
+  const [saveSpring, setSaveSpring] = useState(false)         // button spring
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
@@ -46,11 +51,35 @@ export default function CreatePage() {
 
   const hasLocation = latitude !== null && longitude !== null
 
-  const handleSave = () => {
-    if (!content.trim()) return; setSaving(true)
+  const handleSaveClick = () => {
+    setSaveSpring(true)
+    setTimeout(() => setSaveSpring(false), 400)
+    if (!content.trim()) return
+    setSaving(true)
     const e: DiaryEntry = { id: Date.now().toString(), date: new Date().toISOString(), content: content.trim(), mood, image, latitude, longitude }
     const x = JSON.parse(localStorage.getItem('nearby_entries') || '[]'); x.unshift(e)
     localStorage.setItem('nearby_entries', JSON.stringify(x)); router.push('/today')
+  }
+
+  const handleStarClick = () => {
+    setStarBurst(true)
+    setTimeout(() => setStarBurst(false), 600)
+  }
+
+  const handleLeafClick = () => {
+    setLeafStage(prev => prev < 4 ? prev + 1 : 0)
+  }
+
+  const handleTapeDblClick = () => {
+    if (tapeDblTimer) {
+      clearTimeout(tapeDblTimer)
+      setTapeDblTimer(null)
+      setTapeTorn(true)
+      setTimeout(() => setTapeTorn(false), 700)
+    } else {
+      const t = setTimeout(() => setTapeDblTimer(null), 500)
+      setTapeDblTimer(t)
+    }
   }
 
   const draft = { content, mood, image }
@@ -58,30 +87,38 @@ export default function CreatePage() {
   return (
     <div style={{ minHeight:'100vh',backgroundColor:'#F9F8F6',display:'flex',justifyContent:'center',padding:'40px 24px' }}>
       <div style={{ width:'100%',maxWidth:'1100px',display:'flex',gap:'48px',alignItems:'flex-start' }}>
-
         <div style={{ flex:'1 1 68%',display:'flex',flexDirection:'column' }}>
 
-          {/* ══ Title with hand-drawn star ══ */}
+          {/* ══ Title ══ */}
           <div style={{ marginBottom:'40px',position:'relative' }}>
             <div style={{ display:'flex',alignItems:'flex-start',gap:'8px' }}>
               <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:0 }}>
                 今天发生了什么？
               </h2>
-              {/* Hand-drawn star — 22px #D4A373 */}
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style={{ flexShrink:0,marginTop:'12px' }}>
-                <path d="M11 3 L12.2 8.8 L18 10 L12.2 11.2 L11 17 L9.8 11.2 L4 10 L9.8 8.8Z" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              </svg>
+              {/* ⭐ Click → fireworks */}
+              <div style={{ position:'relative',flexShrink:0,marginTop:'12px',cursor:'pointer' }} onClick={handleStarClick}>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <path d="M11 3 L12.2 8.8 L18 10 L12.2 11.2 L11 17 L9.8 11.2 L4 10 L9.8 8.8Z" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </svg>
+                {/* Firework particles */}
+                {starBurst && (
+                  <div style={{ position:'absolute',top:'-8px',left:'-8px',width:'38px',height:'38px',pointerEvents:'none' }}>
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none" style={{ animation:'starBurstOut 600ms ease-out forwards' }}>
+                      <circle cx="11" cy="11" r="2" fill={GOLD} />
+                      <circle cx="27" cy="11" r="2" fill={GOLD} />
+                      <circle cx="11" cy="27" r="2" fill={GOLD} />
+                      <circle cx="27" cy="27" r="2" fill={GOLD} />
+                      <circle cx="19" cy="6" r="1.5" fill={GOLD} />
+                      <circle cx="19" cy="32" r="1.5" fill={GOLD} />
+                      <circle cx="6" cy="19" r="1.5" fill={GOLD} />
+                      <circle cx="32" cy="19" r="1.5" fill={GOLD} />
+                    </svg>
+                  </div>
+                )}
+              </div>
             </div>
             <p style={{ fontSize:'16px',color:'#7B7B7B',lineHeight:1.6,margin:'8px 0 6px 0' }}>把今天留在这里。</p>
             <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
-          </div>
-
-          {/* Leaf — right side of title area — sprout */}
-          <div style={{ position:'absolute',top:'80px',right:'0' }}>
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <path d="M4 22 Q10 14 15 10 Q20 14 24 22" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.6" />
-              <path d="M14 10 Q11 6 14 2 Q17 6 14 10Z" fill={GREEN} opacity="0.5" />
-            </svg>
           </div>
 
           {/* Welcome back */}
@@ -93,8 +130,17 @@ export default function CreatePage() {
 
           {/* ══ Input Card ══ */}
           <div style={{ position:'relative',marginBottom:'40px',backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'32px',boxShadow:'0 12px 40px rgba(0,0,0,0.04)',overflow:'visible' }}>
-            {/* Paper tape — half outside */}
-            <div style={{ position:'absolute',top:'-12px',left:'-12px',width:'60px',height:'16px',backgroundColor:'#F6DFC2',borderRadius:'2px',transform:'rotate(-8deg)',opacity:0.75 }} />
+            {/* Paper tape — double-click to tear */}
+            <div
+              onDoubleClick={handleTapeDblClick}
+              style={{
+                position:'absolute',top:'-12px',left:'-12px',width:'60px',height:'16px',
+                backgroundColor:'#F6DFC2',borderRadius:'2px',transform:'rotate(-8deg)',opacity:tapeTorn?0:0.75,
+                cursor:'pointer',
+                transition:'opacity 300ms ease',
+                zIndex:tapeTorn?0:1,
+              }}
+            />
 
             <style>{`.ph-green::placeholder { color: #5D8A54; opacity:1; }`}</style>
             <textarea
@@ -123,7 +169,7 @@ export default function CreatePage() {
             ))}
           </div>
 
-          {/* Image Upload — hand-drawn camera */}
+          {/* Image Upload */}
           <div style={{ marginBottom:'40px' }}>
             {image ? (
               <div style={{ position:'relative',borderRadius:'16px',overflow:'hidden' }}>
@@ -139,13 +185,35 @@ export default function CreatePage() {
                 </svg>
                 <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
-              {/* Leaf — bottom right of upload area — sprout design */}
-              <div style={{ position:'absolute',bottom:'12px',right:'12px' }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 20 Q8 14 12 12 Q16 14 19 20" stroke="#88A97A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                  <path d="M12 12 Q9 8 12 4 Q15 8 12 12Z" fill="#88A97A" stroke="none" opacity="0.6" />
-                </svg>
-              </div>
+
+                {/* 🍃 Multi-click → plant growth */}
+                <div
+                  onClick={(e) => { e.stopPropagation(); handleLeafClick() }}
+                  style={{ position:'absolute',bottom:'12px',right:'12px',cursor:'pointer' }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style={{ transition:'all 300ms ease' }}>
+                    {/* Leaf count based on stage */}
+                    {leafStage >= 1 && (
+                      <path d="M5 20 Q8 14 12 12 Q16 14 19 20" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity={0.7} />
+                    )}
+                    {leafStage >= 1 && (
+                      <path d="M12 12 Q9 8 12 4 Q15 8 12 12Z" fill={GREEN} opacity={0.6} />
+                    )}
+                    {leafStage >= 2 && (
+                      <path d="M8 14 Q6 10 8 7 Q10 10 8 14Z" fill={GREEN} opacity={0.5} />
+                    )}
+                    {leafStage >= 3 && (
+                      <path d="M16 14 Q14 10 16 7 Q18 10 16 14Z" fill={GREEN} opacity={0.5} />
+                    )}
+                    {leafStage >= 4 && (
+                      <path d="M12 16 Q9 14 10 10 Q13 14 12 16Z" fill="#88A97A" opacity={0.4}>
+                        <animate attributeName="opacity" values="0;0.6;0" dur="1s" repeatCount="indefinite" />
+                      </path>
+                    )}
+                    {/* Base stem always visible */}
+                    <path d="M5 20 Q8 14 12 12 Q16 14 19 20" stroke={GREEN} strokeWidth="1.2" strokeLinecap="round" fill="none" opacity={leafStage === 0 ? 0.3 : 0.7} />
+                  </svg>
+                </div>
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImage} style={{ display:'none' }} />
@@ -166,11 +234,15 @@ export default function CreatePage() {
           {/* Memory Weave */}
           <div style={{ marginBottom:'40px' }}><MemoryWeave entryCount={entryCount} /></div>
 
-          {/* Save */}
-          <button type="button" onClick={handleSave} disabled={!content.trim()||saving}
-            style={{ width:'100%',height:'60px',borderRadius:'18px',fontSize:'16px',fontWeight:500,border:'none',backgroundColor:content.trim()?'#1E1E1E':'#D9D9D9',color:'#FFF',cursor:content.trim()?'pointer':'not-allowed',lineHeight:'60px',transition:'opacity 180ms ease' }}
-            onMouseEnter={(e) => { if(content.trim()) e.currentTarget.style.opacity='0.95' }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity='1' }}
+          {/* ══ Save — spring on click ══ */}
+          <button type="button" onClick={handleSaveClick} disabled={!content.trim()||saving}
+            style={{
+              width:'100%',height:'60px',borderRadius:'18px',fontSize:'16px',fontWeight:500,border:'none',
+              backgroundColor:content.trim()?'#1E1E1E':'#D9D9D9',color:'#FFF',
+              cursor:content.trim()?'pointer':'not-allowed',lineHeight:'60px',
+              transition:'transform 180ms ease',
+              transform:saveSpring?'translateY(-4px)':'translateY(0)',
+            }}
           >{saving?'保存中……':'留住今天'}</button>
 
           <p style={{ fontSize:'12px',color:'#A4A4A4',textAlign:'center',marginTop:'40px',marginBottom:'40px' }}>
@@ -180,6 +252,14 @@ export default function CreatePage() {
 
         <div style={{ flex:'0 0 360px' }}><Sidebar draft={draft} /></div>
       </div>
+
+      {/* Global keyframes */}
+      <style>{`
+        @keyframes starBurstOut {
+          0% { transform: scale(0.5); opacity: 1; }
+          100% { transform: scale(1.5); opacity: 0; }
+        }
+      `}</style>
     </div>
   )
 }
