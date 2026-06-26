@@ -71,8 +71,8 @@ export default function CreatePage() {
               <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:0 }}>
                 今天发生了什么？
               </h2>
-              <InteractiveSpark size={22} />
-              <InteractiveSpark size={14} />
+              <InteractiveSpark size={24} />
+              <InteractiveSpark size={16} />
             </div>
             <p style={{ fontSize:'16px',color:'#7B7B7B',lineHeight:1.6,margin:'8px 0 6px 0' }}>把今天留在这里。</p>
             <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
@@ -103,13 +103,13 @@ export default function CreatePage() {
 
             {/* Input card bottom-right — doodle cluster */}
             <div style={{ position:'absolute',bottom:'12px',left:'16px',display:'flex',gap:'3px',alignItems:'flex-end',pointerEvents:'auto' }}>
-              <InteractiveSpark size={10} />
-              <InteractiveLeaf size={14} />
-              <InteractiveThread size={16} />
+              <InteractiveSpark size={12} />
+              <InteractiveLeaf size={16} />
+              <InteractiveThread size={18} />
               <svg width="18" height="10" viewBox="0 0 18 10" fill="none" style={{ marginBottom:'0px' }}>
                 <path d="M1 8 Q4 3 8 5 Q12 7 16 2" stroke="#D4A373" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4" />
               </svg>
-              <InteractiveSpark size={8} />
+              <InteractiveSpark size={10} />
             </div>
           </div>
 
@@ -146,8 +146,8 @@ export default function CreatePage() {
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
 
                 <div style={{ position:'absolute',bottom:'12px',right:'12px',display:'flex',gap:'4px',alignItems:'flex-end' }}>
-                  <InteractiveLeaf size={16} />
-                  <InteractiveSeed size={22} />
+                  <InteractiveLeaf size={18} />
+                  <InteractiveSeed size={24} />
                 </div>
               </div>
             )}

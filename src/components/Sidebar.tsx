@@ -27,7 +27,7 @@ export default function Sidebar({ draft }: SidebarProps) {
       <div style={{ position:'relative' }}>
         {/* 右上角：Thread 标志 */}
         <div style={{ position:'absolute', top: -8, right: -8, zIndex:2 }}>
-          <InteractiveThread size={16} />
+          <InteractiveThread size={18} />
         </div>
         <Calendar recordedDates={recordedDates} />
       </div>
@@ -36,7 +36,7 @@ export default function Sidebar({ draft }: SidebarProps) {
       <div style={{ position:'relative', marginLeft: '12px' }}>
         {/* 右上角：Spark 标志 */}
         <div style={{ position:'absolute', top: -6, right: -4, zIndex:2 }}>
-          <InteractiveSpark size={14} />
+          <InteractiveSpark size={16} />
         </div>
         <Timeline draft={draft} />
       </div>
@@ -45,7 +45,7 @@ export default function Sidebar({ draft }: SidebarProps) {
       <div style={{ position:'relative', marginRight: '8px' }}>
         {/* 右上角：Seed 标志 */}
         <div style={{ position:'absolute', top: -4, right: -6, zIndex:2 }}>
-          <InteractiveSeed size={16} />
+          <InteractiveSeed size={18} />
         </div>
         <Quote />
       </div>
