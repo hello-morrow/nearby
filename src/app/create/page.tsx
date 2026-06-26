@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
-import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, doodleStyles } from '@/components/DoodleInteractive'
+import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveCircle, InteractiveSparkCluster, InteractiveSprout, doodleStyles } from '@/components/DoodleInteractive'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
@@ -72,7 +72,8 @@ export default function CreatePage() {
               <h2 style={{ fontSize:'56px',fontWeight:700,lineHeight:1.1,color:'#1F1F1F',letterSpacing:'-0.5px',margin:0 }}>
                 今天发生了什么？
               </h2>
-              <InteractiveSpark />
+              <InteractiveSpark size={22} />
+              <InteractiveSpark size={14} />
             </div>
             <p style={{ fontSize:'16px',color:'#7B7B7B',lineHeight:1.6,margin:'8px 0 6px 0' }}>把今天留在这里。</p>
             <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
@@ -145,9 +146,10 @@ export default function CreatePage() {
                 <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
 
-                <div style={{ position:'absolute',bottom:'12px',right:'12px',display:'flex',gap:'6px',alignItems:'flex-end' }}>
-                  <InteractiveLeaf />
-                  <InteractiveSeed />
+                <div style={{ position:'absolute',bottom:'12px',right:'12px',display:'flex',gap:'4px',alignItems:'flex-end' }}>
+                  <InteractiveLeaf size={16} />
+                  <InteractiveSprout size={14} />
+                  <InteractiveSeed size={22} />
                 </div>
               </div>
             )}
