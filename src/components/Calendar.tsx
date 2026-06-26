@@ -29,8 +29,8 @@ export default function Calendar({ recordedDates }: CalendarProps) {
       {/* Leaf — top right of Calendar */}
       <div style={{ position:'absolute',top:'20px',right:'20px' }}>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M10 3 Q6 8 10 16 Q14 8 10 3Z" fill="#88A97A" stroke="none" opacity="0.45" />
-          <line x1="10" y1="5" x2="10" y2="13" stroke="#88A97A" strokeWidth="0.7" opacity="0.25" />
+          <path d="M3 17 Q7 11 11 9 Q15 11 19 17" stroke="#88A97A" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" />
+          <path d="M11 9 Q9 6 11 3 Q13 6 11 9Z" fill="#88A97A" opacity="0.35" />
         </svg>
       </div>
       <div style={{ display:'flex',alignItems:'baseline',gap:'10px',marginBottom:'24px' }}>

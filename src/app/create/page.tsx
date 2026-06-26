@@ -76,11 +76,11 @@ export default function CreatePage() {
             <p style={{ fontSize:'15px',color:'#9B9B7B',lineHeight:1.8,margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
           </div>
 
-          {/* Leaf — right side of title area */}
+          {/* Leaf — right side of title area — sprout */}
           <div style={{ position:'absolute',top:'80px',right:'0' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2 Q7 7 12 18 Q17 7 12 2Z" fill={GREEN} stroke="none" opacity="0.5" />
-              <line x1="12" y1="4" x2="12" y2="15" stroke={GREEN} strokeWidth="0.8" opacity="0.3" />
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M4 22 Q10 14 15 10 Q20 14 24 22" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.6" />
+              <path d="M14 10 Q11 6 14 2 Q17 6 14 10Z" fill={GREEN} opacity="0.5" />
             </svg>
           </div>
 
@@ -139,10 +139,11 @@ export default function CreatePage() {
                 </svg>
                 <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
-              {/* Leaf — bottom right of upload area */}
+              {/* Leaf — bottom right of upload area — sprout design */}
               <div style={{ position:'absolute',bottom:'12px',right:'12px' }}>
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                  <path d="M11 4 Q7 8 11 17 Q15 8 11 4Z" fill="#88A97A" stroke="none" opacity="0.35" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 20 Q8 14 12 12 Q16 14 19 20" stroke="#88A97A" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                  <path d="M12 12 Q9 8 12 4 Q15 8 12 12Z" fill="#88A97A" stroke="none" opacity="0.6" />
                 </svg>
               </div>
               </div>
