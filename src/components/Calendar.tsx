@@ -44,11 +44,11 @@ export default function Calendar({ recordedDates }: CalendarProps) {
           <div key={i} style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'40px' }}>
             {day!==null ? (
               isT(day) ? (
-                <div style={{ width:'40px',height:'40px',borderRadius:'999px',backgroundColor:'#B7CDA4',color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'15px',fontWeight:500 }}>{day}</div>
+                <div style={{ width:'40px',height:'40px',borderRadius:'999px',backgroundColor:'#88A97A',color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'15px',fontWeight:500 }}>{day}</div>
               ) : (
                 <div style={{ width:'40px',height:'40px',borderRadius:'999px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center' }}>
                   <span style={{ fontSize:'15px',color:'#1E1E1E' }}>{day}</span>
-                  {hasR(day) && <div style={{ width:'4px',height:'4px',borderRadius:'50%',backgroundColor:'#B7CDA4',opacity:0.5 }} />}
+                  {hasR(day) && <div style={{ width:'4px',height:'4px',borderRadius:'50%',backgroundColor:'#88A97A',opacity:0.5 }} />}
                 </div>
               )
             ) : <div />}

@@ -7,7 +7,7 @@ import MemoryWeave from '@/components/MemoryWeave'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
-const GREEN = '#B7CDA4'
+const GREEN = '#88A97A'
 const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
 
 export default function CreatePage() {
@@ -121,8 +121,13 @@ export default function CreatePage() {
             ) : (
               <div onClick={() => fileInputRef.current?.click()}
                 style={{ width:'100%',aspectRatio:'4/3',borderRadius:'16px',border:'1px dashed #D9D5CF',backgroundColor:'#FFFEFC',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',cursor:'pointer',gap:'8px' }}>
-                <svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="#B0B0B0" strokeWidth="1.5"><rect x="4" y="8" width="40" height="32" rx="4"/><circle cx="17" cy="20" r="4"/><path d="M4 34l12-12 8 8 6-6 14 10"/></svg>
-                <span style={{ fontSize:'15px',color:'#909090' }}>记录这一天的瞬间</span>
+                <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#8D8D8D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="9" width="38" height="30" rx="4" />
+                  <circle cx="17" cy="21" r="4" />
+                  <path d="M5 33 L18 22 L27 29 L34 22 L43 29" />
+                </svg>
+                <span style={{ fontSize:'15px',color:'#7B7B7B' }}>留下今天的一张小纸片</span>
+                <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImage} style={{ display:'none' }} />
