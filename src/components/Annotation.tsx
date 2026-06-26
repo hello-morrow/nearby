@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState, useEffect } from 'react'
 
 type AssetType = 'thread' | 'leaf' | 'spark' | 'arrow' | 'circle' | 'tape' | 'seed'
 
@@ -8,26 +8,43 @@ interface AnnotationProps {
   type: AssetType
   size?: number
   className?: string
+  index?: number          // deterministic index (e.g. from memory.id)
 }
 
-function pick(type: AssetType): string {
-  const n = Math.floor(Math.random() * 15) + 1
-  return `/assets/annotation/${type}-${String(n).padStart(2, '0')}.svg`
+const TOTAL = 15
+
+// Server-safe: always returns 0 on first render
+function safeIndex(index?: number): number {
+  if (index !== undefined) return index % TOTAL
+  return 0
 }
 
-export default function Annotation({ type, size = 24, className }: AnnotationProps) {
-  const src = useMemo(() => pick(type), [type])
+export default function Annotation({ type, size = 24, className, index }: AnnotationProps) {
+  // Server renders index 0 or the explicit index — always deterministic
+  const [assetIndex, setAssetIndex] = useState(safeIndex(index))
+
+  // Client mount: if no explicit index, pick random
+  useEffect(() => {
+    if (index === undefined) {
+      setAssetIndex(Math.floor(Math.random() * TOTAL))
+    }
+  }, [index])
+
   const [hovering, setHovering] = useState(false)
   const [pressed, setPressed] = useState(false)
   const [key, setKey] = useState(0)
 
+  const src = `/assets/annotation/${type}-${String(assetIndex + 1).padStart(2, '0')}.svg`
+
   const handleClick = () => {
     setKey(prev => prev + 1)
+    // On click: randomize for interactive feel
+    setAssetIndex(Math.floor(Math.random() * TOTAL))
   }
 
   return (
     <img
-      key={key}
+      key={`${key}-${assetIndex}`}
       src={src}
       alt={`${type} annotation`}
       className={className}
