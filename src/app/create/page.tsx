@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
-import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveCircle, InteractiveSparkCluster, InteractiveSprout, doodleStyles } from '@/components/DoodleInteractive'
+import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveThread, InteractiveTape, doodleStyles } from '@/components/DoodleInteractive'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
@@ -25,7 +25,6 @@ export default function CreatePage() {
   const [previousVisits, setPreviousVisits] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
   const [saveSpring, setSaveSpring] = useState(false)
-  const [tapeTorn, setTapeTorn] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
@@ -89,18 +88,7 @@ export default function CreatePage() {
           {/* ══ Input Card ══ */}
           <div style={{ position:'relative',marginBottom:'40px',backgroundColor:'#FFFDFB',borderRadius:'24px',padding:'32px',boxShadow:'0 12px 40px rgba(0,0,0,0.04)',overflow:'visible' }}>
             {/* Tape */}
-            <div
-              onClick={() => setTapeTorn(prev => !prev)}
-              style={{
-                position:'absolute',top:-12,left:-12,width:60,height:16,
-                backgroundColor:'#F6DFC2',borderRadius:2,transform:'rotate(-8deg)',
-                opacity:tapeTorn?0:0.75, cursor:'pointer',
-                transition:'opacity 300ms ease, transform 180ms ease',
-                zIndex:tapeTorn?0:1,
-              }}
-              onMouseEnter={(e) => { if(!tapeTorn) e.currentTarget.style.transform = 'rotate(-8deg) translateY(-2px)' }}
-              onMouseLeave={(e) => { if(!tapeTorn) e.currentTarget.style.transform = 'rotate(-8deg)' }}
-            />
+            <InteractiveTape />
 
             <style>{`.ph-green::placeholder { color: #5D8A54; opacity:1; }`}</style>
             <textarea
@@ -116,9 +104,8 @@ export default function CreatePage() {
             {/* Input card bottom-right — doodle cluster */}
             <div style={{ position:'absolute',bottom:'12px',left:'16px',display:'flex',gap:'3px',alignItems:'flex-end',pointerEvents:'auto' }}>
               <InteractiveSpark size={10} />
-              <InteractiveCircle size={12} />
               <InteractiveLeaf size={14} />
-              <InteractiveSprout size={12} />
+              <InteractiveThread size={16} />
               <svg width="18" height="10" viewBox="0 0 18 10" fill="none" style={{ marginBottom:'0px' }}>
                 <path d="M1 8 Q4 3 8 5 Q12 7 16 2" stroke="#D4A373" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4" />
               </svg>
@@ -160,7 +147,6 @@ export default function CreatePage() {
 
                 <div style={{ position:'absolute',bottom:'12px',right:'12px',display:'flex',gap:'4px',alignItems:'flex-end' }}>
                   <InteractiveLeaf size={16} />
-                  <InteractiveSprout size={14} />
                   <InteractiveSeed size={22} />
                 </div>
               </div>

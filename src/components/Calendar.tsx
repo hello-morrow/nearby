@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { InteractivePencilCircle } from './DoodleInteractive'
 
 const W = ['日','一','二','三','四','五','六']
 const M = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
@@ -51,7 +52,7 @@ export default function Calendar({ recordedDates }: CalendarProps) {
           <div key={i} style={{ display:'flex',alignItems:'center',justifyContent:'center',height:'40px' }}>
             {day!==null ? (
               isT(day) ? (
-                <div style={{ width:'40px',height:'40px',borderRadius:'999px',backgroundColor:'#88A97A',color:'#FFF',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'16px',fontWeight:400 }}>{day}</div>
+                <InteractivePencilCircle size={48} />
               ) : (
                 <div style={{ width:'40px',height:'40px',borderRadius:'999px',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center' }}>
                   <span style={{ fontSize:'16px',fontWeight:400,color:'#1E1E1E' }}>{day}</span>

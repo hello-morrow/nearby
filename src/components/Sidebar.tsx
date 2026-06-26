@@ -3,7 +3,7 @@
 import Calendar from './Calendar'
 import Timeline from './Timeline'
 import Quote from './Quote'
-import { InteractiveCircle, InteractiveSpark } from './DoodleInteractive'
+import { InteractiveSpark, InteractiveThread } from './DoodleInteractive'
 
 interface SidebarProps {
   draft?: { content: string; mood: string; image: string | null } | null
@@ -27,7 +27,7 @@ export default function Sidebar({ draft }: SidebarProps) {
       <div style={{ position:'relative' }}>
         <Calendar recordedDates={recordedDates} />
         <div style={{ position:'absolute', top: -8, right: -8, display:'flex', gap:4 }}>
-          <InteractiveCircle size={16} />
+          <InteractiveThread size={14} />
           <InteractiveSpark size={12} />
         </div>
       </div>
@@ -39,7 +39,7 @@ export default function Sidebar({ draft }: SidebarProps) {
         <Quote />
         <div style={{ position:'absolute', bottom: -6, left: -6, display:'flex', gap:4 }}>
           <InteractiveSpark size={14} />
-          <InteractiveCircle size={14} />
+          <InteractiveThread size={14} />
         </div>
       </div>
     </div>
