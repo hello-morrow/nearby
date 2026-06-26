@@ -113,9 +113,9 @@ export default function Home() {
                 {/* Pinhole — tiny dot at start */}
                 <circle cx="6" cy="62" r="1.5" fill={GOLD} opacity="0.6" />
 
-                {/* Thread line — slight slack, not mathematical */}
+                {/* Thread line — smooth flowing curve, like rolling hills */}
                 <path
-                  d="M6 62 Q18 68 28 52 Q36 40 44 44 Q52 48 56 36 Q60 28 66 32"
+                  d="M6 54 Q28 18 48 40 Q62 56 74 32"
                   stroke={GOLD}
                   strokeWidth="2"
                   strokeLinecap="round"
@@ -123,14 +123,14 @@ export default function Home() {
                   className={`thread-line ${phase !== 'idle' ? 'draw' : ''}`}
                 />
 
-                {/* Knot node — a memory point in the middle */}
+                {/* Knot node */}
                 {(phase === 'seed' || phase === 'spark' || phase === 'done') && (
-                  <circle cx="44" cy="44" r="3" fill={GOLD} className="fade-in" />
+                  <circle cx="48" cy="40" r="3" fill={GOLD} className="fade-in" />
                 )}
 
                 {/* Memory Seed — endpoint */}
                 {(phase === 'seed' || phase === 'spark' || phase === 'done') && (
-                  <circle cx="66" cy="32" r="5" fill={GOLD} className="fade-in" />
+                  <circle cx="74" cy="32" r="5" fill={GOLD} className="fade-in" />
                 )}
 
                 {/* Spark */}
