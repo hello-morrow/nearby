@@ -160,7 +160,7 @@ export function InteractiveTape() {
     <div
       onClick={() => setTorn(prev => !prev)}
       style={{
-        position:'absolute',top:-12,left:-12,width:60,height:18,
+        position:'absolute',top:-28,left:-12,width:60,height:18,
         cursor:'pointer', opacity:torn ? 0.3 : 1, transition:'opacity 300ms ease',
         zIndex:torn ? 0 : 1,
       }}
