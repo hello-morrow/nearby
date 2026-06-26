@@ -165,7 +165,7 @@ export function InteractiveTape() {
         zIndex:torn ? 0 : 1,
       }}
     >
-      <AnnotationTape size={60} />
+      <AnnotationTape size={100} />
     </div>
   )
 }

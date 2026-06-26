@@ -121,7 +121,7 @@ export default function CreatePage() {
                   width:'52px',height:'52px',borderRadius:'50%',
                   border: mood===m ? `2px solid ${GREEN}` : '2px solid #E8E5E0',
                   backgroundColor: mood===m ? '#F6FAF3' : '#FFFFFF',
-                  fontSize:'22px',display:'flex',alignItems:'center',justifyContent:'center',
+                  fontSize:'25px',display:'flex',alignItems:'center',justifyContent:'center',
                   cursor:'pointer',transition:'all 180ms ease',
                 }}
               >{m}</button>
