@@ -79,7 +79,7 @@ function TodayContent() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px', display: 'flex', justifyContent: 'center', position:'relative' }}>
       {/* Back Thread */}
-      <BackThread label="回到今天" />
+      <BackThread label="回到今天" href="/" />
       <div style={{ width: '100%', maxWidth: '640px', marginTop: '80px' }}>
 
         {/* ══ Memory Thread ══ */}
