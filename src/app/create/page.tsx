@@ -112,6 +112,18 @@ export default function CreatePage() {
               style={{ width:'100%',height:'360px',padding:'0',border:'none',backgroundColor:'transparent',fontSize:'20px',lineHeight:1.9,color:'#2D2D2D',resize:'none',fontFamily:'Inter, Noto Sans SC, sans-serif',outline:'none',boxSizing:'border-box' }}
             />
             <span style={{ position:'absolute',bottom:'16px',right:'24px',fontSize:'12px',color:'#B0B0B0' }}>{content.length} / {MAX_CHARS}</span>
+
+            {/* Input card bottom-right — doodle cluster */}
+            <div style={{ position:'absolute',bottom:'12px',left:'16px',display:'flex',gap:'3px',alignItems:'flex-end',pointerEvents:'auto' }}>
+              <InteractiveSpark size={10} />
+              <InteractiveCircle size={12} />
+              <InteractiveLeaf size={14} />
+              <InteractiveSprout size={12} />
+              <svg width="18" height="10" viewBox="0 0 18 10" fill="none" style={{ marginBottom:'0px' }}>
+                <path d="M1 8 Q4 3 8 5 Q12 7 16 2" stroke="#D4A373" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.4" />
+              </svg>
+              <InteractiveSpark size={8} />
+            </div>
           </div>
 
           {/* Mood */}
