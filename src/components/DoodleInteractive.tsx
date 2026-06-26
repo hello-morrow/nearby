@@ -1,23 +1,39 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 const GOLD = '#D4A373'
 const GREEN = '#88A97A'
-const WHITE = '#FFFFFF'
-const BROWN = '#C4A882'
 
-// ── Hover / Press helper ──
-interface DoodleWrapProps {
-  children: React.ReactNode
-  onClick?: () => void
-  style?: React.CSSProperties
+// ═══════════════════════════════════════
+// Memory Personality
+// ═══════════════════════════════════════
+type Personality = 'Calm' | 'Joyful' | 'Lonely' | 'Hopeful' | 'Warm' | 'Quiet' | 'Nostalgic' | 'Curious' | 'Dreamy' | 'Energetic'
+
+const PERSONALITIES: Personality[] = ['Calm', 'Joyful', 'Lonely', 'Hopeful', 'Warm', 'Quiet', 'Nostalgic', 'Curious', 'Dreamy', 'Energetic']
+
+function usePersonality(): Personality {
+  return useMemo(() => PERSONALITIES[Math.floor(Math.random() * PERSONALITIES.length)], [])
 }
 
-function DoodleWrap({ children, onClick, style }: DoodleWrapProps) {
+// Personality → visual modifiers
+function sparkCount(p: Personality): number {
+  if (p === 'Quiet' || p === 'Lonely') return 2
+  if (p === 'Joyful' || p === 'Energetic') return 6
+  if (p === 'Dreamy') return 4
+  return 3
+}
+
+function sparkOpacity(p: Personality): number {
+  if (p === 'Dreamy') return 0.5
+  if (p === 'Warm') return 0.75
+  return 1
+}
+
+// ── Hover / Press helper ──
+function DoodleWrap({ children, onClick, style }: { children: React.ReactNode; onClick?: () => void; style?: React.CSSProperties }) {
   const [hover, setHover] = useState(false)
   const [pressed, setPressed] = useState(false)
-
   return (
     <div
       onMouseEnter={() => setHover(true)}
@@ -26,14 +42,9 @@ function DoodleWrap({ children, onClick, style }: DoodleWrapProps) {
       onMouseUp={() => setPressed(false)}
       onClick={onClick}
       style={{
-        display: 'inline-flex', cursor: onClick ? 'pointer' : 'default',
-        transform: pressed
-          ? 'scale(0.96)'
-          : hover
-            ? `translateY(-2px) rotate(-1deg) scale(1.03)`
-            : 'scale(1)',
-        transition: 'transform 180ms ease',
-        ...style,
+        display:'inline-flex', cursor:onClick?'pointer':'default',
+        transform: pressed ? 'scale(0.96)' : hover ? 'translateY(-2px) rotate(-1deg) scale(1.03)' : 'scale(1)',
+        transition:'transform 180ms ease', ...style,
       }}
     >
       {children}
@@ -42,18 +53,27 @@ function DoodleWrap({ children, onClick, style }: DoodleWrapProps) {
 }
 
 // ═══════════════════════════
-// Memory Seed — 5 stage cycle
+// 1. Memory Seed — 5 shapes
 // ═══════════════════════════
 export function InteractiveSeed({ size = 28 }: { size?: number }) {
   const [stage, setStage] = useState(0)
-  const stages = ['seed', 'sprout', 'two-leaves', 'plant', 'young-tree']
+  const shapeIdx = useMemo(() => Math.floor(Math.random() * 5), [])
   const handleClick = () => setStage(prev => (prev + 1) % 5)
+
+  // 5 seed shapes: 0=ellipse, 1=slender, 2=round, 3=pointy, 4=flat
+  const seeds = [
+    <ellipse key="e" cx="14" cy="28" rx="3.5" ry="4.5" fill={GREEN} opacity="0.55" />,
+    <ellipse key="s" cx="14" cy="28" rx="2.5" ry="5.5" fill={GREEN} opacity="0.5" />,
+    <circle key="r" cx="14" cy="28" r="4.5" fill={GREEN} opacity="0.5" />,
+    <path key="p" d="M11 26 Q14 22 14 26 Q14 22 17 26 Q14 32 11 26Z" fill={GREEN} opacity="0.5" />,
+    <ellipse key="f" cx="14" cy="28" rx="4.5" ry="3" fill={GREEN} opacity="0.5" />,
+  ]
 
   return (
     <DoodleWrap onClick={handleClick}>
-      <div style={{ width: size, height: size + 6, position: 'relative', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.04))' }}>
-        <svg width={size} height={size + 6} viewBox="0 0 28 34" fill="none" style={{ transition:'all 700ms ease-in-out' }}>
-          {stage === 0 && <ellipse cx="14" cy="28" rx="3.5" ry="4.5" fill={GREEN} opacity="0.55" />}
+      <div style={{ width:size, height:size+6, position:'relative' }}>
+        <svg width={size} height={size+6} viewBox="0 0 28 34" fill="none" style={{ transition:'all 700ms ease-in-out' }}>
+          {stage === 0 && seeds[shapeIdx]}
           {(stage >= 1) && (<><path d="M14 30 Q14 20 14 12" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" /><path d="M14 18 Q9 15 11 12" stroke={GREEN} strokeWidth="1.2" strokeLinecap="round" fill="none" /></>)}
           {(stage >= 2) && (<><path d="M14 16 Q7 12 9 8" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M14 13 Q21 9 19 5" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" /></>)}
           {(stage >= 3) && (<><path d="M14 30 Q14 12 14 8" stroke={GREEN} strokeWidth="1.8" strokeLinecap="round" /><path d="M14 10 Q6 6 8 3" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M14 8 Q22 4 20 1" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M14 6 Q11 3 14 1 Q17 3 14 6Z" fill={GREEN} opacity="0.45" /></>)}
@@ -65,10 +85,26 @@ export function InteractiveSeed({ size = 28 }: { size?: number }) {
 }
 
 // ═══════════════════════════
-// Leaf — sway on hover, fall on click
+// 2. Leaf — 6 shapes, random
 // ═══════════════════════════
+const LEAF_SHAPES = [
+  // long leaf
+  <><path d="M3 17 Q7 11 11 9 Q15 11 19 17" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M11 9 Q9 6 11 3 Q13 6 11 9Z" fill={GREEN} opacity="0.35" /></>,
+  // round leaf
+  <><path d="M3 15 Q7 8 13 8 Q17 10 19 15" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M11 12 Q9 7 11 4 Q13 7 11 12Z" fill={GREEN} opacity="0.35" /></>,
+  // heart leaf
+  <><path d="M3 15 Q6 8 10 10 Q12 6 16 8 Q18 10 19 15" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M11 10 Q9 6 11 3 Q13 6 11 10Z" fill={GREEN} opacity="0.35" /></>,
+  // ginkgo leaf
+  <><path d="M3 17 Q8 8 11 8 Q14 8 19 17" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M10 10 L11 5 M12 10 L11 5 M10 12 Q11 15 12 12" stroke={GREEN} strokeWidth="0.8" opacity="0.3" /></>,
+  // thin leaf
+  <><path d="M2 16 Q6 10 10 6 Q14 10 20 16" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M11 6 Q10 3 11 1 Q12 3 11 6Z" fill={GREEN} opacity="0.35" /></>,
+  // wide leaf
+  <><path d="M2 16 Q6 8 11 8 Q16 8 20 16" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" /><path d="M11 8 Q9 4 11 1 Q13 4 11 8Z" fill={GREEN} opacity="0.35" /></>,
+]
+
 export function InteractiveLeaf({ size = 20 }: { size?: number }) {
   const [falling, setFalling] = useState(false)
+  const shapeIdx = useMemo(() => Math.floor(Math.random() * LEAF_SHAPES.length), [])
   const handleClick = () => { setFalling(true); setTimeout(() => setFalling(false), 1500) }
 
   return (
@@ -79,14 +115,12 @@ export function InteractiveLeaf({ size = 20 }: { size?: number }) {
       style={{ cursor:'pointer', transition:'transform 180ms ease', display:'inline-flex' }}
     >
       {!falling ? (
-        <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
-          <path d="M3 17 Q7 11 11 9 Q15 11 19 17" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" />
-          <path d="M11 9 Q9 6 11 3 Q13 6 11 9Z" fill={GREEN} opacity="0.35" />
+        <svg width={size} height={size} viewBox="0 0 22 20" fill="none">
+          {LEAF_SHAPES[shapeIdx]}
         </svg>
       ) : (
-        <svg width={size} height={size} viewBox="0 0 20 20" fill="none" style={{ animation:'leafFall 1500ms ease-in forwards' }}>
-          <path d="M3 17 Q7 11 11 9 Q15 11 19 17" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round" fill="none" />
-          <path d="M11 9 Q9 6 11 3 Q13 6 11 9Z" fill={GREEN} opacity="0.5" />
+        <svg width={size} height={size} viewBox="0 0 22 20" fill="none" style={{ animation:'leafFall 1500ms ease-in forwards' }}>
+          {LEAF_SHAPES[shapeIdx]}
         </svg>
       )}
     </div>
@@ -94,21 +128,38 @@ export function InteractiveLeaf({ size = 20 }: { size?: number }) {
 }
 
 // ═══════════════════════════
-// Spark — brighter on hover, burst on click
+// 3. Spark — personality-aware
 // ═══════════════════════════
-export function InteractiveSpark({ size = 22, onTrigger }: { size?: number; onTrigger?: () => void }) {
+export function InteractiveSpark({ size = 22 }: { size?: number }) {
   const [burst, setBurst] = useState(false)
   const [hovering, setHovering] = useState(false)
-  const handleClick = () => { setBurst(true); setTimeout(() => setBurst(false), 800); onTrigger?.() }
+  const p = usePersonality()
+  const count = sparkCount(p)
+  const opacity = sparkOpacity(p)
+
+  const handleClick = () => { setBurst(true); setTimeout(() => setBurst(false), 800) }
   const burstSize = size * 1.8
+
+  // Generate particles based on personality
+  const particles = useMemo(() => {
+    const items: React.ReactNode[] = []
+    const colors = [GOLD, GREEN, '#FFF', GOLD, GREEN, '#FFF']
+    for (let i = 0; i < count; i++) {
+      const angle = (360 / count) * i
+      const dist = 6 + (i % 3) * 3
+      const x = 17 + dist * Math.cos(angle * Math.PI / 180)
+      const y = 17 + dist * Math.sin(angle * Math.PI / 180)
+      items.push(<circle key={i} cx={x} cy={y} r={1.2 + (i % 2) * 0.5} fill={colors[i % colors.length]} opacity={opacity} />)
+    }
+    return items
+  }, [count, opacity])
 
   return (
     <div
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
-      onMouseDown={() => {}}
       onClick={handleClick}
-      style={{ cursor:'pointer', display:'inline-flex', transition:'transform 180ms ease' }}
+      style={{ cursor:'pointer', display:'inline-flex' }}
     >
       <div style={{ position:'relative', width:size, height:size, flexShrink:0 }}>
         <svg width={size} height={size} viewBox="0 0 22 22" fill="none">
@@ -120,10 +171,7 @@ export function InteractiveSpark({ size = 22, onTrigger }: { size?: number; onTr
         {burst && (
           <div style={{ position:'absolute',top:-size*0.3,left:-size*0.3,width:burstSize,height:burstSize,pointerEvents:'none' }}>
             <svg width={burstSize} height={burstSize} viewBox="0 0 34 34" fill="none" style={{ animation:'doodleSparkOut 800ms ease-out forwards' }}>
-              <circle cx="10" cy="10" r="2" fill={GOLD} /><circle cx="24" cy="10" r="2" fill={GREEN} />
-              <circle cx="10" cy="24" r="2" fill="#FFF" /><circle cx="24" cy="24" r="2" fill={GOLD} />
-              <circle cx="17" cy="5" r="1.5" fill={GREEN} /><circle cx="17" cy="29" r="1.5" fill={GOLD} />
-              <circle cx="5" cy="17" r="1.5" fill="#FFF" /><circle cx="29" cy="17" r="1.5" fill={GREEN} />
+              {particles}
             </svg>
           </div>
         )}
@@ -133,44 +181,47 @@ export function InteractiveSpark({ size = 22, onTrigger }: { size?: number; onTr
 }
 
 // ═══════════════════════════
-// Thread — hover floats, click draws with knot
+// 4. Thread — 3 styles
 // ═══════════════════════════
+const THREADS = [
+  // straight
+  { path: 'M3 20 Q10 6 14 12 Q18 18 21 8', knotCx: 14 },
+  // loose
+  { path: 'M3 20 Q8 14 14 12 Q18 6 21 14', knotCx: 14 },
+  // many knots
+  { path: 'M3 20 Q10 12 14 10 Q18 8 21 6', knotCx: 14 },
+]
+
 export function InteractiveThread({ size = 24 }: { size?: number }) {
   const [drawn, setDrawn] = useState(false)
   const [floating, setFloating] = useState(false)
+  const styleIdx = useMemo(() => Math.floor(Math.random() * THREADS.length), [])
 
   return (
     <div
       onMouseEnter={() => setFloating(true)}
       onMouseLeave={() => setFloating(false)}
       onClick={() => setDrawn(true)}
-      style={{
-        cursor:'pointer', display:'inline-flex',
-        transform: floating ? 'translateY(-1px)' : 'none',
-        transition:'transform 200ms ease',
-      }}
+      style={{ cursor:'pointer', display:'inline-flex', transform:floating?'translateY(-1px)':'none', transition:'transform 200ms ease' }}
     >
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-        <path d="M3 20 Q8 8 12 12 Q16 16 21 6"
-          stroke={GOLD} strokeWidth="1.8" strokeLinecap="round"
-          fill="none" opacity={0.6}
+        <path d={THREADS[styleIdx].path} stroke={GOLD} strokeWidth="1.8" strokeLinecap="round" fill="none" opacity={0.6}
           style={drawn ? { animation:'threadDraw 700ms ease-out forwards' } : {}}
         />
-        {drawn && (
-          <circle cx="12" cy="12" r="3" fill={GOLD} opacity="0.4" />
-        )}
+        {drawn && <circle cx={THREADS[styleIdx].knotCx} cy="12" r="3" fill={GOLD} opacity="0.4" />}
+        {/* Extra knot for style 2 */}
+        {drawn && styleIdx === 2 && <circle cx="18" cy="10" r="2" fill={GOLD} opacity="0.3" />}
       </svg>
     </div>
   )
 }
 
 // ═══════════════════════════
-// Tape — hover lifts corner, click presses back
+// 5. Tape
 // ═══════════════════════════
 export function InteractiveTape() {
   const [torn, setTorn] = useState(false)
   const [lift, setLift] = useState(false)
-
   return (
     <div
       onMouseEnter={() => { if(!torn) setLift(true) }}
@@ -189,14 +240,11 @@ export function InteractiveTape() {
 }
 
 // ═══════════════════════════
-// Pencil Circle — click on Calendar today
+// 6. Pencil Circle
 // ═══════════════════════════
 export function InteractivePencilCircle({ size = 48 }: { size?: number }) {
   const [visible, setVisible] = useState(false)
-  const handleClick = () => {
-    setVisible(true)
-    setTimeout(() => setVisible(false), 1200)
-  }
+  const handleClick = () => { setVisible(true); setTimeout(() => setVisible(false), 1200) }
 
   return (
     <div onClick={handleClick} style={{ cursor:'pointer', position:'relative', display:'inline-flex' }}>
