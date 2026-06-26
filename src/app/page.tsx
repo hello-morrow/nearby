@@ -109,31 +109,42 @@ export default function Home() {
 
             {/* Right illustration 45% — Memory Thread */}
             <div style={{ flex:'45%',display:'flex',justifyContent:'center',alignItems:'center',position:'relative',height:'80px' }}>
-              <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                {/* Thread line */}
+              <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+                {/* Pinhole — tiny dot at start */}
+                <circle cx="6" cy="62" r="1.5" fill={GOLD} opacity="0.6" />
+
+                {/* Thread line — slight slack, not mathematical */}
                 <path
-                  d="M4 60 Q20 20 40 35 Q55 45 65 30"
+                  d="M6 62 Q18 68 28 52 Q36 40 44 44 Q52 48 56 36 Q60 28 66 32"
                   stroke={GOLD}
                   strokeWidth="2"
                   strokeLinecap="round"
                   fill="none"
                   className={`thread-line ${phase !== 'idle' ? 'draw' : ''}`}
                 />
-                {/* Seed dot */}
+
+                {/* Knot node — a memory point in the middle */}
                 {(phase === 'seed' || phase === 'spark' || phase === 'done') && (
-                  <circle cx="65" cy="30" r="5" fill={GOLD} className="fade-in" />
+                  <circle cx="44" cy="44" r="3" fill={GOLD} className="fade-in" />
                 )}
+
+                {/* Memory Seed — endpoint */}
+                {(phase === 'seed' || phase === 'spark' || phase === 'done') && (
+                  <circle cx="66" cy="32" r="5" fill={GOLD} className="fade-in" />
+                )}
+
                 {/* Spark */}
                 {(phase === 'spark' || phase === 'done') && (
                   <g className="fade-in-delay">
-                    <path d="M18 18 L19 21 L22 22 L19 23 L18 26 L17 23 L14 22 L17 21Z" fill={SPARK} stroke="none" />
+                    <path d="M20 18 L21 21 L24 22 L21 23 L20 26 L19 23 L16 22 L19 21Z" fill={SPARK} stroke="none" />
                   </g>
                 )}
+
                 {/* Leaf */}
                 {phase === 'done' && (
                   <g className="fade-in">
-                    <path d="M38 48 Q35 42 38 38 Q41 42 38 48Z" fill={LEAF} stroke="none" />
-                    <line x1="38" y1="48" x2="38" y2="40" stroke={LEAF} strokeWidth="1" opacity="0.5" />
+                    <path d="M52 22 Q48 16 52 12 Q56 16 52 22Z" fill={LEAF} stroke="none" />
+                    <line x1="52" y1="22" x2="52" y2="15" stroke={LEAF} strokeWidth="1" opacity="0.5" />
                   </g>
                 )}
               </svg>
