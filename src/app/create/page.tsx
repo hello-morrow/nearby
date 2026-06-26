@@ -78,9 +78,9 @@ export default function CreatePage() {
 
           {/* Leaf — right side of title area */}
           <div style={{ position:'absolute',top:'80px',right:'0' }}>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M9 2 Q5 7 9 16 Q13 7 9 2Z" fill={GREEN} stroke="none" opacity="0.6" />
-              <line x1="9" y1="4" x2="9" y2="14" stroke={GREEN} strokeWidth="0.8" opacity="0.4" />
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2 Q7 7 12 18 Q17 7 12 2Z" fill={GREEN} stroke="none" opacity="0.5" />
+              <line x1="12" y1="4" x2="12" y2="15" stroke={GREEN} strokeWidth="0.8" opacity="0.3" />
             </svg>
           </div>
 
@@ -141,8 +141,8 @@ export default function CreatePage() {
                 <span style={{ fontSize:'12px',color:'#A4A4A4',marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
               {/* Leaf — bottom right of upload area */}
               <div style={{ position:'absolute',bottom:'12px',right:'12px' }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 3 Q5 7 8 13 Q11 7 8 3Z" fill="#88A97A" stroke="none" opacity="0.35" />
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <path d="M11 4 Q7 8 11 17 Q15 8 11 4Z" fill="#88A97A" stroke="none" opacity="0.35" />
                 </svg>
               </div>
               </div>

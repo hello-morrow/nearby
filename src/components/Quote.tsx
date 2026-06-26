@@ -28,8 +28,8 @@ export default function Quote() {
       <div style={{ position:'absolute',bottom:0,right:0,width:'60px',height:'50px',background:'radial-gradient(ellipse at bottom right, rgba(136,169,122,0.08) 0%, transparent 70%)',pointerEvents:'none' }} />
       {/* Leaf — in the corner of Quote */}
       <div style={{ position:'absolute',bottom:'16px',right:'16px' }}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2 Q4 6 7 12 Q10 6 7 2Z" fill="#88A97A" stroke="none" opacity="0.35" />
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 3 Q5 7 9 15 Q13 7 9 3Z" fill="#88A97A" stroke="none" opacity="0.35" />
         </svg>
       </div>
       {/* Spark */}
