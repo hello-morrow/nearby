@@ -170,6 +170,16 @@ export default function Home() {
           <p style={{ fontSize:'12px',color:'#909090',textAlign:'center',marginTop:'12px' }}>
             Stay close to today.
           </p>
+
+          {/* Garden entry — bottom right */}
+          <div style={{ marginTop:'20px', display:'flex', justifyContent:'center', gap:'20px' }}>
+            <a href="/garden" style={{ fontSize:'13px', color:'#8C8C86', textDecoration:'none', borderBottom:'1px solid #E5E0D8', paddingBottom:'2px' }}>
+              🌱 Garden
+            </a>
+            <a href="/timeline" style={{ fontSize:'13px', color:'#8C8C86', textDecoration:'none', borderBottom:'1px solid #E5E0D8', paddingBottom:'2px' }}>
+              🧵 Timeline
+            </a>
+          </div>
         </div>
       </div>
 

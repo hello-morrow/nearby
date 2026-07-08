@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/navigation.css";
+import MemoryNav from "@/components/MemoryNav";
 
 export const metadata: Metadata = {
   title: "Nearby",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col page-enter">{children}</body>
+      <body className="min-h-full flex flex-col page-enter">
+        {children}
+        <MemoryNav />
+      </body>
     </html>
   );
 }

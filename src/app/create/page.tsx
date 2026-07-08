@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
@@ -26,6 +27,7 @@ export default function CreatePage() {
   const [previousVisits, setPreviousVisits] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
   const [saveSpring, setSaveSpring] = useState(false)
+  const [showPlanted, setShowPlanted] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
@@ -56,7 +58,9 @@ export default function CreatePage() {
     setSaving(true)
     const e: DiaryEntry = { id: Date.now().toString(), date: new Date().toISOString(), content: content.trim(), mood, image, latitude, longitude }
     const x = JSON.parse(localStorage.getItem('nearby_entries') || '[]'); x.unshift(e)
-    localStorage.setItem('nearby_entries', JSON.stringify(x)); router.push('/today')
+    localStorage.setItem('nearby_entries', JSON.stringify(x))
+    setShowPlanted(true)
+    setSaving(false)
   }
 
   const draft = { content, mood, image }
@@ -191,6 +195,38 @@ export default function CreatePage() {
       </div>
 
       <style>{doodleStyles}</style>
+
+      {/* Memory planted dialog */}
+      {showPlanted && (
+        <div style={{
+          position:'fixed', top:'50%', left:'50%', transform:'translate(-50%,-50%)',
+          backgroundColor:'#FFFDFB', borderRadius:'24px', padding:'32px',
+          boxShadow:'0 8px 40px rgba(0,0,0,0.1)', zIndex:100,
+          textAlign:'center', width:'300px',
+        }}>
+          <p style={{ fontSize:'24px', margin:'0 0 4px' }}>🌱</p>
+          <p style={{ fontSize:'16px', fontWeight:500, color:'#1A1A1A', margin:'0 0 4px' }}>
+            Memory planted.
+          </p>
+          <p style={{ fontSize:'13px', color:'#8C8C86', margin:'0 0 20px' }}>
+            今天，你留下了一根新的线。
+          </p>
+          <div style={{ display:'flex', flexDirection:'column', gap:'8px' }}>
+            <Link href="/today" onClick={() => setShowPlanted(false)}
+              style={{ padding:'10px', borderRadius:'14px', backgroundColor:'#1A1A1A', color:'#FFF', fontSize:'14px', fontWeight:500, textDecoration:'none' }}>
+              ✦ View Today
+            </Link>
+            <Link href="/garden" onClick={() => setShowPlanted(false)}
+              style={{ padding:'10px', borderRadius:'14px', border:'1px solid #E5E0D8', color:'#1A1A1A', fontSize:'14px', fontWeight:500, textDecoration:'none' }}>
+              🌱 Visit Garden
+            </Link>
+            <Link href="/timeline" onClick={() => setShowPlanted(false)}
+              style={{ padding:'10px', borderRadius:'14px', border:'1px solid #E5E0D8', color:'#1A1A1A', fontSize:'14px', fontWeight:500, textDecoration:'none' }}>
+              🧵 See Thread
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

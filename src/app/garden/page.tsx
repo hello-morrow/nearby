@@ -171,8 +171,10 @@ export default function GardenPage() {
           </div>
         )}
 
-        <div style={{marginBottom:'40px'}}>
-          <Link href="/" style={{display:'inline-block',fontSize:'13px',color:'#8C8C86',textDecoration:'none'}}>← 回到首页</Link>
+        <div style={{marginBottom:'40px',display:'flex',gap:'16px',justifyContent:'center'}}>
+          <Link href="/today" style={{display:'inline-block',fontSize:'13px',color:'#8C8C86',textDecoration:'none',borderBottom:'1px solid #E5E0D8',paddingBottom:'2px'}}>✦ Today</Link>
+          <Link href="/timeline" style={{display:'inline-block',fontSize:'13px',color:'#8C8C86',textDecoration:'none',borderBottom:'1px solid #E5E0D8',paddingBottom:'2px'}}>🧵 Thread</Link>
+          <Link href="/" style={{display:'inline-block',fontSize:'13px',color:'#BDBDBD',textDecoration:'none'}}>← Home</Link>
         </div>
       </div>
     </div>

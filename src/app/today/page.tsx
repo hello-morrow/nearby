@@ -218,9 +218,16 @@ function TodayContent() {
           </div>
 
           {/* Footer */}
-          <p style={{ fontSize: '12px', color: '#BDBDBD', textAlign: 'center', marginBottom: '40px' }}>
+          <p style={{ fontSize: '12px', color: '#BDBDBD', textAlign: 'center', marginBottom: '24px' }}>
             Every memory becomes another thread.
           </p>
+
+          {/* Garden entry */}
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <Link href="/garden" style={{ fontSize: '13px', color: '#8C8C86', textDecoration: 'none', borderBottom: '1px solid #E5E0D8', paddingBottom: '2px' }}>
+              🌱 View growth
+            </Link>
+          </div>
         </div>
       </div>
     </div>

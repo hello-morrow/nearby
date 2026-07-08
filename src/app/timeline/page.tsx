@@ -337,11 +337,12 @@ export default function TimelinePage() {
         )}
 
         {/* ═══ Back ═══ */}
-        <div style={{ marginBottom: '40px' }}>
-          <Link href="/" style={{
-            display: 'inline-block', fontSize: '14px', color: '#8C8C86', textDecoration: 'none',
-          }}>
+        <div style={{ marginBottom: '40px', display: 'flex', gap: '16px' }}>
+          <Link href="/" style={{ display: 'inline-block', fontSize: '13px', color: '#8C8C86', textDecoration: 'none' }}>
             ← 回到首页
+          </Link>
+          <Link href="/garden" style={{ display: 'inline-block', fontSize: '13px', color: '#8C8C86', textDecoration: 'none', borderBottom: '1px solid #E5E0D8', paddingBottom: '2px' }}>
+            🌱 Memory Garden
           </Link>
         </div>
       </div>
