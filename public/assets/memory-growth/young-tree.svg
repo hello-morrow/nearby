@@ -1,0 +1,17 @@
+<svg width="56" height="120" viewBox="0 0 56 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28 108 Q24 112 20 114" stroke="#C4B8A8" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 108 Q32 112 36 114" stroke="#C4B8A8" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 108 Q26 116 24 118" stroke="#C4B8A8" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M28 108 Q28 82 28 32" stroke="#1A1A1A" strokeWidth="1.4" strokeLinecap="round" opacity="0.45"/>
+<path d="M28 74 Q16 68 14 52 Q22 54 28 60Z" fill="#9AA889" opacity="0.18"/>
+<path d="M28 74 Q16 68 14 52" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 64 Q40 58 42 42 Q34 44 28 52Z" fill="#9AA889" opacity="0.18"/>
+<path d="M28 64 Q40 58 42 42" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 54 Q18 48 20 34 Q26 36 28 44Z" fill="#9AA889" opacity="0.15"/>
+<path d="M28 54 Q18 48 20 34" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M28 46 Q38 40 36 26 Q32 28 28 36Z" fill="#9AA889" opacity="0.15"/>
+<path d="M28 46 Q38 40 36 26" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M28 38 Q20 32 22 20 Q26 22 28 30Z" fill="#9AA889" opacity="0.12"/>
+<path d="M28 38 Q20 32 22 20" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<ellipse cx="28" cy="108" rx="18" ry="3" fill="#C4B8A8" opacity="0.08"/>
+</svg>

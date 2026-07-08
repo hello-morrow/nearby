@@ -1,0 +1,23 @@
+<svg width="90" height="140" viewBox="0 0 90 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 130 Q18 134 14 136" stroke="#C4B8A8" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M22 130 Q22 112 22 80" stroke="#1A1A1A" strokeWidth="0.9" strokeLinecap="round" opacity="0.3"/>
+<path d="M22 108 Q14 102 16 86 Q20 88 22 94Z" fill="#9AA889" opacity="0.12"/>
+<path d="M22 108 Q14 102 16 86" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M22 98 Q30 92 30 76 Q26 78 22 84Z" fill="#9AA889" opacity="0.12"/>
+<path d="M22 98 Q30 92 30 76" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M44 134 Q40 138 36 140" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M44 134 Q44 106 44 56" stroke="#1A1A1A" strokeWidth="1.1" strokeLinecap="round" opacity="0.35"/>
+<path d="M44 100 Q32 92 32 72 Q38 74 44 82Z" fill="#9AA889" opacity="0.15"/>
+<path d="M44 100 Q32 92 32 72" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M44 88 Q56 80 56 60 Q50 62 44 70Z" fill="#9AA889" opacity="0.15"/>
+<path d="M44 88 Q56 80 56 60" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M44 76 Q34 68 36 50 Q40 54 44 62Z" fill="#9AA889" opacity="0.12"/>
+<path d="M44 76 Q34 68 36 50" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.18"/>
+<path d="M66 118 Q62 122 58 124" stroke="#C4B8A8" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M66 118 Q66 104 66 78" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" opacity="0.25"/>
+<path d="M66 100 Q58 94 58 80 Q62 82 66 86Z" fill="#9AA889" opacity="0.1"/>
+<path d="M66 100 Q58 94 58 80" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.15"/>
+<path d="M66 90 Q74 84 74 72 Q70 74 66 78Z" fill="#9AA889" opacity="0.1"/>
+<path d="M66 90 Q74 84 74 72" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.15"/>
+<ellipse cx="44" cy="134" rx="22" ry="3" fill="#C4B8A8" opacity="0.08"/>
+</svg>

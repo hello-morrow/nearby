@@ -1,0 +1,17 @@
+<svg width="64" height="140" viewBox="0 0 64 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M32 128 Q28 132 24 134" stroke="#C4B8A8" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M32 128 Q36 132 40 134" stroke="#C4B8A8" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M32 128 Q30 136 28 138" stroke="#C4B8A8" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M32 128 Q32 98 32 36" stroke="#1A1A1A" strokeWidth="1.6" strokeLinecap="round" opacity="0.45"/>
+<path d="M32 88 Q18 78 16 56 Q24 60 32 70Z" fill="#9AA889" opacity="0.18"/>
+<path d="M32 88 Q18 78 16 56" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M32 76 Q46 66 48 44 Q40 48 32 58Z" fill="#9AA889" opacity="0.18"/>
+<path d="M32 76 Q46 66 48 44" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M32 64 Q20 56 22 36 Q28 40 32 50Z" fill="#9AA889" opacity="0.15"/>
+<path d="M32 64 Q20 56 22 36" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M32 54 Q44 46 42 28 Q36 32 32 42Z" fill="#9AA889" opacity="0.15"/>
+<path d="M32 54 Q44 46 42 28" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M32 44 Q22 36 24 18 Q28 22 32 32Z" fill="#9AA889" opacity="0.12"/>
+<path d="M32 44 Q22 36 24 18" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<ellipse cx="32" cy="128" rx="20" ry="3" fill="#C4B8A8" opacity="0.08"/>
+</svg>

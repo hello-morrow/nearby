@@ -71,60 +71,12 @@ export default function GardenPage() {
                 <path d="M25 12 Q35 6 50 8 Q65 6 75 12 Q68 14 50 14 Q32 14 25 12Z" fill="#C4B8A8" opacity="0.06"/>
               </svg>}
 
-              {/* Plant by stage */}
-              {stage==='seed'&&(
-                <svg width="48" height="90" viewBox="0 0 48 90" fill="none" style={{opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}>
-                  <path d="M24 82 Q20 88 16 90" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M24 82 Q28 88 32 90" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M24 82 Q24 62 24 36" stroke="#1A1A1A" strokeWidth="1.2" strokeLinecap="round" opacity="0.45"/>
-                  <path d="M24 56 Q14 50 12 38 Q18 40 24 46Z" fill="#9AA889" opacity={anim!=='b'?0:0.18} style={{transition:'opacity 500ms 300ms'}}/>
-                  <path d="M24 56 Q14 50 12 38" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                  <path d="M24 48 Q34 42 36 30 Q30 32 24 38Z" fill="#9AA889" opacity={anim!=='b'?0:0.18} style={{transition:'opacity 500ms 500ms'}}/>
-                  <path d="M24 48 Q34 42 36 30" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                </svg>
-              )}
-
-              {(stage==='sprout'||stage==='young')&&(
-                <svg width="56" height="110" viewBox="0 0 56 110" fill="none" style={{opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}>
-                  <path d="M28 102 Q24 108 20 112" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M28 102 Q32 108 38 112" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M28 102 Q28 80 28 44" stroke="#1A1A1A" strokeWidth="1.3" strokeLinecap="round" opacity="0.45"/>
-                  <path d="M28 74 Q16 66 14 50 Q22 52 28 60Z" fill="#9AA889" opacity={anim!=='c'?0:0.18} style={{transition:'opacity 500ms 300ms'}}/>
-                  <path d="M28 74 Q16 66 14 50" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                  <path d="M28 64 Q40 56 42 40 Q34 42 28 50Z" fill="#9AA889" opacity={anim!=='c'?0:0.18} style={{transition:'opacity 500ms 500ms'}}/>
-                  <path d="M28 64 Q40 56 42 40" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                  {stage==='young'&&<><path d="M28 54 Q18 48 20 34 Q26 36 28 44Z" fill="#9AA889" opacity={anim!=='d'?0:0.15} style={{transition:'opacity 500ms 700ms'}}/>
-                  <path d="M28 54 Q18 48 20 34" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/></>}
-                </svg>
-              )}
-
-              {stage==='tree'&&(
-                <svg width="64" height="130" viewBox="0 0 64 130" fill="none" style={{opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}>
-                  <path d="M32 120 Q28 126 24 130" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M32 120 Q36 126 42 130" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M32 120 Q32 94 32 52" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" opacity="0.45"/>
-                  <path d="M32 88 Q18 78 16 58 Q24 62 32 72Z" fill="#9AA889" opacity={anim!=='c'?0:0.18} style={{transition:'opacity 500ms 300ms'}}/>
-                  <path d="M32 88 Q18 78 16 58" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                  <path d="M32 76 Q46 66 48 46 Q40 50 32 60Z" fill="#9AA889" opacity={anim!=='c'?0:0.18} style={{transition:'opacity 500ms 500ms'}}/>
-                  <path d="M32 76 Q46 66 48 46" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
-                  <path d="M32 64 Q20 56 22 38 Q28 42 32 52Z" fill="#9AA889" opacity={anim!=='d'?0:0.15} style={{transition:'opacity 500ms 700ms'}}/>
-                  <path d="M32 64 Q20 56 22 38" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                  <path d="M32 56 Q44 48 42 32 Q36 36 32 44Z" fill="#9AA889" opacity={anim!=='d'?0:0.15} style={{transition:'opacity 500ms 900ms'}}/>
-                  <path d="M32 56 Q44 48 42 32" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
-                </svg>
-              )}
-
-              {stage==='forest'&&(
-                <div style={{display:'flex',gap:'12px',alignItems:'flex-end'}}>
-                  <svg width="36" height="80" viewBox="0 0 36 80" fill="none"><path d="M18 74 Q14 78 10 80" stroke="#C4B8A8" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
-                    <path d="M18 74 Q18 60 18 46" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/><path d="M18 60 Q10 54 12 44 Q16 46 18 50Z" fill="#9AA889" opacity="0.12"/><path d="M18 60 Q10 54 12 44" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/></svg>
-                  <svg width="50" height="110" viewBox="0 0 50 110" fill="none"><path d="M25 102 Q22 108 18 110" stroke="#C4B8A8" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
-                    <path d="M25 102 Q25 80 25 50" stroke="#1A1A1A" strokeWidth="1" strokeLinecap="round" opacity="0.35"/><path d="M25 72 Q14 64 14 48 Q20 52 25 58Z" fill="#9AA889" opacity="0.15"/><path d="M25 72 Q14 64 14 48" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
-                    <path d="M25 62 Q36 54 36 38 Q30 42 25 48Z" fill="#9AA889" opacity="0.15"/><path d="M25 62 Q36 54 36 38" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/></svg>
-                  <svg width="30" height="60" viewBox="0 0 30 60" fill="none"><path d="M15 54 Q12 58 8 60" stroke="#C4B8A8" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
-                    <path d="M15 54 Q15 46 15 36" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" opacity="0.3"/><path d="M15 44 Q8 38 10 30 Q14 32 15 36Z" fill="#9AA889" opacity="0.12"/><path d="M15 44 Q8 38 10 30" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/></svg>
-                </div>
-              )}
+              {/* Plant by stage — from memory-growth library */}
+              {stage==='seed'&&<img src="/assets/memory-growth/seed.svg" alt="Seed" style={{height:'160px',opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}/>}
+              {stage==='sprout'&&<img src="/assets/memory-growth/sprout.svg" alt="Sprout" style={{height:'180px',opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}/>}
+              {stage==='young'&&<img src="/assets/memory-growth/young-tree.svg" alt="Young Tree" style={{height:'200px',opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}/>}
+              {stage==='tree'&&<img src="/assets/memory-growth/tree.svg" alt="Tree" style={{height:'220px',opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}/>}
+              {stage==='forest'&&<img src="/assets/memory-growth/forest.svg" alt="Forest" style={{height:'220px',opacity:anim!=='a'?1:0,transition:'opacity 600ms'}}/>}
 
               {/* Soil dots */}
               <div style={{display:'flex',gap:'3px',marginTop:'4px'}}>
@@ -151,10 +103,7 @@ export default function GardenPage() {
                       onMouseLeave={e=>{e.currentTarget.style.transform='translateY(0)'}}>
                       {/* Leaf card */}
                       <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'1px',padding:'8px 14px',borderRadius:'12px',backgroundColor:isOpen?'#F0EDE8':'transparent',transition:'all 180ms ease',maxWidth:'160px'}}>
-                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" style={{transform:`rotate(${[15,-12,8][idx%3]}deg)`}}>
-                          <path d="M2 10 Q5 4 9 3 Q11 5 8 10Z" fill="#9AA889" opacity="0.25"/>
-                          <path d="M2 10 Q5 4 9 3 Q11 5 8 10Z" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.25"/>
-                        </svg>
+                        <img src={`/assets/memory-growth/leaf-${String((idx%6)+1).padStart(2,'0')}.svg`} alt="" style={{width:'16px',height:'14px',transform:`rotate(${[15,-12,8][idx%3]}deg)`}}/>
                         <span style={{fontSize:'10px',color:'#8C8C86',fontWeight:500}}>{idx===2&&count>2?'今天！':fd(entry.date)}</span>
                         <span style={{fontSize:'14px',lineHeight:1.2}}>{entry.mood}</span>
                       </div>
