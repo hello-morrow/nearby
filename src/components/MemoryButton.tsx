@@ -1,4 +1,4 @@
-import { colors, radius, motion } from '@/tokens'
+import { colors, radius } from '@/tokens'
 
 interface MemoryButtonProps {
   children: React.ReactNode
@@ -18,11 +18,11 @@ export default function MemoryButton({ children, onClick, disabled, style }: Mem
         borderRadius: radius.button,
         fontSize: '16px', fontWeight: 500,
         border: 'none',
-        backgroundColor: disabled ? '#D9D9D9' : colors.ink,
+        backgroundColor: disabled ? '#D9D9D9' : '#1A1A1A',
         color: '#FFF',
         cursor: disabled ? 'not-allowed' : 'pointer',
         lineHeight: '60px',
-        transition: `opacity ${motion}, transform ${motion}`,
+        transition: 'opacity 180ms ease, transform 180ms ease',
         ...style,
       }}
       onMouseEnter={(e) => { if(!disabled) e.currentTarget.style.opacity = '0.95' }}

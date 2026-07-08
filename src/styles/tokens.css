@@ -1,80 +1,42 @@
-/* ═══════════════════════════════════════════
-   Nearby Design System — Visual Language (Ch 1)
-   ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   Nearby Design System v1.0
+   ═══════════════════════════════════════ */
 
 :root {
-  /* ── Colors (6 色系统) ── */
-  --paper:            #F9F8F6;   /* 全站背景 — 奶油白 */
-  --surface:          #FFFDFB;   /* Card 背景 */
-  --ink:              #1D1D1F;   /* 主文字 */
-  --gray:             #8C8C8C;   /* 副标题/辅助文字 */
-  --gold:             #D4A373;   /* 强调色 — Memory Gold */
-  --green:            #88A97A;   /* 品牌色 — Memory Green */
+  /* Colors */
+  --bg:        #F7F6F3;
+  --text:      #1A1A1A;
+  --secondary: #8C8C86;
+  --green:     #9AA889;
+  --warm:      #D8B37A;
 
-  /* ── Shadow (全站唯一) ── */
-  --shadow:           0 10px 30px rgba(0, 0, 0, 0.05);
+  /* Radius */
+  --radius-card:   24px;
+  --radius-button: 18px;
+  --radius-input:  20px;
 
-  /* ── Radius ── */
-  --radius-card:      24px;
-  --radius-button:    18px;
-  --radius-input:     24px;
+  /* Spacing */
+  --s-8:   8px;
+  --s-16:  16px;
+  --s-24:  24px;
+  --s-32:  32px;
+  --s-48:  48px;
+  --s-64:  64px;
 
-  /* ── Typography ── */
-  --font-sans:        'Inter', 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono:        'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  /* Typography */
+  --ff-sans: 'Inter','PingFang SC',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 
-  --text-h1:          64px;
-  --text-h2:          40px;
-  --text-body:        18px;
-  --text-caption:     14px;
-
-  --weight-bold:      700;
-  --weight-semibold:  600;
-  --weight-regular:   400;
-
-  --leading-h1:       1.1;
-  --leading-body:     1.7;
-  --leading-caption:  1.5;
-
-  /* ── Spacing ── */
-  --space-24:         24px;
-  --space-32:         32px;
-  --space-40:         40px;
-  --space-48:         48px;
-  --space-64:         64px;
-  --space-80:         80px;
-
-  /* ── Motion ── */
-  --motion:           220ms ease;
+  /* Shadow */
+  --shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
-/* ── Reset ── */
-*,*::before,*::after { box-sizing: border-box; }
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-sans);
-  background-color: var(--paper);
-  color: var(--ink);
-  line-height: var(--leading-body);
-  font-size: var(--text-body);
-  font-weight: var(--weight-regular);
-}
-
-/* ── Utility classes ── */
-.card {
-  background-color: var(--surface);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
-}
-
-.btn {
-  border-radius: var(--radius-button);
-  transition: transform var(--motion), opacity var(--motion);
+  font-family: var(--ff-sans);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
 }

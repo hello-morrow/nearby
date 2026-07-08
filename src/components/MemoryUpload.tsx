@@ -38,8 +38,8 @@ export default function MemoryUpload({ image, onChange }: MemoryUploadProps) {
       style={{
         width:'100%', aspectRatio:'4/3',
         borderRadius: radius.card,
-        border: `1px dashed ${hover ? colors.ink : '#DED8CF'}`,
-        backgroundColor: hover ? '#FCFAF5' : colors.surface,
+        border: `1px dashed ${hover ? '#1A1A1A' : '#DED8CF'}`,
+        backgroundColor: hover ? '#FCFAF5' : '#FFFDFB',
         display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center',
         cursor:'pointer', gap:'8px',
         transition: `background 220ms ease, border-color 220ms ease`,
