@@ -1,0 +1,16 @@
+<svg width="80" height="130" viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 120 Q16 124 12 128" stroke="#C4B8A8" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M20 120 Q20 104 20 80" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
+<path d="M20 100 Q12 94 14 80 Q18 82 20 88Z" fill="#9AA889" opacity="0.12"/>
+<path d="M20 100 Q12 94 14 80" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M40 126 Q36 130 32 134" stroke="#C4B8A8" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M40 126 Q40 100 40 56" stroke="#1A1A1A" strokeWidth="1" strokeLinecap="round" opacity="0.35"/>
+<path d="M40 92 Q28 84 28 64 Q34 66 40 74Z" fill="#9AA889" opacity="0.15"/>
+<path d="M40 92 Q28 84 28 64" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M40 80 Q52 72 52 52 Q46 54 40 62Z" fill="#9AA889" opacity="0.15"/>
+<path d="M40 80 Q52 72 52 52" stroke="#1A1A1A" strokeWidth="0.6" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M60 108 Q56 112 52 116" stroke="#C4B8A8" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.2"/>
+<path d="M60 108 Q60 96 60 72" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" opacity="0.25"/>
+<path d="M60 90 Q52 84 54 72 Q58 74 60 78Z" fill="#9AA889" opacity="0.1"/>
+<path d="M60 90 Q52 84 54 72" stroke="#1A1A1A" strokeWidth="0.5" strokeLinecap="round" fill="none" opacity="0.15"/>
+</svg>

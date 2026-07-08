@@ -3,59 +3,60 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
+import MemoryWeave from '@/components/MemoryWeave'
 import BackThread from '@/components/BackThread'
-import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveTape, doodleStyles } from '@/components/DoodleInteractive'
+import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveThread, InteractiveTape, doodleStyles } from '@/components/DoodleInteractive'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
-const G = '#9AA889'
+const GREEN = '#9AA889'
 const GOLD = '#D8B37A'
+const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
 
 export default function CreatePage() {
   const router = useRouter()
   const [content, setContent] = useState('')
-  const [mood, setMood] = useState('')
+  const [mood, setMood] = useState('😊')
   const [image, setImage] = useState<string | null>(null)
   const [latitude, setLatitude] = useState<number | null>(null)
   const [longitude, setLongitude] = useState<number | null>(null)
   const [saving, setSaving] = useState(false)
-  const [locLoading, setLocLoading] = useState(false)
-  const [locError, setLocError] = useState('')
+  const [locationLoading, setLocationLoading] = useState(false)
+  const [locationError, setLocationError] = useState('')
   const [previousVisits, setPreviousVisits] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
-  const fRef = useRef<HTMLInputElement>(null)
+  const [saveSpring, setSaveSpring] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const MAX_CHARS = 1000
 
   useEffect(() => {
     setEntryCount(JSON.parse(localStorage.getItem('nearby_entries') || '[]').length)
   }, [])
 
-  const hasAny = content.trim() || image || latitude !== null || mood
-  const hasLocation = latitude !== null && longitude !== null
-
-  const hi = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]; if(!f) return; const r = new FileReader()
-    r.onload = () => setImage(r.result as string); r.readAsDataURL(f)
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]; if (!file) return
+    const r = new FileReader(); r.onload = () => setImage(r.result as string); r.readAsDataURL(file)
   }
 
-  const hl = () => {
-    if(!navigator.geolocation) { setLocError('不支持定位'); return }
-    setLocLoading(true); setLocError('')
+  const handleLocation = () => {
+    if (!navigator.geolocation) { setLocationError('不支持定位'); return }
+    setLocationLoading(true); setLocationError('')
     navigator.geolocation.getCurrentPosition(
-      (p) => { setLatitude(p.coords.latitude); setLongitude(p.coords.longitude); setPreviousVisits(getPreviousVisits(p.coords.latitude, p.coords.longitude).length); setLocLoading(false) },
-      () => { setLocError('无法获取位置'); setLocLoading(false) },
+      (pos) => { setLatitude(pos.coords.latitude); setLongitude(pos.coords.longitude); setPreviousVisits(getPreviousVisits(pos.coords.latitude, pos.coords.longitude).length); setLocationLoading(false) },
+      () => { setLocationError('无法获取位置'); setLocationLoading(false) },
     )
   }
 
-  const hs = () => {
-    if(!hasAny || saving) return
+  const hasLocation = latitude !== null && longitude !== null
+
+  const handleSave = () => {
+    setSaveSpring(true)
+    setTimeout(() => setSaveSpring(false), 400)
+    if (!content.trim() || saving) return
     setSaving(true)
-    const e: DiaryEntry = {
-      id: Date.now().toString(), date: new Date().toISOString(),
-      content: content.trim(), mood, image, latitude, longitude,
-    }
-    const x = JSON.parse(localStorage.getItem('nearby_entries') || '[]')
-    x.unshift(e); localStorage.setItem('nearby_entries', JSON.stringify(x))
-    router.push('/today')
+    const e: DiaryEntry = { id: Date.now().toString(), date: new Date().toISOString(), content: content.trim(), mood, image, latitude, longitude }
+    const x = JSON.parse(localStorage.getItem('nearby_entries') || '[]'); x.unshift(e)
+    localStorage.setItem('nearby_entries', JSON.stringify(x)); router.push('/today')
   }
 
   const draft = { content, mood, image }
@@ -63,124 +64,129 @@ export default function CreatePage() {
   return (
     <div style={{ minHeight:'100vh', backgroundColor:'#F7F6F3', display:'flex', justifyContent:'center', padding:'40px 24px', position:'relative' }}>
       <BackThread label="回到首页" href="/" />
-      <div style={{ width:'100%', maxWidth:'1100px', display:'flex', gap:'48px', alignItems:'flex-start', marginTop:'40px' }}>
+      <div style={{ width:'100%', maxWidth:'1100px', display:'flex', gap:'48px', alignItems:'flex-start', marginTop:'20px' }}>
 
-        {/* ── Left — Thread fragments ── */}
         <div style={{ flex:'1 1 68%', display:'flex', flexDirection:'column' }}>
 
-          {/* Title */}
-          <div style={{ marginBottom:'48px' }}>
-            <h2 style={{ fontSize:'40px', fontWeight:500, lineHeight:1.15, color:'#1A1A1A', margin:'0 0 8px' }}>
-              今天发生了什么？
-            </h2>
-            <p style={{ fontSize:'16px', color:'#8C8C86', lineHeight:1.6, margin:0 }}>
-              把片段织在一起。
-            </p>
+          {/* ══ Title ══ */}
+          <div style={{ marginBottom:'40px', display:'flex', alignItems:'flex-start', gap:'8px' }}>
+            <div style={{ flex:1 }}>
+              <h2 style={{ fontSize:'56px', fontWeight:700, lineHeight:1.1, color:'#1A1A1A', letterSpacing:'-0.5px', margin:'0 0 12px 0' }}>今天发生了什么？</h2>
+              <p style={{ fontSize:'16px', color:'#7B7B7B', lineHeight:1.6, margin:'0 0 4px 0' }}>把今天留在这里。</p>
+              <p style={{ fontSize:'15px', color:'#9B9B7B', lineHeight:1.8, margin:0 }}>你留下的每一个今天，都会被编织在这里。</p>
+            </div>
+            <InteractiveSpark size={40} />
+            <InteractiveSpark size={28} />
           </div>
 
           {/* Welcome back */}
           {hasLocation && previousVisits > 0 && (
-            <div style={{ marginBottom:'32px' }}>
-              <p style={{ fontSize:'14px', color:G, lineHeight:1.6, fontWeight:500 }}>
-                欢迎回来 · 第 {previousVisits} 次来到这里
-              </p>
+            <div style={{ marginBottom:'40px' }}>
+              <p style={{ fontSize:'15px', color:GREEN, lineHeight:1.6, fontWeight:500 }}>欢迎回来。<br />这是你第 {previousVisits} 次来到这里。</p>
             </div>
           )}
 
-          {/* ── Fragment: Text ── */}
-          <div style={{ position:'relative', marginBottom:'40px', backgroundColor:'#FFFDFB', borderRadius:'24px', padding:'32px', boxShadow:'0 4px 20px rgba(0,0,0,0.04)', overflow:'visible' }}>
+          {/* ══ Input Card ══ */}
+          <div style={{ position:'relative', marginBottom:'40px', backgroundColor:'#FFFDFB', borderRadius:'24px', padding:'32px', boxShadow:'0 12px 40px rgba(0,0,0,0.04)', overflow:'visible' }}>
             <InteractiveTape />
+
+            <style>{`.ph-green::placeholder { color: #5D8A54; opacity:1; }`}</style>
             <textarea
+              className="ph-green"
               value={content}
-              onChange={e => setContent(e.target.value)}
-              placeholder={'写下今天……'}
-              maxLength={1000}
-              style={{ width:'100%', height:'280px', padding:0, border:'none', backgroundColor:'transparent', fontSize:'20px', lineHeight:1.9, color:'#1A1A1A', resize:'none', fontFamily:'inherit', outline:'none', boxSizing:'border-box' }}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder={'今天，\n发生了什么？\n慢慢写，不用着急。'}
+              maxLength={MAX_CHARS}
+              style={{ width:'100%', height:'360px', padding:'0', border:'none', backgroundColor:'transparent', fontSize:'20px', lineHeight:1.9, color:'#2D2D2D', resize:'none', fontFamily:'Inter, Noto Sans SC, sans-serif', outline:'none', boxSizing:'border-box' }}
             />
-            <span style={{ position:'absolute', bottom:'16px', right:'24px', fontSize:'12px', color:'#B0B0B0' }}>{content.length} / 1000</span>
+            <span style={{ position:'absolute', bottom:'16px', right:'24px', fontSize:'12px', color:'#B0B0B0' }}>{content.length} / {MAX_CHARS}</span>
+
+            {/* Doodle cluster */}
+            <div style={{ position:'absolute', bottom:'12px', left:'16px', display:'flex', gap:'8px', alignItems:'flex-end', pointerEvents:'auto' }}>
+              <InteractiveSpark size={28} />
+              <InteractiveLeaf size={32} />
+              <InteractiveThread size={36} />
+              <svg width="32" height="16" viewBox="0 0 32 16" fill="none" style={{ marginBottom:'4px' }}>
+                <path d="M2 12 Q8 4 16 8 Q24 12 30 4" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.4" />
+              </svg>
+              <InteractiveSpark size={20} />
+            </div>
           </div>
 
-          {/* ── Fragment: Image ── */}
+          {/* Mood */}
+          <div style={{ marginBottom:'40px', display:'flex', gap:'12px', flexWrap:'wrap' }}>
+            {MOODS.map((m) => (
+              <button key={m} type="button" onClick={() => setMood(m)}
+                style={{
+                  width:'52px', height:'52px', borderRadius:'50%',
+                  border: mood===m ? `2px solid ${GREEN}` : '2px solid #E5E0D8',
+                  backgroundColor: mood===m ? '#F6FAF3' : '#FFFFFF',
+                  fontSize:'25px', display:'flex', alignItems:'center', justifyContent:'center',
+                  cursor:'pointer', transition:'all 180ms ease',
+                }}
+              >{m}</button>
+            ))}
+          </div>
+
+          {/* Image Upload */}
           <div style={{ marginBottom:'40px' }}>
             {image ? (
               <div style={{ position:'relative', borderRadius:'16px', overflow:'hidden' }}>
-                <img src={image} alt="" style={{ width:'100%', display:'block' }} />
-                <button onClick={() => { setImage(null); if(fRef.current) fRef.current.value = '' }}
-                  style={{ position:'absolute', top:10, right:10, width:28, height:28, borderRadius:'50%', backgroundColor:'rgba(0,0,0,0.5)', color:'#FFF', border:'none', cursor:'pointer' }}>✕</button>
+                <img src={image} alt="" style={{ width:'100%', display:'block', borderRadius:'16px' }} />
+                <button type="button" onClick={() => { setImage(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
+                  style={{ position:'absolute', top:'10px', right:'10px', width:'28px', height:'28px', borderRadius:'50%', backgroundColor:'rgba(0,0,0,0.5)', color:'#FFF', border:'none', cursor:'pointer' }}>✕</button>
               </div>
             ) : (
-              <div onClick={() => fRef.current?.click()}
-                style={{ width:'100%', aspectRatio:'4/3', borderRadius:'24px', border:'1px dashed #D9D5CF', backgroundColor:'#FFFEFC', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', cursor:'pointer', position:'relative' }}>
-                <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#8D8D8D" strokeWidth="1.6"><rect x="5" y="9" width="38" height="30" rx="4"/><circle cx="17" cy="21" r="4"/><path d="M5 33 L18 22 L27 29 L34 22 L43 29"/></svg>
-                <span style={{ fontSize:'15px', color:'#8C8C86', marginTop:'8px' }}>贴一张照片</span>
-                <div style={{ position:'absolute', bottom:'12px', right:'12px', display:'flex', gap:'4px' }}>
-                  <InteractiveLeaf size={16} />
-                  <InteractiveSeed size={20} />
+              <div onClick={() => fileInputRef.current?.click()}
+                style={{ width:'100%', aspectRatio:'4/3', borderRadius:'16px', border:'1px dashed #DED8CF', backgroundColor:'#FFFEFC', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', cursor:'pointer', gap:'8px', position:'relative' }}>
+                <svg width="36" height="36" viewBox="0 0 48 48" fill="none" stroke="#8D8D8D" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="9" width="38" height="30" rx="4" /><circle cx="17" cy="21" r="4" /><path d="M5 33 L18 22 L27 29 L34 22 L43 29" />
+                </svg>
+                <span style={{ fontSize:'15px', color:'#7B7B7B' }}>留下今天的一张小纸片</span>
+                <span style={{ fontSize:'12px', color:'#A4A4A4', marginTop:'2px' }}>以后，它会陪你一起变成回忆。</span>
+
+                <div style={{ position:'absolute', bottom:'12px', right:'12px', display:'flex', gap:'8px' }}>
+                  <InteractiveLeaf size={32} />
+                  <InteractiveSeed size={40} />
                 </div>
               </div>
             )}
-            <input ref={fRef} type="file" accept="image/*" onChange={hi} style={{ display:'none' }} />
+            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImage} style={{ display:'none' }} />
           </div>
 
-          {/* ── Fragment: Mood — thin row ── */}
+          {/* Location */}
           <div style={{ marginBottom:'40px' }}>
-            <div style={{ display:'flex', gap:'10px', flexWrap:'wrap' }}>
-              {['😊','😌','😭','😤','❤️','🌧️'].map(m => (
-                <button key={m} onClick={() => setMood(m === mood ? '' : m)}
-                  style={{
-                    width:'48px', height:'48px', borderRadius:'50%',
-                    border: mood === m ? `2px solid ${G}` : '2px solid #E5E0D8',
-                    backgroundColor: mood === m ? '#F6FAF3' : 'transparent',
-                    fontSize:'22px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
-                    transition:'all 180ms ease',
-                  }}>{m}</button>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Fragment: Location ── */}
-          <div style={{ marginBottom:'40px' }}>
-            <button onClick={hl} disabled={locLoading}
-              style={{ width:'100%', minHeight:'48px', borderRadius:'18px', border: hasLocation ? `1px solid ${G}` : '1px solid #E5E0D8', backgroundColor: hasLocation ? '#F6FAF3' : '#FFF', cursor: locLoading ? 'not-allowed' : 'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'6px', fontSize:'14px', color: hasLocation ? G : '#8C8C86' }}>
-              {locLoading ? '📍 定位中……' : hasLocation ? '✓ 已记住位置' : '📍 加上位置'}
+            <button type="button" onClick={handleLocation} disabled={locationLoading}
+              style={{ width:'100%', minHeight:'56px', borderRadius:'16px', border:hasLocation?`1px solid ${GREEN}`:'1px solid #E5E0D8', backgroundColor:hasLocation?'#F6FAF3':'#FFFFFF', cursor:locationLoading?'not-allowed':'pointer', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'12px 20px', gap:'4px' }}>
+              <span style={{ fontSize:'15px', color:hasLocation?GREEN:'#1A1A1A' }}>
+                {locationLoading?'📍 定位中……':hasLocation?'✓ 已记住此刻的位置':'📍 记住此刻的位置'}
+              </span>
+              {!hasLocation && <span style={{ fontSize:'12px', color:'#B0B0B0' }}>自动记录此刻的位置</span>}
             </button>
-            {locError && <p style={{ fontSize:'12px', color:'#EF4444', marginTop:'6px' }}>{locError}</p>}
+            {locationError && <p style={{ fontSize:'12px', color:'#EF4444', marginTop:'6px' }}>{locationError}</p>}
           </div>
 
-          {/* ── Preview Thread ── */}
-          {hasAny && (
-            <div style={{ marginBottom:'40px', padding:'24px', backgroundColor:'#FFFDFB', borderRadius:'24px', boxShadow:'0 4px 20px rgba(0,0,0,0.04)' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'12px' }}>
-                <span style={{ fontSize:'20px' }}>{mood || '🌱'}</span>
-                <div style={{ flex:1, height:'2px', backgroundColor:'#E5E0D8', position:'relative' }}>
-                  <div style={{ position:'absolute', left:0, top:0, height:'100%', width:'30%', backgroundColor:GOLD, borderRadius:'1px' }} />
-                </div>
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="4" fill={GOLD}/></svg>
-              </div>
-              {content.trim() && <p style={{ fontSize:'15px', color:'#1A1A1A', lineHeight:1.7, margin:'0 0 8px' }}>{content.trim().slice(0,80)}{content.trim().length > 80 ? '…' : ''}</p>}
-              {image && <img src={image} alt="" style={{ width:'100%', borderRadius:'12px', marginBottom:'8px' }} />}
-              <p style={{ fontSize:'12px', color:'#BDBDBD', margin:0 }}>Every memory becomes another thread.</p>
-            </div>
-          )}
+          {/* Memory Weave */}
+          <div style={{ marginBottom:'40px' }}><MemoryWeave entryCount={entryCount} /></div>
 
-          {/* ── Save ── */}
-          <button onClick={hs} disabled={!hasAny || saving}
+          {/* Save */}
+          <button type="button" onClick={handleSave} disabled={!content.trim()||saving}
             style={{
-              width:'100%', height:'56px', borderRadius:'22px', fontSize:'16px', fontWeight:500, border:'none',
-              backgroundColor: hasAny ? '#1A1A1A' : '#D9D9D9', color:'#FFF',
-              cursor: hasAny ? 'pointer' : 'not-allowed', lineHeight:'56px',
-              transition:'opacity 180ms ease',
+              width:'100%', height:'60px', borderRadius:'18px', fontSize:'16px', fontWeight:500, border:'none',
+              backgroundColor:content.trim()?'#1A1A1A':'#D9D9D9', color:'#FFF',
+              cursor:content.trim()?'pointer':'not-allowed', lineHeight:'60px',
+              transition:'transform 180ms ease',
+              transform:saveSpring?'translateY(-4px)':'translateY(0)',
             }}
-            onMouseEnter={e => { if(hasAny) e.currentTarget.style.opacity='0.95' }}
-            onMouseLeave={e => { e.currentTarget.style.opacity='1' }}
-          >{saving ? '编织中……' : '织成 Today Thread'}</button>
+            onMouseEnter={(e) => { if(content.trim()) e.currentTarget.style.opacity='0.95' }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity='1' }}
+          >{saving?'保存中……':'留住今天'}</button>
 
-          <p style={{ fontSize:'12px', color:'#B8B5AE', textAlign:'center', marginTop:'40px', marginBottom:'40px' }}>
+          <p style={{ fontSize:'12px', color:'#A4A4A4', textAlign:'center', marginTop:'40px', marginBottom:'40px' }}>
             Nearby · Memory Weave
           </p>
         </div>
 
-        {/* ── Right Sidebar ── */}
         <div style={{ flex:'0 0 360px' }}><Sidebar draft={draft} /></div>
       </div>
 

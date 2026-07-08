@@ -1,0 +1,13 @@
+<svg width="56" height="110" viewBox="0 0 56 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28 102 Q24 108 20 112" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M28 102 Q32 108 38 112" stroke="#C4B8A8" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M28 102 Q28 80 28 40" stroke="#1A1A1A" strokeWidth="1.4" strokeLinecap="round" opacity="0.45"/>
+<path d="M28 72 Q16 64 14 48 Q22 50 28 58Z" fill="#9AA889" opacity="0.18"/>
+<path d="M28 72 Q16 64 14 48" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 62 Q40 54 42 38 Q34 40 28 48Z" fill="#9AA889" opacity="0.18"/>
+<path d="M28 62 Q40 54 42 38" stroke="#1A1A1A" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.3"/>
+<path d="M28 52 Q18 46 20 32 Q26 34 28 42Z" fill="#9AA889" opacity="0.15"/>
+<path d="M28 52 Q18 46 20 32" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+<path d="M28 44 Q38 38 36 24 Q32 28 28 34Z" fill="#9AA889" opacity="0.15"/>
+<path d="M28 44 Q38 38 36 24" stroke="#1A1A1A" strokeWidth="0.7" strokeLinecap="round" fill="none" opacity="0.25"/>
+</svg>
