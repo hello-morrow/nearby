@@ -113,13 +113,14 @@ function TodayContent() {
               transition: 'opacity 300ms ease-out, transform 300ms ease-out',
             }}
           >
-            {/* Date with hand-drawn Circle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px' }}>
               <Circle size={32} />
-              <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1E1E1E', margin: 0 }}>
-                {formatDate(entry.date)}
+              <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1A1A1A', margin: 0 }}>
+                今日
               </h2>
+              <span style={{ fontSize: '12px', color: '#BDBDBD' }}>Today</span>
             </div>
+            <p style={{ fontSize: '13px', color: '#8C8C86', margin: '0 0 32px 42px' }}>{formatDate(entry.date)}</p>
 
             {/* Mood */}
             <div style={{
@@ -158,7 +159,6 @@ function TodayContent() {
             <div style={{ marginBottom: '32px' }}>
               <div style={{ display:'flex',alignItems:'center',gap:'8px',marginBottom:'8px' }}>
               <span style={{ fontSize:'16px' }}>🌳</span>
-              <p style={{ fontSize: '13px', fontWeight: 500, color: '#1E1E1E', margin: 0 }}>Memory Weave</p>
             </div>
 
               {/* Horizontal line + dot */}
@@ -185,9 +185,6 @@ function TodayContent() {
               <p style={{ fontSize: '14px', color: '#1E1E1E', lineHeight: 1.6, margin: '0 0 4px 0' }}>
                 今天，你为人生织下了新的一针。
               </p>
-              <p style={{ fontSize: '13px', color: '#999', margin: 0 }}>
-                Every memory becomes another thread.
-              </p>
             </div>
 
             {/* ══ Place Memory ══ */}
@@ -203,7 +200,6 @@ function TodayContent() {
                   transition: 'opacity 300ms ease-out 300ms',
                 }}
               >
-                <p style={{ fontSize: '13px', color: '#8C8C8C', marginBottom: '8px' }}>This Place Remembers.</p>
                 <p style={{ fontSize: '15px', color: '#1E1E1E', fontWeight: 500, marginBottom: '12px' }}>这里记得你。</p>
                 <div style={{ fontSize: '14px', color: '#1E1E1E', lineHeight: 1.8 }}>
                   你已经来到这里：{place!.visitCount} 次<br />

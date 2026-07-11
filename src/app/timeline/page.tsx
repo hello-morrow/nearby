@@ -89,32 +89,14 @@ export default function TimelinePage() {
       <div style={{ width: '100%', maxWidth: '680px', display: 'flex', flexDirection: 'column' }} ref={containerRef}>
 
         {/* ═══ Header ═══ */}
-        <div style={{ marginBottom: '48px', marginTop: '20px', position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <h1
-              onClick={handleTitleClick}
-              style={{ fontSize: '40px', fontWeight: 500, lineHeight: 1.15, color: '#1A1A1A', margin: '0', cursor: 'pointer', userSelect: 'none' }}
-            >
-              Memory Thread
-            </h1>
-            {/* Seed icon */}
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ marginTop: '4px' }}>
-              <ellipse cx="9" cy="12" rx="3" ry="4" fill="#9AA889" opacity="0.5" />
-              <path d="M9 8 Q7 6 9 4 Q11 6 9 8Z" fill="#9AA889" opacity="0.4" />
-            </svg>
-          </div>
-          <p style={{ fontSize: '16px', color: '#8C8C86', lineHeight: 1.6, margin: '4px 0 0' }}>
-            一条正在生长的记忆线
-          </p>
-
-          {/* ☁ Sticker — little memory cloud */}
-          <div className="sticker-float" style={{ position: 'absolute', right: '-10px', top: '-8px', opacity: 0.35 }}>
-            <svg width="36" height="24" viewBox="0 0 36 24" fill="none">
-              <path d="M10 18 Q6 14 8 10 Q10 6 16 6 Q18 2 24 4 Q30 4 30 10 Q34 12 30 18Z" stroke="#BDBDBD" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-              <text x="18" y="15" textAnchor="middle" fontSize="6" fill="#BDBDBD">little memory</text>
-            </svg>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '20px' }}>
+          <h1 style={{ fontSize: '40px', fontWeight: 500, lineHeight: 1.15, color: '#1A1A1A', margin: '0' }}>
+            织线
+          </h1>
         </div>
+        <p style={{ fontSize: '16px', color: '#8C8C86', lineHeight: 1.6, margin: '4px 0 32px' }}>
+          一点一点的日子，最终织成自己的轨迹。
+        </p>
 
         {/* ═══ Timeline ═══ */}
         <div style={{ position: 'relative', paddingLeft: '36px' }}>

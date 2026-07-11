@@ -45,8 +45,9 @@ export default function GardenPage() {
       <div style={{width:'100%',maxWidth:'680px',display:'flex',flexDirection:'column'}}>
         {/* Header */}
         <div className="hi" style={{marginBottom:'36px',marginTop:'20px'}}>
-          <h1 style={{fontSize:'40px',fontWeight:500,lineHeight:1.15,color:'#1A1A1A',margin:'0 0 6px'}}>Memory Garden</h1>
-          <p style={{fontSize:'16px',color:'#8C8C86',lineHeight:1.6,margin:0}}>记忆正在这里生长</p>
+          <h1 style={{fontSize:'40px',fontWeight:500,lineHeight:1.15,color:'#1A1A1A',margin:'0 0 6px'}}>花园</h1>
+          <p style={{fontSize:'16px',color:'#8C8C86',lineHeight:1.6,margin:0}}>Garden · 记忆成长空间</p>
+          <p style={{fontSize:'12px',color:'#BDBDBD',margin:'4px 0 0'}}>留下的每一天，都在这里慢慢生长。</p>
         </div>
 
         {/* Plant Card */}
@@ -144,7 +145,6 @@ export default function GardenPage() {
           <div className="fo" style={{padding:'24px 20px',backgroundColor:'#FFFDFB',borderRadius:'20px',boxShadow:'0 2px 12px rgba(0,0,0,0.04)',textAlign:'center',marginBottom:'24px'}}>
             <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'6px',marginBottom:'4px'}}>
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><ellipse cx="6" cy="9" rx="2" ry="2.5" fill="#9AA889" opacity="0.35"/></svg>
-              <span style={{fontSize:'13px',fontWeight:500,color:'#1A1A1A'}}>Memory Growth</span>
             </div>
             <p style={{fontSize:'11px',color:'#8C8C86',margin:'2px 0 8px'}}>{count} memories · Growing for {days} days</p>
             <p style={{fontSize:'11px',color:'#BDBDBD',margin:'0 0 14px'}}>一座小小的花园，每天都在长大。</p>

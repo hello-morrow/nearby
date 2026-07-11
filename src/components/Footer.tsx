@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer style={{ textAlign: 'center', padding: '24px', position: 'relative' }}>
-      <p style={{ fontSize: '12px', color: '#A5A5A5', margin: 0, lineHeight: 1.8 }}>
+      <p style={{ fontSize: '14px', color: '#A5A5A5', margin: 0, lineHeight: 1.8 }}>
         Nearby · Memory Weave
         <br />
         {APP_VERSION.chapter} · {APP_VERSION.title}
