@@ -71,7 +71,7 @@ export default function Home() {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes drawLine {
-          from { stroke-dashoffset: 120; }
+          from { stroke-dashoffset: 140; }
           to { stroke-dashoffset: 0; }
         }
         @keyframes fadeIn {
@@ -108,8 +108,8 @@ export default function Home() {
         .brand-card { animation: fadeInUp 300ms ease-out both; }
         .brand-card-delay { animation: fadeInUp 300ms ease-out 200ms both; }
         .thread-line {
-          stroke-dasharray: 120;
-          stroke-dashoffset: 120;
+          stroke-dasharray: 140;
+          stroke-dashoffset: 140;
         }
         .thread-line.draw {
           animation: drawLine 800ms ease-out forwards;
@@ -238,7 +238,7 @@ export default function Home() {
 
                 {/* Thread line */}
                 <path
-                  d="M6 54 Q28 18 48 40 Q62 56 74 32"
+                  d="M6 62 Q28 18 48 40 Q62 56 74 32"
                   stroke={GOLD}
                   strokeWidth="2"
                   strokeLinecap="round"

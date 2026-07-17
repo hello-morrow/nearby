@@ -18,6 +18,7 @@ export { default as MemoryWeave } from './MemoryWeave'
 
 // ── Assets ──
 export { AnnotationThread, AnnotationLeaf, AnnotationSpark, AnnotationSeed, AnnotationCircle, AnnotationTape } from './Annotation'
+export { default as Starlight } from './Starlight'
 
 // ── Future (Chapter 6–10) ──
 // ImageUploader, LocationPicker, MemoryCard, MemoryUpload, MoodSelector, PlaceCard

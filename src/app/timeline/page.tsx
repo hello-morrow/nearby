@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import type { DiaryEntry } from '@/types'
+import ReleaseOverlay from '@/components/ReleaseOverlay'
+import UndoRelease from '@/components/UndoRelease'
 
 export default function TimelinePage() {
   const [entries, setEntries] = useState<DiaryEntry[]>([])
@@ -11,6 +13,11 @@ export default function TimelinePage() {
   const [titleClicks, setTitleClicks] = useState(0)
   const [showEasterEgg, setShowEasterEgg] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [releaseEntryId, setReleaseEntryId] = useState<string | null>(null)
+  const [releasingId, setReleasingId] = useState<string | null>(null)
+  const [deletedEntry, setDeletedEntry] = useState<DiaryEntry | null>(null)
+  const [showUndo, setShowUndo] = useState(false)
+  const [clickTimers, setClickTimers] = useState<Record<string, ReturnType<typeof setTimeout>>>({})
 
   useEffect(() => {
     const raw = JSON.parse(localStorage.getItem('nearby_entries') || '[]') as DiaryEntry[]
@@ -50,6 +57,55 @@ export default function TimelinePage() {
       setTimeout(() => setShowEasterEgg(false), 1200)
       setTitleClicks(0)
     }
+  }
+
+  // ── Memory Release handlers ──
+  const handleCardClick = (entryId: string) => {
+    const existing = clickTimers[entryId]
+    if (existing) {
+      clearTimeout(existing)
+      // Double click detected
+      setReleaseEntryId(entryId)
+      setClickTimers(prev => { const n = {...prev}; delete n[entryId]; return n })
+      return
+    }
+    // Single click — set timer
+    const timer = setTimeout(() => {
+      setExpanded(prev => prev === entryId ? null : entryId)
+      setClickTimers(prev => { const n = {...prev}; delete n[entryId]; return n })
+    }, 250)
+    setClickTimers(prev => ({...prev, [entryId]: timer}))
+  }
+
+  const handleKeep = () => setReleaseEntryId(null)
+
+  const handleRelease = (entry: DiaryEntry) => {
+    setReleasingId(entry.id)
+    setReleaseEntryId(null)
+
+    setTimeout(() => {
+      const raw = JSON.parse(localStorage.getItem('nearby_entries') || '[]') as DiaryEntry[]
+      const idx = raw.findIndex(e => e.id === entry.id)
+      if (idx !== -1) {
+        const [removed] = raw.splice(idx, 1)
+        setDeletedEntry(removed)
+        localStorage.setItem('nearby_entries', JSON.stringify(raw))
+        setEntries(prev => prev.filter(e => e.id !== entry.id))
+      }
+      setReleasingId(null)
+      setShowUndo(true)
+    }, 900)
+  }
+
+  const handleUndo = () => {
+    if (!deletedEntry) return
+    setShowUndo(false)
+    const raw = JSON.parse(localStorage.getItem('nearby_entries') || '[]') as DiaryEntry[]
+    raw.unshift(deletedEntry)
+    raw.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    localStorage.setItem('nearby_entries', JSON.stringify(raw))
+    setEntries(raw)
+    setDeletedEntry(null)
   }
 
   return (
@@ -155,12 +211,42 @@ export default function TimelinePage() {
                     </svg>
                   </div>
                 ) : (
-                  // Historical: small dot
+                  <>
+                  {/* Historical: small dot */}
+                  <div
+                    className="timeline-dot"
+                    style={{
+                      position: 'absolute', left: '-29px', top: '6px', zIndex: 1,
+                      width: '8px', height: '8px', borderRadius: '50%',
+                      backgroundColor: '#D9D2C6', border: '1.5px solid #D9D2C6',
+                      transition: 'opacity 280ms ease-out, border-color 280ms ease-out, background-color 280ms ease-out',
+                      opacity: 0.6,
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.opacity = '0.9'
+                      e.currentTarget.style.borderColor = '#B0A890'
+                      e.currentTarget.style.backgroundColor = '#B0A890'
+                      const ext = e.currentTarget.nextElementSibling as HTMLElement | null
+                      if (ext) ext.style.opacity = '1'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.opacity = '0.6'
+                      e.currentTarget.style.borderColor = '#D9D2C6'
+                      e.currentTarget.style.backgroundColor = '#D9D2C6'
+                      const ext = e.currentTarget.nextElementSibling as HTMLElement | null
+                      if (ext) ext.style.opacity = '0'
+                    }}
+                  />
+                  {/* Thread extension on hover — 8px to the right */}
                   <div style={{
-                    position: 'absolute', left: '-29px', top: '6px', zIndex: 1,
-                    width: '8px', height: '8px', borderRadius: '50%',
-                    backgroundColor: '#D9D2C6', border: '1.5px solid #D9D2C6',
+                    position: 'absolute', left: '-19px', top: '9px', zIndex: 0,
+                    width: '10px', height: '1.5px',
+                    backgroundColor: '#D9D2C6', borderRadius: '1px',
+                    opacity: 0,
+                    transition: 'opacity 280ms ease-out',
+                    pointerEvents: 'none',
                   }} />
+                  </>
                 )}
 
                 {/* ── Date ── */}
@@ -190,29 +276,39 @@ export default function TimelinePage() {
                 {/* ── Card ── */}
                 <div
                   className="card-appear"
-                  onClick={() => setExpanded(isOpen ? null : entry.id)}
+                  onClick={() => handleCardClick(entry.id)}
                   style={{
                     backgroundColor: '#FFFDFB',
                     borderRadius: '20px',
                     padding: isOpen ? '20px 24px 24px' : '20px 24px',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
-                    cursor: 'pointer',
-                    transition: 'transform 220ms ease, box-shadow 220ms ease, padding 300ms ease',
+                    boxShadow: releaseEntryId === entry.id
+                      ? '0 8px 28px rgba(0,0,0,0.06)'
+                      : '0 2px 12px rgba(0,0,0,0.04)',
+                    cursor: releaseEntryId === entry.id ? 'default' : 'pointer',
+                    transition: 'transform 220ms ease, box-shadow 220ms ease, opacity 300ms ease',
                     transformOrigin: 'center',
                     animationDelay: `${idx * 100 + 200}ms`,
-                    borderLeft: idx === 0 ? '3px solid #D8B37A' : 'none',
+                    border: releaseEntryId === entry.id ? '1.5px solid #D4A373' : '1.5px solid transparent',
+                    borderLeft: releaseEntryId === entry.id ? '1.5px solid #D4A373' : (idx === 0 ? '3px solid #D8B37A' : '1.5px solid transparent'),
                     position: 'relative',
                     overflow: 'hidden',
+                    opacity: releasingId === entry.id ? 0 : 1,
+                    transform: releasingId === entry.id ? 'translateY(-12px)' : undefined,
                   }}
                   onMouseEnter={e => {
+                    if (releaseEntryId === entry.id) return
                     e.currentTarget.style.transform = 'translateY(-4px) rotate(0.5deg)'
                     e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.08)'
                   }}
                   onMouseLeave={e => {
+                    if (releaseEntryId === entry.id) return
                     e.currentTarget.style.transform = 'translateY(0) rotate(0deg)'
                     e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)'
                   }}
                 >
+                  {releaseEntryId === entry.id && (
+                    <ReleaseOverlay onKeep={handleKeep} onRelease={() => handleRelease(entry)} />
+                  )}
                   {/* ── Title row ── */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontSize: '20px', flexShrink: 0 }}>{entry.mood}</span>
@@ -343,6 +439,7 @@ export default function TimelinePage() {
           </p>
         </div>
       )}
+      <UndoRelease visible={showUndo} onUndo={handleUndo} onDismiss={() => setShowUndo(false)} />
     </div>
   )
 }

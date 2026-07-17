@@ -1,16 +1,25 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Calendar from './Calendar'
 import Timeline from './Timeline'
 import Quote from './Quote'
 import { InteractiveSpark, InteractiveThread, InteractiveSeed } from './DoodleInteractive'
+import type { DiaryEntry } from '@/types'
 
 interface SidebarProps {
   draft?: { content: string; mood: string; image: string | null } | null
 }
 
 export default function Sidebar({ draft }: SidebarProps) {
-  const recordedDates: string[] = []
+  const [entries, setEntries] = useState<DiaryEntry[]>([])
+
+  useEffect(() => {
+    const raw = localStorage.getItem('nearby_entries')
+    if (raw) setEntries(JSON.parse(raw))
+  }, [])
+
+  const recordedDates = entries.map(e => e.date)
 
   return (
     <div
@@ -29,7 +38,7 @@ export default function Sidebar({ draft }: SidebarProps) {
         <div style={{ position:'absolute', top: -8, right: -8, zIndex:2 }}>
           <InteractiveThread size={18} />
         </div>
-        <Calendar recordedDates={recordedDates} />
+        <Calendar recordedDates={recordedDates} entries={entries} />
       </div>
 
       {/* ══ Timeline — 中间高度，稍微错开 ══ */}

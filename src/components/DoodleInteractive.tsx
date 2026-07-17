@@ -155,14 +155,17 @@ export function InteractiveThread({ size = 24 }: { size?: number }) {
 // ═══════════════════════════
 export function InteractiveTape() {
   const [torn, setTorn] = useState(false)
+  const [angle] = useState(() => (Math.random() - 0.5) * 18) // -9° to +9° random tilt
 
   return (
     <div
       onClick={() => setTorn(prev => !prev)}
       style={{
-        position:'absolute',top:-32,left:-12,width:60,height:18,
+        position:'absolute',top:-44,left:-16,width:70,height:22,
         cursor:'pointer', opacity:torn ? 0.3 : 1, transition:'opacity 300ms ease',
         zIndex:torn ? 0 : 1,
+        transform: `rotate(${angle}deg)`,
+        filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.04))',
       }}
     >
       <AnnotationTape size={100} />

@@ -45,8 +45,8 @@ export default function GardenPage() {
       <div style={{width:'100%',maxWidth:'680px',display:'flex',flexDirection:'column'}}>
         {/* Header */}
         <div className="hi" style={{marginBottom:'36px',marginTop:'20px'}}>
-          <h1 style={{fontSize:'40px',fontWeight:500,lineHeight:1.15,color:'#1A1A1A',margin:'0 0 6px'}}>花园</h1>
-          <p style={{fontSize:'16px',color:'#8C8C86',lineHeight:1.6,margin:0}}>Garden · 记忆成长空间</p>
+          <h1 style={{fontSize:'40px',fontWeight:500,lineHeight:1.15,color:'#1A1A1A',margin:'0 0 6px'}}>生生</h1>
+          <p style={{fontSize:'16px',color:'#8C8C86',lineHeight:1.6,margin:0}}>Garden · 记忆正在生长</p>
           <p style={{fontSize:'12px',color:'#BDBDBD',margin:'4px 0 0'}}>留下的每一天，都在这里慢慢生长。</p>
         </div>
 

@@ -7,7 +7,7 @@ const navItems = [
   { href: '/today',    icon: '✦', label: '今日', sub: 'Today' },
   { href: '/create',   icon: '＋', label: '创建', sub: 'Create' },
   { href: '/timeline', icon: '🧵', label: '织线', sub: 'Thread' },
-  { href: '/garden',   icon: '🌱', label: '花园', sub: 'Garden' },
+  { href: '/garden',   icon: '🌱', label: '生生', sub: 'Garden' },
 ]
 
 export default function MemoryNav({ variant = 'fixed' }: { variant?: 'fixed' | 'inline' }) {
@@ -15,7 +15,7 @@ export default function MemoryNav({ variant = 'fixed' }: { variant?: 'fixed' | '
 
   // Inline variant always renders (used in landing page document flow)
   if (variant !== 'inline') {
-    const showPaths = ['/create', '/today', '/timeline', '/garden']
+    const showPaths = ['/today', '/timeline', '/garden']
     if (!showPaths.includes(pathname)) return null
   }
 

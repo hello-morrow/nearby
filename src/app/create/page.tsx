@@ -1,12 +1,12 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Sidebar from '@/components/Sidebar'
 import MemoryWeave from '@/components/MemoryWeave'
 import BackThread from '@/components/BackThread'
 import { InteractiveSpark, InteractiveSeed, InteractiveLeaf, InteractiveThread, InteractiveTape, doodleStyles } from '@/components/DoodleInteractive'
+import Starlight from '@/components/Starlight'
 import type { DiaryEntry } from '@/types'
 import { getPreviousVisits } from '@/lib/places'
 
@@ -18,6 +18,16 @@ const INK = '#1A1A1A'
 const SOFT = '#7B7B7B'
 const LINE = '#D9D2C6'
 const MOODS = ['😊', '😌', '😭', '😤', '❤️', '🌧️']
+
+// ── Starlight ritual texts ──
+const STAR_TEXTS = [
+  '今天，又亮起一颗星。',
+  '一颗星，悄悄种下。',
+  '它会在未来再次出现。',
+  '今天留下了一束光。',
+  '这一刻，已经被时间记住。',
+  '今天，轻轻亮了一下。',
+]
 
 // ── Thread connector SVG ──
 function ThreadLine({ active = false }: { active?: boolean }) {
@@ -48,6 +58,14 @@ export default function CreatePage() {
   const [previousVisits, setPreviousVisits] = useState(0)
   const [entryCount, setEntryCount] = useState(0)
   const [ritualActive, setRitualActive] = useState(false)
+  const [ritualText, setRitualText] = useState('')
+  const [starCount, setStarCount] = useState(0)
+  const [flyingStar, setFlyingStar] = useState(false)
+
+  // ── Load star count ──
+  useEffect(() => {
+    setStarCount(parseInt(sessionStorage.getItem('nearby-star-count') || '0', 10))
+  }, [])
   const fileInputRef = useRef<HTMLInputElement>(null)
   const MAX_CHARS = 1000
 
@@ -81,9 +99,41 @@ export default function CreatePage() {
     const e: DiaryEntry = { id: Date.now().toString(), date: new Date().toISOString(), content: content.trim(), mood, image, latitude, longitude }
     const x = JSON.parse(localStorage.getItem('nearby_entries') || '[]'); x.unshift(e)
     localStorage.setItem('nearby_entries', JSON.stringify(x))
+
+    // ── Star frequency logic ──
+    const currentStars = parseInt(sessionStorage.getItem('nearby-star-count') || '0', 10)
+    const newStarCount = currentStars + 1
+    const showStar = shouldShowStar(newStarCount)
+    if (showStar) {
+      sessionStorage.setItem('nearby-star-count', String(newStarCount))
+    }
+
     setSaving(false)
+    setEntryCount(x.length)
+    setRitualText(STAR_TEXTS[Math.floor(Math.random() * STAR_TEXTS.length)])
+    setStarCount(showStar ? newStarCount : currentStars)
+
+    if (showStar) {
+      // ── First Light: Star rises from button ──
+      setFlyingStar(true)
+      sessionStorage.setItem('nearby-new-memory-starlight', '1')
+      setTimeout(() => {
+        setFlyingStar(false)
+        router.push('/today')
+      }, 2000)
+    }
+
     setRitualActive(true)
-    setTimeout(() => setRitualActive(false), 2500)
+    setTimeout(() => setRitualActive(false), 3500)
+  }
+
+  // ── Star frequency: 1=100%, 2=100%, 3=80%, 4=70%, 5=100%, then ~50% ──
+  function shouldShowStar(count: number): boolean {
+    if (count === 1 || count === 2) return true
+    if (count === 3) return Math.random() < 0.8
+    if (count === 4) return Math.random() < 0.7
+    if (count === 5) return true
+    return Math.random() < 0.5
   }
 
   const draft = { content, mood, image }
@@ -379,7 +429,7 @@ export default function CreatePage() {
             backgroundColor:'#FFFEFC', borderRadius:'16px',
             border:'1px solid #EDE8E0',
           }}>
-            <MemoryWeave entryCount={entryCount} />
+            <MemoryWeave entryCount={entryCount} starCount={starCount} />
 
             {/* Fragment count */}
             <div style={{
@@ -436,63 +486,87 @@ export default function CreatePage() {
       <style>{doodleStyles}</style>
 
       {/* ═══════════════════════════════════════════ */}
-      {/* Save Ritual — Thread grows, then fades */}
+      {/* First Light — Star rises from button, flies upward */}
       {/* ═══════════════════════════════════════════ */}
-      {ritualActive && (
+      {flyingStar && (
         <div style={{
-          position:'fixed', top:0, left:0, right:0, bottom:0, zIndex:100,
-          display:'flex', alignItems:'center', justifyContent:'center',
-          pointerEvents:'none',
+          position:'fixed', top:0, left:0, right:0, bottom:0,
+          zIndex:200, pointerEvents:'none', overflow:'hidden',
+          background:'rgba(247,246,243,0.08)',
         }}>
-          <div style={{
-            display:'flex', flexDirection:'column', alignItems:'center', gap:'16px',
-            animation:'ritualEnter 400ms ease-out, ritualFade 600ms ease-in 1800ms forwards',
+          {/* Trailing thread — grows behind the flying star */}
+          <svg style={{
+            position:'absolute', top:0, left:0, width:'100%', height:'100%',
           }}>
-            {/* Thread grow animation */}
-            <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
-              <path
-                d="M0 20 Q30 8 60 20 Q90 32 120 20"
-                stroke={GREEN}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray="160"
-                strokeDashoffset="160"
-                style={{ animation: 'ritualThread 600ms ease-out forwards' }}
-              />
-              {/* End seed */}
-              <circle cx="120" cy="20" r="3" fill={GREEN} opacity="0"
-                style={{ animation: 'ritualSeed 400ms ease-out 500ms forwards' }}
-              />
-            </svg>
-            <p style={{
-              fontSize:'16px', fontWeight:500, color:INK, margin:0,
-              opacity:0,
-              animation:'ritualText 400ms ease-out 700ms forwards',
-            }}>
-              今天，又织上一针。
-            </p>
+            <path
+              d="M50 62 Q46 48 48 38 Q52 30 56 24"
+              stroke="#D4A373"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.25"
+              strokeDasharray="120"
+              strokeDashoffset="120"
+              style={{ animation: 'trailRise 800ms ease-out 500ms forwards' }}
+            />
+          </svg>
+
+          {/* Flying Star — rises from button toward upper-right */}
+          <div style={{
+            position:'absolute',
+            left:'50%', top:'60%',
+            transform:'translate(-50%, -50%)',
+            animation: 'starRise 1400ms cubic-bezier(0.33, 0, 0.2, 1) forwards',
+          }}>
+            <Starlight size={28} animated />
           </div>
         </div>
       )}
 
       <style>{`
-        @keyframes ritualEnter {
-          from { opacity:0; }
-          to { opacity:1; }
+        @keyframes starRise {
+          0%   { left:50%; top:60%; opacity:0; }
+          15%  { left:50%; top:60%; opacity:1; }
+          25%  { left:50%; top:59%; opacity:1; }
+          60%  { left:52%; top:35%; opacity:1; }
+          85%  { left:56%; top:22%; opacity:1; }
+          92%  { left:57%; top:20%; opacity:0.7; }
+          96%  { left:57%; top:20%; opacity:1; }
+          100% { left:58%; top:20%; opacity:0; }
         }
-        @keyframes ritualFade {
-          from { opacity:1; }
-          to { opacity:0; }
-        }
-        @keyframes ritualThread {
+        @keyframes trailRise {
           to { stroke-dashoffset: 0; }
         }
-        @keyframes ritualSeed {
-          to { opacity: 0.7; }
+      `}</style>
+
+      {/* ═══════════════════════════════════════════ */}
+      {/* Save Ritual — Thread grows, then fades */}
+      {/* ═══════════════════════════════════════════ */}
+      {/* ── Brief ritual text ── */}
+      {ritualActive && (
+        <div style={{
+          position:'fixed', bottom:'80px', left:'50%', transform:'translateX(-50%)', zIndex:100,
+          pointerEvents:'none',
+        }}>
+          <p style={{
+            fontSize:'15px', fontWeight:500, color:INK, margin:0,
+            backgroundColor:'rgba(255,253,251,0.95)', borderRadius:'12px',
+            padding:'12px 24px', boxShadow:'0 2px 12px rgba(0,0,0,0.06)',
+            animation:'ritualIn 400ms ease-out, ritualOut 400ms ease-in 2600ms forwards',
+          }}>
+            {ritualText}
+          </p>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes ritualIn {
+          from { opacity:0; transform:translateX(-50%) translateY(8px); }
+          to { opacity:1; transform:translateX(-50%) translateY(0); }
         }
-        @keyframes ritualText {
-          to { opacity: 0.8; }
+        @keyframes ritualOut {
+          from { opacity:1; }
+          to { opacity:0; }
         }
       `}</style>
     </div>

@@ -7,6 +7,9 @@ import type { DiaryEntry, Place } from '@/types'
 import { getPlaceByCoords } from '@/lib/places'
 import { Circle } from '@/components/Doodle'
 import BackThread from '@/components/BackThread'
+import Starlight from '@/components/Starlight'
+import ReleaseOverlay from '@/components/ReleaseOverlay'
+import UndoRelease from '@/components/UndoRelease'
 
 function TodayContent() {
   const searchParams = useSearchParams()
@@ -17,6 +20,11 @@ function TodayContent() {
   const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
   const [weaveReady, setWeaveReady] = useState(false)
+  const [showStarlight, setShowStarlight] = useState(false)
+  const [releaseMode, setReleaseMode] = useState(false)
+  const [releasing, setReleasing] = useState(false)
+  const [deletedEntry, setDeletedEntry] = useState<DiaryEntry | null>(null)
+  const [showUndo, setShowUndo] = useState(false)
 
   useEffect(() => {
     const entries: DiaryEntry[] = JSON.parse(
@@ -37,6 +45,14 @@ function TodayContent() {
     }
 
     setLoading(false)
+
+    // ── Starlight hint: only for newly-created memories ──
+    if (sessionStorage.getItem('nearby-new-memory-starlight') === '1') {
+      sessionStorage.removeItem('nearby-new-memory-starlight')
+      setShowStarlight(true)
+      setTimeout(() => setShowStarlight(false), 1200)
+    }
+
     requestAnimationFrame(() => {
       setVisible(true)
       setTimeout(() => setWeaveReady(true), 500)
@@ -76,7 +92,48 @@ function TodayContent() {
 
   const hasPlace = place && place.visitCount > 1
 
+  // ── Memory Release handlers ──
+  const handleDoubleClick = () => {
+    if (releasing) return
+    setReleaseMode(true)
+  }
+
+  const handleKeep = () => setReleaseMode(false)
+
+  const handleRelease = () => {
+    if (!entry) return
+    setReleasing(true)
+    setReleaseMode(false)
+
+    const entries: DiaryEntry[] = JSON.parse(localStorage.getItem('nearby_entries') || '[]')
+    const idx = entries.findIndex(e => e.id === entry.id)
+    if (idx !== -1) {
+      const [removed] = entries.splice(idx, 1)
+      setDeletedEntry(removed)
+      localStorage.setItem('nearby_entries', JSON.stringify(entries))
+    }
+
+    // Animation: thread shrinks + card fades → show undo
+    setTimeout(() => {
+      setEntry(null)
+      setReleasing(false)
+      setShowUndo(true)
+    }, 900)
+  }
+
+  const handleUndo = () => {
+    if (!deletedEntry) return
+    setShowUndo(false)
+    const entries: DiaryEntry[] = JSON.parse(localStorage.getItem('nearby_entries') || '[]')
+    entries.unshift(deletedEntry)
+    localStorage.setItem('nearby_entries', JSON.stringify(entries))
+    setEntry(deletedEntry)
+    setDeletedEntry(null)
+    setVisible(true)
+  }
+
   return (
+    <>
     <div style={{ minHeight: '100vh', backgroundColor: '#F7F6F3', padding: '24px', display: 'flex', justifyContent: 'center', position:'relative' }}>
       {/* Back Thread */}
       <BackThread label="回到今天" href="/" />
@@ -107,12 +164,29 @@ function TodayContent() {
 
           {/* ══ Memory Card ══ */}
           <div
+            onDoubleClick={handleDoubleClick}
             style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(12px)',
-              transition: 'opacity 300ms ease-out, transform 300ms ease-out',
+              opacity: releasing ? 0 : (visible ? 1 : 0),
+              transform: releasing
+                ? 'translateY(-12px)'
+                : releaseMode
+                ? 'translateY(-4px)'
+                : (visible ? 'translateY(0)' : 'translateY(12px)'),
+              transition: releasing
+                ? 'opacity 300ms ease-out, transform 300ms ease-out 600ms'
+                : 'opacity 300ms ease-out, transform 200ms ease-out, border 200ms ease, box-shadow 200ms ease, border-radius 200ms ease',
+              border: releaseMode ? '1.5px solid #D4A373' : '1.5px solid transparent',
+              borderRadius: releaseMode ? '24px' : '0',
+              padding: releaseMode ? '8px' : '0',
+              margin: releaseMode ? '-8px' : '0',
+              boxShadow: releaseMode ? '0 8px 28px rgba(0,0,0,0.06)' : 'none',
+              cursor: releaseMode ? 'default' : 'pointer',
+              position: 'relative',
             }}
           >
+            {releaseMode && (
+              <ReleaseOverlay onKeep={handleKeep} onRelease={handleRelease} />
+            )}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px' }}>
               <Circle size={32} />
               <h2 style={{ fontSize: '24px', fontWeight: 500, color: '#1A1A1A', margin: 0 }}>
@@ -121,6 +195,16 @@ function TodayContent() {
               <span style={{ fontSize: '12px', color: '#BDBDBD' }}>Today</span>
             </div>
             <p style={{ fontSize: '13px', color: '#8C8C86', margin: '0 0 32px 42px' }}>{formatDate(entry.date)}</p>
+
+            {/* ── Starlight hint ── */}
+            {showStarlight && (
+              <div style={{
+                position: 'absolute', right: '24px', top: '24px', zIndex: 2,
+                animation: 'starlightHintIn 400ms ease-out, starlightHintOut 400ms ease-in 800ms forwards',
+              }}>
+                <Starlight size={24} animated />
+              </div>
+            )}
 
             {/* Mood */}
             <div style={{
@@ -227,6 +311,19 @@ function TodayContent() {
         </div>
       </div>
     </div>
+
+    <style>{`
+      @keyframes starlightHintIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes starlightHintOut {
+        from { opacity: 1; }
+        to   { opacity: 0; }
+      }
+    `}</style>
+    <UndoRelease visible={showUndo} onUndo={handleUndo} onDismiss={() => setShowUndo(false)} />
+    </>
   )
 }
 
